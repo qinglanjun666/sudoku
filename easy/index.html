@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Easy Sudoku — Logic for Sudoku</title>
+    <meta name="description" content="Solve Easy Sudoku puzzles online. No instructions needed." />
+    <link rel="canonical" href="/easy/" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="Easy Sudoku — Logic for Sudoku" />
+    <meta property="og:description" content="Solve Easy Sudoku puzzles online. No instructions needed." />
+    <meta property="og:image" content="/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Easy Sudoku — Logic for Sudoku" />
+    <meta name="twitter:description" content="Solve Easy Sudoku puzzles online. No instructions needed." />
+    <meta name="twitter:image" content="/favicon.svg" />
+    <link rel="stylesheet" href="/src/index.css" />
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-WX2DJ4S9');</script>
+    <!-- End Google Tag Manager -->
+    
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WX2DJ4S9" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <header>
+      <div id="site-header"></div>
+    </header>
+    <main class="main-wrap">
+      <div class="container page-fit">
+        <nav class="breadcrumb"><a href="/index.html">Home</a><span>></span><span class="crumb-middle">Easy</span></nav>
+        <div class="game-header">
+          <div id="difficulty" class="difficulty">Difficulty: Easy</div>
+          <button id="newPuzzle" class="btn btn-primary btn-new desktop-only">New Puzzle</button>
+        </div>
+        <div class="game-wrap">
+          <div class="game-main">
+            <div class="sudoku-grid" id="grid"></div>
+          </div>
+          <aside class="game-side">
+            <div class="secondary" style="margin-bottom:12px">Interactions</div>
+            <button id="newPuzzleMobile" class="btn btn-primary btn-new mobile-only" style="margin-bottom:12px">New Puzzle</button>
+            <div id="numPad" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px"></div>
+            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px">
+              <button id="undoBtn" class="btn">Undo</button>
+              <button id="redoBtn" class="btn">Redo</button>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:12px">
+              <button id="checkBtn" class="btn btn-primary">Check</button>
+            </div>
+          </aside>
+        </div>
+        <section class="seo-diff">Easy Sudoku puzzles at Logic for Sudoku are perfect for beginners or anyone looking for a relaxing challenge. Improve your logical thinking and pattern recognition while enjoying clean, intuitive online puzzles. Start solving now and sharpen your mind!</section>
+      </div>
+    </main>
+    <div id="site-footer"></div>
+    <script>
+      const diff = 'easy';
+      (function(){
+        Promise.all([
+          fetch('/partials/header.html').then(r=>r.text()),
+          fetch('/partials/footer.html').then(r=>r.text())
+        ]).then(([h,f])=>{
+          var sh = document.getElementById('site-header'); if (sh) sh.innerHTML = h
+          var sf = document.getElementById('site-footer'); if (sf) sf.innerHTML = f
+        })
+      })()
+    </script>
+    <script src="/src/game.js"></script>
+  </body>
+  </html>

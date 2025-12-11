@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Play Sudoku Online — Logic for Sudoku</title>
+    <meta name="description" content="Sharpen your logic with free online Sudoku. Easy, Medium, Hard puzzles ready to play." />
+    <link rel="canonical" href="/index.html" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="Play Sudoku Online — Logic for Sudoku" />
+    <meta property="og:description" content="Free online Sudoku with three difficulty levels. Sharpen your logic instantly. Easy, Medium, Hard puzzles." />
+    <meta property="og:image" content="/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Play Sudoku Online — Logic for Sudoku" />
+    <meta name="twitter:description" content="Free online Sudoku with three difficulty levels. Sharpen your logic instantly. Easy, Medium, Hard puzzles." />
+    <meta name="twitter:image" content="/favicon.svg" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-WX2DJ4S9');</script>
+    <!-- End Google Tag Manager -->
+    <link rel="stylesheet" href="/src/index.css" />
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WX2DJ4S9" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <header>
+      <div id="site-header"></div>
+    </header>
+    <main class="main-wrap">
+      <div class="container">
+        <section class="hero">
+          <h1 class="title">Sharpen Your Logic. Solve Your Sudoku.</h1>
+          <p class="subtitle secondary">Pick a difficulty and start playing instantly.</p>
+        </section>
+        <section class="seo-block" id="what-is-sudoku">
+          Logic for Sudoku is your ultimate online Sudoku playground. Sharpen your logic and challenge your mind with clean, intuitive puzzles. Choose your difficulty and start solving today—Easy, Medium, or Hard. Experience the joy of Sudoku anywhere, anytime.
+        </section>
+        <section class="grid-section">
+          <div class="cards">
+            <a class="card" href="/easy/">
+              <h3 class="card-title">Easy</h3>
+              <p class="card-desc">A gentle start for new players.</p>
+            </a>
+            <a class="card" href="/medium/">
+              <h3 class="card-title">Medium</h3>
+              <p class="card-desc">A balanced challenge for growing skills.</p>
+            </a>
+            <a class="card" href="/hard/">
+              <h3 class="card-title">Hard</h3>
+              <p class="card-desc">For experienced solvers seeking deeper logic.</p>
+            </a>
+          </div>
+          <div style="margin-top:24px">
+            <a id="playNow" class="btn btn-primary" href="/medium/">Play Now</a>
+            <div class="secondary" style="margin-top:8px;font-size:14px">No instructions needed — just pick a difficulty and start</div>
+          </div>
+        </section>
+      </div>
+  </main>
+  <div id="site-footer"></div>
+  <script>
+    (function(){
+      Promise.all([
+        fetch('/partials/header.html').then(r=>r.text()),
+        fetch('/partials/footer.html').then(r=>r.text())
+      ]).then(([h,f])=>{
+        var sh = document.getElementById('site-header'); if (sh) sh.innerHTML = h
+        var sf = document.getElementById('site-footer'); if (sf) sf.innerHTML = f
+      })
+    })()
+  </script>
+  </body>
+  </html>
