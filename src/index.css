@@ -104,6 +104,13 @@ html, body {
 .btn-primary:hover { background: var(--color-accent); filter: brightness(1.08); }
 .dark .btn { background: #2a2a2a; }
 
+/* Toggle active state for Advanced Features buttons */
+.btn-toggle-active { background: var(--color-accent); border-color: var(--color-accent); color: #fff; }
+.btn-toggle-active:hover { background: var(--color-accent); filter: brightness(1.08); }
+.
+.btn-toggle-active { background: var(--color-accent); border-color: var(--color-accent); color: #fff; }
+.btn-toggle-active:hover { filter: brightness(1.08); }
+
 .game-wrap { display: grid; grid-template-columns: 1fr 320px; gap: 24px; align-items: start; }
 .game-main { background: var(--color-grid-bg); border-radius: 12px; padding: 24px; display: flex; align-items: center; justify-content: center; }
 .sudoku-grid { width: 540px; height: 540px; display: grid; grid-template-columns: repeat(9, 1fr); grid-template-rows: repeat(9, 1fr); background: #fff; border-radius: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); position: relative; opacity: 0; animation: fadeInGrid .3s ease forwards; }

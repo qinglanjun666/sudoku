@@ -2,12 +2,20 @@
 <html lang="en">
   <head>
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LX4B214LBK"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);} 
-      gtag('js', new Date());
-      gtag('config', 'G-LX4B214LBK');
+      (function(){
+        var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+        if (isLocal) return
+        var s = document.createElement('script')
+        s.async = true
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-LX4B214LBK'
+        document.head.appendChild(s)
+        window.dataLayer = window.dataLayer || []
+        function gtag(){ dataLayer.push(arguments) }
+        window.gtag = gtag
+        gtag('js', new Date())
+        gtag('config', 'G-LX4B214LBK')
+      })()
     </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -52,6 +60,10 @@
             <a class="card" href="/hard/">
               <h3 class="card-title">Hard</h3>
               <p class="card-desc">For experienced solvers seeking deeper logic.</p>
+            </a>
+            <a class="card" href="/six/">
+              <h3 class="card-title">6×6</h3>
+              <p class="card-desc">Compact grid with classic Sudoku logic.</p>
             </a>
           </div>
           <div style="margin-top:24px">

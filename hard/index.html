@@ -2,12 +2,20 @@
 <html lang="en">
   <head>
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LX4B214LBK"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);} 
-      gtag('js', new Date());
-      gtag('config', 'G-LX4B214LBK');
+      (function(){
+        var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+        if (isLocal) return
+        var s = document.createElement('script')
+        s.async = true
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-LX4B214LBK'
+        document.head.appendChild(s)
+        window.dataLayer = window.dataLayer || []
+        function gtag(){ dataLayer.push(arguments) }
+        window.gtag = gtag
+        gtag('js', new Date())
+        gtag('config', 'G-LX4B214LBK')
+      })()
     </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -31,7 +39,7 @@
     </header>
     <main class="main-wrap">
       <div class="container page-fit">
-        <nav class="breadcrumb"><a href="/index.html">Home</a><span>></span><span class="crumb-middle">Hard</span></nav>
+        <nav class="breadcrumb"><a href="/index.html">Home</a><span>></span><span class="crumb-middle">Hard sudoku</span></nav>
         <div class="game-header">
           <div id="difficulty" class="difficulty">Difficulty: Hard</div>
           <button id="newPuzzle" class="btn btn-primary btn-new desktop-only">New Puzzle</button>
@@ -50,6 +58,16 @@
             </div>
             <div style="display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:12px">
               <button id="checkBtn" class="btn btn-primary">Check</button>
+            </div>
+            <div class="secondary" style="margin:12px 0 8px">Advanced Features</div>
+            <div style="display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:12px">
+              <button id="toggleLabelsBtn" class="btn">Show Row/Column Labels</button>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:12px">
+              <button id="printBtn" class="btn">Print Page</button>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:12px">
+              <button id="toggleConflictBtn" class="btn">Enable Conflict Highlight</button>
             </div>
           </aside>
         </div>

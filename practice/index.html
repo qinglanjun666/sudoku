@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>How to Practice Sudoku — Logic for Sudoku</title>
+    <meta name="description" content="A gradual approach to practicing Sudoku: beginner, intermediate, advanced techniques." />
+    <link rel="canonical" href="/practice/" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="How to Practice Sudoku — Logic for Sudoku" />
+    <meta property="og:description" content="Start with fundamentals and progress to advanced pattern recognition in Sudoku." />
+    <meta property="og:image" content="/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="How to Practice Sudoku — Logic for Sudoku" />
+    <meta name="twitter:description" content="Beginner to advanced Sudoku practice guide with core techniques." />
+    <meta name="twitter:image" content="/favicon.svg" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/src/index.css" />
+  </head>
+  <body>
+    <header>
+      <div id="site-header"></div>
+    </header>
+    <main class="main-wrap">
+      <div class="container page-fit">
+        <nav class="breadcrumb"><a href="/index.html">Home</a><span>></span><span class="crumb-middle">How to Practice Sudoku</span></nav>
+        <article class="seo-diff">
+          <h1 style="margin:0 0 12px;font-size:22px;font-weight:700;color:#111">How to Practice Sudoku</h1>
+          <p>Sudoku should be a gradual process, starting with fundamental techniques and progressing to more complex pattern recognition.</p>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">I. Beginner Stage</h2>
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">1. Scanning and Filling</h3>
+          <ul style="margin:0 0 12px 18px; padding:0; color:#333">
+            <li><strong>Singles</strong>: The most basic technique. A cell is a Single if it is the only possible location for a specific digit within its row, column, or block.</li>
+            <li><strong>Cross-Hatching</strong>: Use the numbers already filled to eliminate possibilities across rows and columns, pinpointing the correct position for a digit within a specific block.</li>
+          </ul>
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">2. Pencil Marking</h3>
+          <p>Lightly mark (or use a helper feature to display) all possible candidate digits in every empty cell. This is the crucial step for advanced solving.</p>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">II. Intermediate Stage</h2>
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">1. Naked Candidates</h3>
+          <ul style="margin:0 0 12px 18px; padding:0; color:#333">
+            <li><strong>Naked Pair</strong>: In the same row, column, or block, two cells contain only two identical candidates (e.g., {1, 5}). These two digits must occupy these two cells, allowing you to eliminate 1 and 5 from the candidates of all other cells in that area.</li>
+            <li><strong>Naked Triple</strong>: Similarly, three cells share a combination of up to three candidate digits, allowing you to eliminate those digits from the candidates of the other cells in that area.</li>
+          </ul>
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">2. Hidden Candidates</h3>
+          <ul style="margin:0 0 12px 18px; padding:0; color:#333">
+            <li><strong>Hidden Single</strong>: In a row, column, or block, if a candidate digit (e.g., 7) only appears in the candidate list of one cell, then that cell must be 7, even if it has other candidates.</li>
+            <li><strong>Hidden Pair/Triple</strong>: In an area, if two (or three) digits appear only in the candidate lists of two (or three) cells, then all other candidates in those specific cells can be eliminated.</li>
+          </ul>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">III. Advanced Stage</h2>
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">1. Wing Techniques</h3>
+          <ul style="margin:0 0 12px 18px; padding:0; color:#333">
+            <li><strong>X-Wing</strong>: In two rows (or columns), the two candidate positions for a digit (e.g., 4) form a rectangle. This structure allows you to eliminate the candidate 4 from cells in the other columns (or rows) that align with the rectangle.</li>
+            <li><strong>Swordfish / Jellyfish</strong>: Extensions of the X-Wing, involving patterns across three rows and three columns (Swordfish) or four rows and four columns (Jellyfish).</li>
+          </ul>
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">2. Chaining and Forcing Chains</h3>
+          <p><strong>XY-Chains</strong>: More complex logical chains involving multiple cells and two candidates, using logical inference to determine the true state of one endpoint, thus eliminating candidates elsewhere.</p>
+        </article>
+      </div>
+    </main>
+    <div id="site-footer"></div>
+    <script>
+      (function(){
+        Promise.all([
+          fetch('/partials/header.html').then(r=>r.text()),
+          fetch('/partials/footer.html').then(r=>r.text())
+        ]).then(([h,f])=>{
+          var sh = document.getElementById('site-header'); if (sh) sh.innerHTML = h
+          var sf = document.getElementById('site-footer'); if (sf) sf.innerHTML = f
+        })
+      })()
+    </script>
+  </body>
+</html>
