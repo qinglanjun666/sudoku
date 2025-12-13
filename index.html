@@ -39,40 +39,46 @@
       <div id="site-header"></div>
     </header>
     <main class="main-wrap">
-      <div class="container">
-        <section class="hero">
-          <h1 class="title">Sharpen Your Logic. Solve Your Sudoku.</h1>
-          <p class="subtitle secondary">Pick a difficulty and start playing instantly.</p>
-        </section>
-        <section class="seo-block" id="what-is-sudoku">
-          Logic for Sudoku is your ultimate online Sudoku playground. Sharpen your logic and challenge your mind with clean, intuitive puzzles. Choose your difficulty and start solving today—Easy, Medium, or Hard. Experience the joy of Sudoku anywhere, anytime.
-        </section>
-        <section class="grid-section">
-          <div class="cards">
-            <a class="card" href="/easy/">
-              <h3 class="card-title">Easy</h3>
-              <p class="card-desc">A gentle start for new players.</p>
-            </a>
-            <a class="card" href="/medium/">
-              <h3 class="card-title">Medium</h3>
-              <p class="card-desc">A balanced challenge for growing skills.</p>
-            </a>
-            <a class="card" href="/hard/">
-              <h3 class="card-title">Hard</h3>
-              <p class="card-desc">For experienced solvers seeking deeper logic.</p>
-            </a>
-            <a class="card" href="/six/">
-              <h3 class="card-title">6×6</h3>
-              <p class="card-desc">Compact grid with classic Sudoku logic.</p>
-            </a>
+      <section class="hero-primary">
+        <div class="hero-inner">
+          <div class="hero-left">
+            <h1 class="hero-title">Sudoku: Logic, Brain & Challenge Online</h1>
+            <p class="hero-subtitle">A simple and powerful logic puzzle solution for your whole mind.</p>
+            <div>
+              <a id="playNowHero" class="btn btn-yellow btn-new" href="/medium/">Play Now</a>
+            </div>
           </div>
-          <div style="margin-top:24px">
-            <a id="playNow" class="btn btn-primary" href="/medium/">Play Now</a>
-            <div class="secondary" style="margin-top:8px;font-size:14px">No instructions needed — just pick a difficulty and start</div>
+          <div class="hero-right">
+            <div class="browser-mock">
+              <div class="mock-topbar">
+                <span class="mock-dot"></span>
+                <span class="mock-dot"></span>
+                <span class="mock-dot"></span>
+                <div style="margin-left:auto;color:#274472;font-weight:600">Sudoku+</div>
+              </div>
+              <div class="mock-body">
+                <div class="mock-toolbar">
+                  <div class="btn btn-toggle-active" style="pointer-events:none">Pencil</div>
+                  <div class="btn" style="pointer-events:none">Undo</div>
+                  <div class="btn" style="pointer-events:none">Hint</div>
+                  <div class="btn" style="pointer-events:none">Eraser</div>
+                </div>
+                <div class="mock-grid">
+                  <div class="mock-cell">7</div><div class="mock-cell"></div><div class="mock-cell">2</div><div class="mock-cell"></div><div class="mock-cell">5</div><div class="mock-cell"></div><div class="mock-cell">1</div><div class="mock-cell"></div><div class="mock-cell">9</div>
+                  <div class="mock-cell"></div><div class="mock-cell">4</div><div class="mock-cell"></div><div class="mock-cell">7</div><div class="mock-cell"></div><div class="mock-cell">2</div><div class="mock-cell"></div><div class="mock-cell">6</div><div class="mock-cell"></div>
+                  <div class="mock-cell">5</div><div class="mock-cell"></div><div class="mock-cell">9</div><div class="mock-cell"></div><div class="mock-cell">1</div><div class="mock-cell"></div><div class="mock-cell">3</div><div class="mock-cell"></div><div class="mock-cell">8</div>
+                  <div class="mock-cell"></div><div class="mock-cell">3</div><div class="mock-cell"></div><div class="mock-cell">1</div><div class="mock-cell"></div><div class="mock-cell">9</div><div class="mock-cell"></div><div class="mock-cell">5</div><div class="mock-cell"></div>
+                  <div class="mock-cell">8</div><div class="mock-cell"></div><div class="mock-cell">6</div><div class="mock-cell"></div><div class="mock-cell">4</div><div class="mock-cell"></div><div class="mock-cell">7</div><div class="mock-cell"></div><div class="mock-cell">2</div>
+                  <div class="mock-cell"></div><div class="mock-cell">7</div><div class="mock-cell"></div><div class="mock-cell">8</div><div class="mock-cell"></div><div class="mock-cell">3</div><div class="mock-cell"></div><div class="mock-cell">4</div><div class="mock-cell"></div>
+                </div>
+              </div>
+            </div>
           </div>
-        </section>
-      </div>
-  </main>
+        </div>
+        <div class="hero-usedby">Used by 2,000,000 people worldwide</div>
+      </section>
+      
+    </main>
   <div id="site-footer"></div>
   <script>
     (function(){
@@ -82,6 +88,62 @@
       ]).then(([h,f])=>{
         var sh = document.getElementById('site-header'); if (sh) sh.innerHTML = h
         var sf = document.getElementById('site-footer'); if (sf) sf.innerHTML = f
+        var btn = document.getElementById('playNowHero')
+        if (btn) {
+          btn.addEventListener('click', function(e){
+            e.preventDefault()
+            var m = document.getElementById('heroSelectModal'); if (m) m.remove()
+            m = document.createElement('div')
+            m.id = 'heroSelectModal'
+            m.style.position = 'fixed'
+            m.style.inset = '0'
+            m.style.background = 'rgba(0,0,0,0.35)'
+            m.style.display = 'flex'
+            m.style.alignItems = 'center'
+            m.style.justifyContent = 'center'
+            var card = document.createElement('div')
+            card.style.background = '#fff'
+            card.style.border = '1px solid var(--color-border)'
+            card.style.borderRadius = '12px'
+            card.style.boxShadow = '0 10px 36px rgba(0,0,0,0.12)'
+            card.style.padding = '20px'
+            card.style.width = '420px'
+            var h1 = document.createElement('div')
+            h1.textContent = 'Choose a difficulty'
+            h1.style.fontWeight = '600'
+            h1.style.marginBottom = '12px'
+            var list = document.createElement('div')
+            list.style.display = 'grid'
+            list.style.gridTemplateColumns = '1fr 1fr'
+            list.style.gap = '10px'
+            function makeBtn(text, href){
+              var a = document.createElement('a')
+              a.className = 'btn btn-primary'
+              a.textContent = text
+              a.href = href
+              return a
+            }
+            list.appendChild(makeBtn('Easy', '/easy/'))
+            list.appendChild(makeBtn('Medium', '/medium/'))
+            list.appendChild(makeBtn('Hard', '/hard/'))
+            list.appendChild(makeBtn('6×6', '/six/'))
+            var row = document.createElement('div')
+            row.style.display = 'flex'
+            row.style.justifyContent = 'flex-end'
+            row.style.marginTop = '12px'
+            var cancel = document.createElement('button')
+            cancel.className = 'btn'
+            cancel.textContent = 'Cancel'
+            cancel.addEventListener('click', function(){ m.remove() })
+            row.appendChild(cancel)
+            card.appendChild(h1)
+            card.appendChild(list)
+            card.appendChild(row)
+            m.appendChild(card)
+            document.body.appendChild(m)
+            m.addEventListener('click', function(e){ if (e.target === m) m.remove() })
+          })
+        }
       })
     })()
   </script>

@@ -99,6 +99,7 @@ html, body {
 .game-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
 .difficulty { font-size: 16px; font-weight: 600; color: var(--color-text); }
 .btn { display: inline-flex; align-items: center; justify-content: center; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--color-border); background: #fff; color: var(--color-text); font-weight: 500; cursor: pointer; transition: background-color .15s ease, border-color .15s ease, transform .15s ease, opacity .15s ease; }
+.btn { text-decoration: none; }
 .btn:hover { background: #eff6ff; }
 .btn-primary { background: var(--color-accent); border-color: var(--color-accent); color: #fff; }
 .btn-primary:hover { background: var(--color-accent); filter: brightness(1.08); }
@@ -107,9 +108,7 @@ html, body {
 /* Toggle active state for Advanced Features buttons */
 .btn-toggle-active { background: var(--color-accent); border-color: var(--color-accent); color: #fff; }
 .btn-toggle-active:hover { background: var(--color-accent); filter: brightness(1.08); }
-.
-.btn-toggle-active { background: var(--color-accent); border-color: var(--color-accent); color: #fff; }
-.btn-toggle-active:hover { filter: brightness(1.08); }
+
 
 .game-wrap { display: grid; grid-template-columns: 1fr 320px; gap: 24px; align-items: start; }
 .game-main { background: var(--color-grid-bg); border-radius: 12px; padding: 24px; display: flex; align-items: center; justify-content: center; }
@@ -189,11 +188,11 @@ html, body {
   .seo-diff { font-size: 15px; padding: 16px; }
   .seo-game { font-size: 13px; padding: 10px; }
 }
-.btn-new { min-width: 150px; height: 50px; }
+.btn-new { min-width: 220px; height: 44px; }
 .desktop-only { display: inline-flex; }
 .mobile-only { display: none; }
 @media (max-width: 768px) {
-  .btn-new { width: 100%; height: 48px; }
+  .btn-new { width: 100%; height: 42px; }
   .desktop-only { display: none; }
   .mobile-only { display: inline-flex; width: 100%; }
 }
@@ -218,3 +217,26 @@ html, body {
 .dropdown-trigger, .channel-link.btn { font-size: 14px; }
 .nav-channels { display: flex; align-items: center; gap: 8px; margin-left: 16px; }
 .channel-link.btn { padding: 8px 12px; }
+
+/* Landing hero styles */
+.hero-primary { background: #1E70F0; color: #fff; margin: 0; position: relative; padding-bottom: 72px; }
+.hero-inner { max-width: 1080px; margin: 0 auto; padding: 56px 24px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px; align-items: center; }
+.hero-title { font-size: 48px; font-weight: 800; margin: 0 0 12px; color: #fff; letter-spacing: -0.02em; }
+.hero-subtitle { font-size: 18px; margin: 0 0 18px; color: #EAF4FF; }
+.hero-micro { font-size: 14px; color: #EAF4FF; margin-top: 8px; }
+.hero-usedby { position: absolute; left: 50%; transform: translateX(-50%); bottom: 16px; color: #E6EBF3; font-size: 16px; }
+.btn-yellow { background: #FDD835; border-color: #FDD835; color: #111; font-weight: 700; }
+.btn-yellow:hover { filter: brightness(1.05); }
+
+.browser-mock { background: #fff; border: 1px solid #CFE3FF; border-radius: 14px; box-shadow: 0 10px 36px rgba(0,0,0,0.18); overflow: hidden; }
+.mock-topbar { display: flex; align-items: center; gap: 6px; padding: 8px 12px; background: #F3F7FF; border-bottom: 1px solid #E1EDFF; }
+.mock-dot { width: 10px; height: 10px; border-radius: 50%; background: #ff5f56; }
+.mock-dot:nth-child(2) { background: #ffbd2e; }
+.mock-dot:nth-child(3) { background: #27c93f; }
+.mock-body { padding: 16px; background: #fff; }
+.mock-toolbar { display: flex; gap: 10px; align-items: center; margin-bottom: 12px; }
+.mock-grid { width: 520px; height: 360px; display: grid; grid-template-columns: repeat(9, 1fr); grid-template-rows: repeat(6, 1fr); background: #fff; border-radius: 8px; border: 1px solid #d1d5db; }
+.mock-cell { border: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: center; color: #274472; font-weight: 600; font-size: 16px; background: #f6fbff; }
+
+@media (max-width: 1024px) { .hero-title { font-size: 36px } .hero-inner { padding: 40px 24px } .mock-grid { width: 100%; height: auto; aspect-ratio: 13/9 } }
+@media (max-width: 768px) { .hero-inner { grid-template-columns: 1fr; } .hero-title { font-size: 30px } }

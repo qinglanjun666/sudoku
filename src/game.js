@@ -24,6 +24,9 @@
     timerStart: null,
     labelsVisible: false,
     conflictHighlight: false,
+    timerEnabled: false,
+    timerInterval: null,
+    wrongSet: new Set(),
   }
 
   function setSize(size) {
@@ -282,6 +285,9 @@
 
     // no hover digit highlighting
 
+        const key = r + ',' + c
+        if (state.wrongSet && state.wrongSet.has(key)) { cell.style.background = 'var(--color-conflict-bg)'; cell.style.color = 'var(--color-conflict)' }
+
         cell.addEventListener('click', () => {
           state.selected = [r, c]
           renderGrid()
@@ -362,6 +368,7 @@
       const cell = qs('#grid').childNodes[idx]
       if (cell) cell.style.animation = 'placePop .15s ease'
     }
+    autoCheckCompletion()
   }
 
   function isValidNumericPlacement(r, c, v) {
@@ -414,18 +421,41 @@
     saveToStorage()
   }
 
-  function checkCorrect() {
+  function getStatus() {
     let unfilled = 0, wrong = 0, correct = 0
+    const wrongSet = new Set()
     for (let r=0;r<state.size;r++) for (let c=0;c<state.size;c++) {
+      const given = state.puzzle?.[r]?.[c] != null
+      if (given) continue
       const v = state.grid[r][c].value
       if (v == null) unfilled++
       else if (v === state.solution[r][c]) correct++
-      else wrong++
+      else { wrong++; wrongSet.add(r + ',' + c) }
     }
-    if (wrong === 0 && unfilled === 0) {
+    return { unfilled, wrong, correct, wrongSet }
+  }
+
+  function checkCorrect() {
+    const st = getStatus()
+    if (st.wrong === 0 && st.unfilled === 0) {
+      state.wrongSet = new Set()
       showModal()
     } else {
-      showIncorrect(unfilled, wrong, correct)
+      showIncorrect(st.unfilled, st.wrong, st.correct, st.wrongSet)
+    }
+  }
+
+  function autoCheckCompletion() {
+    const st = getStatus()
+    if (st.unfilled === 0) {
+      if (st.wrong === 0) {
+        state.wrongSet = new Set()
+        showModal()
+      } else {
+        showIncorrect(st.unfilled, st.wrong, st.correct, st.wrongSet)
+      }
+    } else {
+      state.wrongSet = new Set()
     }
   }
 
@@ -454,26 +484,16 @@
       h.style.marginBottom = '12px'
       const row = document.createElement('div')
       row.style.display = 'flex'; row.style.gap = '8px'; row.style.justifyContent = 'flex-end'
+      const replayBtn = document.createElement('button')
+      replayBtn.className = 'btn'
+      replayBtn.textContent = 'Replay Puzzle'
+      replayBtn.addEventListener('click', () => { modal.remove(); clearEntries() })
       const newBtn = document.createElement('button')
       newBtn.className = 'btn btn-primary'
       newBtn.textContent = 'New Puzzle'
       newBtn.addEventListener('click', () => { newPuzzle(state.difficulty) })
-      const backBtn = document.createElement('a')
-      backBtn.className = 'btn'
-      backBtn.textContent = 'Back to Home'
-      backBtn.href = '/index.html'
-      const shareRow = document.createElement('div')
-      shareRow.style.display = 'flex'; shareRow.style.gap = '8px'; shareRow.style.justifyContent = 'flex-start'; shareRow.style.marginTop = '12px'
-      const shareText = encodeURIComponent('I just solved a Sudoku puzzle on Logic for Sudoku! Try it yourself: ')
-      const url = location.origin + '/' + (state.difficulty === 'hard' ? 'hard/' : state.difficulty === 'medium' ? 'medium/' : 'easy/')
-      const shareUrl = encodeURIComponent(url)
-      const tw = document.createElement('a'); tw.className = 'btn'; tw.textContent = 'Twitter'; tw.href = `https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`; tw.target = '_blank'
-      const fb = document.createElement('a'); fb.className = 'btn'; fb.textContent = 'Facebook'; fb.href = `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`; fb.target = '_blank'
-      const wa = document.createElement('a'); wa.className = 'btn'; wa.textContent = 'WhatsApp'; wa.href = `https://wa.me/?text=${shareText}${shareUrl}`; wa.target = '_blank'
-      shareRow.appendChild(tw); shareRow.appendChild(fb); shareRow.appendChild(wa)
-      row.appendChild(backBtn); row.appendChild(newBtn)
+      row.appendChild(replayBtn); row.appendChild(newBtn)
       card.appendChild(h); card.appendChild(row)
-      card.appendChild(shareRow)
       modal.appendChild(card)
       document.body.appendChild(modal)
       modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove() })
@@ -484,7 +504,7 @@
     }
   }
 
-  function showIncorrect(unfilled, wrong, correct) {
+  function showIncorrect(unfilled, wrong, correct, wrongSet) {
     let modal = qs('#incorrectModal')
     if (!modal) {
       modal = document.createElement('div')
@@ -504,23 +524,42 @@
       card.style.width = '320px'
       card.style.animation = 'modalIn .25s ease'
       const h = document.createElement('div')
-      h.textContent = 'Check Summary'
+      h.textContent = 'Progress Check'
       h.style.fontWeight = '600'
       h.style.marginBottom = '12px'
       const info = document.createElement('div')
-      info.textContent = `Unfilled: ${unfilled} · Incorrect: ${wrong} · Correct: ${correct}`
+      info.textContent = `Correct: ${correct} · Incorrect: ${wrong} · Unfilled: ${unfilled}`
       info.style.marginBottom = '12px'
+      const list = document.createElement('div')
+      const size = state.size
+      const arr = Array.from(wrongSet || [])
+      const names = arr.map(k => {
+        const [r,c] = k.split(',').map(Number)
+        return String.fromCharCode(65 + r) + (c + 1)
+      })
+      list.textContent = names.length ? ('Wrong at: ' + names.join(', ')) : 'No incorrect cells.'
+      list.style.marginBottom = '12px'
       const row = document.createElement('div')
       row.style.display = 'flex'; row.style.gap = '8px'; row.style.justifyContent = 'flex-end'
-      const closeBtn = document.createElement('button')
-      closeBtn.className = 'btn btn-primary'
-      closeBtn.textContent = 'OK'
-      closeBtn.addEventListener('click', () => { modal.remove() })
-      row.appendChild(closeBtn)
-      card.appendChild(h); card.appendChild(info); card.appendChild(row)
+      const continueBtn = document.createElement('button')
+      continueBtn.className = 'btn'
+      continueBtn.textContent = 'Modify Current'
+      continueBtn.addEventListener('click', () => { modal.remove() })
+      const restartBtn = document.createElement('button')
+      restartBtn.className = 'btn'
+      restartBtn.textContent = 'Restart'
+      restartBtn.addEventListener('click', () => { modal.remove(); clearEntries() })
+      const newBtn = document.createElement('button')
+      newBtn.className = 'btn btn-primary'
+      newBtn.textContent = 'New Puzzle'
+      newBtn.addEventListener('click', () => { modal.remove(); newPuzzle(state.difficulty) })
+      row.appendChild(continueBtn); row.appendChild(restartBtn); row.appendChild(newBtn)
+      card.appendChild(h); card.appendChild(info); card.appendChild(list); card.appendChild(row)
       modal.appendChild(card)
       document.body.appendChild(modal)
       modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove() })
+      state.wrongSet = wrongSet || new Set()
+      renderGrid()
     }
   }
 
@@ -670,12 +709,44 @@
       updateConflict()
       conflictBtn.addEventListener('click', () => { state.conflictHighlight = !state.conflictHighlight; renderGrid(); updateConflict() })
     }
+    const timerBtn = qs('#toggleTimerBtn')
+    if (timerBtn) {
+      const updateTimerBtn = () => {
+        timerBtn.textContent = state.timerEnabled ? 'Hide Timer' : 'Show Timer'
+        if (state.timerEnabled) timerBtn.classList.add('btn-toggle-active'); else timerBtn.classList.remove('btn-toggle-active')
+        timerBtn.setAttribute('aria-pressed', state.timerEnabled ? 'true' : 'false')
+      }
+      updateTimerBtn()
+      timerBtn.addEventListener('click', () => {
+        state.timerEnabled = !state.timerEnabled
+        if (state.timerEnabled) {
+          if (!state.timerStart) state.timerStart = Date.now()
+          if (state.timerInterval) { clearInterval(state.timerInterval); state.timerInterval = null }
+          state.timerInterval = setInterval(updateTimerUI, 1000)
+          updateTimerUI()
+        } else {
+          if (state.timerInterval) { clearInterval(state.timerInterval); state.timerInterval = null }
+          updateTimerUI()
+        }
+        updateTimerBtn()
+      })
+    }
     document.addEventListener('keydown', (e) => {
       const num = Number(e.key)
       if (!isNaN(num) && num >= 1 && num <= state.size) fillSelected(num)
       if (e.key === 'Backspace' || e.key === 'Delete') fillSelected(null)
     })
     // no hover highlight via pad
+    updateTimerUI()
+  }
+
+  function updateTimerUI() {
+    const el = qs('#timerDisplay'); if (!el) return
+    if (!state.timerEnabled) { el.style.display = 'none'; return }
+    el.style.display = 'block'
+    const start = state.timerStart || Date.now()
+    const elapsed = Date.now() - start
+    el.textContent = 'Timer: ' + formatMs(elapsed)
   }
 
   function clearEntries() {
