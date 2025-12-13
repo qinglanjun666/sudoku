@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>算24 — 24 Game</title>
+    <meta name="description" content="24 Game: Use four numbers and + - × ÷ to make 24." />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/src/index.css" />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5101109858499684" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <header>
+      <div id="site-header"></div>
+    </header>
+    <main class="main-wrap">
+      <div class="container page-fit">
+        <div class="breadcrumb">
+          <a href="/index.html">Home</a>
+          <span>›</span>
+          <span class="crumb-middle">24 Game</span>
+        </div>
+        <section class="hero" style="display:flex;align-items:center;justify-content:space-between;gap:16px">
+          <div>
+            <h1 class="title">24 Game</h1>
+            <p class="subtitle secondary">Use the four numbers and + − × ÷ (with parentheses) to make 24. Use each number exactly once.</p>
+          </div>
+          <div class="nav-right desktop-only">
+            <button id="newSetBtn" class="btn btn-primary">New Numbers</button>
+          </div>
+        </section>
+        <section class="grid-section">
+          <div class="grid-bg">
+            <div style="display:flex;gap:16px;align-items:flex-start;justify-content:flex-start">
+              <div style="flex:0 0 auto">
+                <div style="font-weight:600;margin-bottom:6px">Numbers</div>
+                <div id="numbersGrid" style="display:grid;grid-template-columns:repeat(2,64px);grid-template-rows:repeat(2,48px);gap:10px">
+                </div>
+              </div>
+              <div style="flex:0 0 auto">
+                <div style="font-weight:600;margin-bottom:6px">Operators</div>
+                <div id="operatorsGrid" style="display:grid;grid-template-columns:repeat(2,64px);grid-template-rows:repeat(2,48px);gap:10px">
+                  <div class="btn" style="pointer-events:none">+</div>
+                  <div class="btn" style="pointer-events:none">-</div>
+                  <div class="btn" style="pointer-events:none">×</div>
+                  <div class="btn" style="pointer-events:none">÷</div>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center;margin-top:16px">
+              <input id="exprInput" type="text" placeholder="Enter expression, e.g. (8-2)*(3+1)" style="flex:1;padding:10px 12px;border:1px solid var(--color-border);border-radius:10px;font-size:16px" />
+              <button id="check24Btn" class="btn">Check</button>
+            </div>
+            <div id="resultRow" class="secondary" style="margin-top:10px"></div>
+            <div class="mobile-only" style="margin-top:12px">
+              <button id="newSetBtnMobile" class="btn btn-primary btn-new">New Numbers</button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+    <div id="site-footer"></div>
+    <script>
+      (function(){
+        Promise.all([
+          fetch('/partials/header.html').then(r=>r.text()),
+          fetch('/partials/footer.html').then(r=>r.text())
+        ]).then(([h,f])=>{
+          var sh = document.getElementById('site-header'); if (sh) sh.innerHTML = h
+          var sf = document.getElementById('site-footer'); if (sf) sf.innerHTML = f
+        })
+      })()
+    </script>
+    <script>
+      (function(){
+        const qs = s => document.querySelector(s)
+        const qsa = s => Array.from(document.querySelectorAll(s))
+        const EPS = 1e-6
+        let nums = []
+        function randInt(n){ return Math.floor(Math.random()*n) }
+        function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]] } return a }
+
+        function canMake24(arr) {
+          function dfs(list) {
+            if (list.length === 1) return Math.abs(list[0] - 24) < EPS
+            for (let i = 0; i < list.length; i++) {
+              for (let j = 0; j < list.length; j++) {
+                if (i === j) continue
+                const a = list[i], b = list[j]
+                const next = []
+                for (let k = 0; k < list.length; k++) if (k !== i && k !== j) next.push(list[k])
+                const ops = [
+                  a + b,
+                  a - b,
+                  b - a,
+                  a * b,
+                ]
+                if (Math.abs(b) > EPS) ops.push(a / b)
+                if (Math.abs(a) > EPS) ops.push(b / a)
+                for (const v of ops) {
+                  next.push(v)
+                  if (dfs(next)) return true
+                  next.pop()
+                }
+              }
+            }
+            return false
+          }
+          return dfs(arr.map(Number))
+        }
+
+        function genSolvable() {
+          for (let tries = 0; tries < 200; tries++) {
+            const a = randInt(9)+1, b = randInt(9)+1, c = randInt(9)+1, d = randInt(9)+1
+            const arr = [a,b,c,d]
+            if (canMake24(arr)) return arr
+          }
+          return [6,6,4,2]
+        }
+
+        function renderNumbers() {
+          const grid = qs('#numbersGrid')
+          grid.innerHTML = ''
+          nums.forEach(n => {
+            const tag = document.createElement('div')
+            tag.textContent = n
+            tag.className = 'btn'
+            tag.style.pointerEvents = 'none'
+            grid.appendChild(tag)
+          })
+        }
+
+        function newSet() {
+          nums = genSolvable()
+          renderNumbers()
+          qs('#exprInput').value = ''
+          qs('#resultRow').textContent = ''
+        }
+
+        function validExpr(expr) {
+          const allowed = /^[\d\s+\-*\/()]+$/
+          if (!allowed.test(expr)) return { ok:false, msg:'Use only digits, + - * / and parentheses' }
+          const numsInExpr = expr.match(/\d+/g) || []
+          const a = numsInExpr.map(Number).sort((x,y)=>x-y)
+          const b = nums.slice().sort((x,y)=>x-y)
+          if (a.length !== b.length || a.some((v,i)=>v!==b[i])) return { ok:false, msg:'Use each provided number exactly once' }
+          return { ok:true }
+        }
+
+        function checkExpr() {
+          const expr = qs('#exprInput').value.trim()
+          const v = validExpr(expr)
+          if (!v.ok) { qs('#resultRow').textContent = v.msg; return }
+          let result
+          try {
+            // evaluate in a limited way
+            result = Function('return (' + expr + ')')()
+          } catch {
+            qs('#resultRow').textContent = 'Invalid expression'
+            return
+          }
+          if (Math.abs(result - 24) < EPS) {
+            qs('#resultRow').textContent = 'Correct! Equals 24.'
+          } else {
+            qs('#resultRow').textContent = 'Not 24 (' + result + '). Try again.'
+          }
+        }
+
+        document.addEventListener('DOMContentLoaded', function(){
+          const n1 = qs('#newSetBtn'); if (n1) n1.addEventListener('click', newSet)
+          const n2 = qs('#newSetBtnMobile'); if (n2) n2.addEventListener('click', newSet)
+          const c = qs('#check24Btn'); if (c) c.addEventListener('click', checkExpr)
+          newSet()
+        })
+      })()
+    </script>
+  </body>
+</html>
