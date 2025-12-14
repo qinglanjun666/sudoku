@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script>
+      (function(){
+        var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+        if (isLocal) return
+        var s = document.createElement('script')
+        s.async = true
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-LX4B214LBK'
+        document.head.appendChild(s)
+        window.dataLayer = window.dataLayer || []
+        function gtag(){ dataLayer.push(arguments) }
+        window.gtag = gtag
+        gtag('js', new Date())
+        gtag('config', 'G-LX4B214LBK')
+      })()
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Full Notation — Tutorial</title>
+    <meta name="description" content="Learn Full Notation (Auto-Candidates). When Snyder stalls, list all candidates per cell to enable advanced elimination." />
+    <link rel="canonical" href="/tutorial/full-notation/" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="Full Notation — Tutorial" />
+    <meta property="og:description" content="Master Full Candidate Lists to prepare for advanced eliminations when easy moves run out." />
+    <meta property="og:image" content="/favicon.svg" />
+    <meta property="og:type" content="article" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Full Notation — Tutorial" />
+    <meta name="twitter:description" content="Switch to Full Notation only when needed; list candidates accurately to drive logical eliminations." />
+    <meta name="twitter:image" content="/favicon.svg" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/src/index.css" />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5101109858499684" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <header>
+      <div id="site-header"></div>
+    </header>
+    <main class="main-wrap">
+      <div class="container page-fit">
+        <nav class="breadcrumb"><a href="/index.html">Home</a><span>></span><a class="crumb-middle accent" href="/tutorial.html">Tutorial</a><span>></span><span class="crumb-middle">Full Notation (The Candidate List)</span></nav>
+        <article class="seo-diff">
+          <h1 style="margin:0 0 12px;font-size:22px;font-weight:700;color:#111">Full Notation (The Candidate List)</h1>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">1. What You Will Master</h2>
+          <p>In this section, you will learn Full Notation (also known as Auto-Fill or Full Candidate List). While Snyder Notation is great for speed, there comes a point in difficult puzzles where you simply run out of "easy" moves. You will master the skill of correctly listing every possible candidate for a cell, preparing the ground for advanced elimination techniques.</p>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">2. Main Content</h2>
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">When to Use Full Notation</h3>
+          <p>You should switch to Full Notation only when:</p>
+          <ul style="margin:0 0 12px 18px; padding:0; color:#333">
+            <li><strong>Snyder has stalled</strong>: You have scanned all numbers 1–9, marked all pairs, and still cannot find a single digit to place.</li>
+            <li><strong>The puzzle is "Hard" or "Expert"</strong>: Simple geometry is no longer enough; you need to find logical contradictions within the candidates.</li>
+          </ul>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">How to Fill Correctly</h3>
+          <p>To fill candidates manually without making mistakes:</p>
+          <ul style="margin:0 0 12px 18px; padding:0; color:#333">
+            <li><strong>Focus on one cell at a time</strong>.</li>
+            <li><strong>Count 1 to 9</strong>:
+              Check the Row, Column, and Box for the number '1'. If not present, write '1'.
+              Check for '2'. If present, skip.
+              Repeat until 9.
+              Move to the next cell.</li>
+          </ul>
+          <p>Note: Many modern Sudoku apps (and your website) have an "Auto-Candidates" button. It is okay to use this, but understanding how to generate it manually ensures you understand the logic.</p>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Danger of Full Notation</h3>
+          <ul style="margin:0 0 12px 18px; padding:0; color:#333">
+            <li><strong>Visual Noise</strong>: The grid becomes incredibly cluttered. It is easy to miss simple patterns like "Hidden Singles" because they are buried under a mountain of tiny numbers.</li>
+            <li><strong>The Trap</strong>: Novice players often turn on Full Notation too early. This makes them lazy scanners. Always try to solve as much as possible with Snyder Notation before flooding the board.</li>
+          </ul>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">Reading the List</h3>
+          <p>Once Full Notation is active, your goal shifts. You are no longer looking for "Where can the 7 go?" (Placement). You are now looking for "Which candidates can I remove?" (Elimination).</p>
+          <p>If a cell has candidates {1, 5, 9} and you find logic that proves it can't be 1 or 5...</p>
+          <p>...then it must be 9. This is a Naked Single emerging from the noise.</p>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">3. Section Summary</h2>
+          <p>Full Notation is a powerful tool, but it must be used wisely. It reveals the complete state of the board, showing every possible option for every cell. This visibility is required for advanced strategies like Naked Pairs and X-Wings. However, turning it on too early can hinder your ability to see simple geometric solutions. Use it as a last resort when the easy logic runs dry.</p>
+
+          <div style="margin-top:16px;display:flex;gap:10px">
+            <a class="btn" href="/tutorial.html">← Back to Tutorial</a>
+          </div>
+        </article>
+      </div>
+    </main>
+    <div id="site-footer"></div>
+    <script>
+      (function(){
+        Promise.all([
+          fetch('/partials/header.html').then(r=>r.text()),
+          fetch('/partials/footer.html').then(r=>r.text())
+        ]).then(([h,f])=>{
+          var sh = document.getElementById('site-header'); if (sh) sh.innerHTML = h
+          var sf = document.getElementById('site-footer'); if (sf) sf.innerHTML = f
+        })
+      })()
+    </script>
+  </body>
+</html>

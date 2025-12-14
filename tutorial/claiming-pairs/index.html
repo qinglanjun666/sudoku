@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script>
+      (function(){
+        var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+        if (isLocal) return
+        var s = document.createElement('script')
+        s.async = true
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-LX4B214LBK'
+        document.head.appendChild(s)
+        window.dataLayer = window.dataLayer || []
+        function gtag(){ dataLayer.push(arguments) }
+        window.gtag = gtag
+        gtag('js', new Date())
+        gtag('config', 'G-LX4B214LBK')
+      })()
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Claiming Pairs / Box-Line Reduction — Tutorial</title>
+    <meta name="description" content="Learn Claiming Pairs (Box-Line Reduction): when a line restricts a digit to a single box, eliminate that digit from the rest of the box." />
+    <link rel="canonical" href="/tutorial/claiming-pairs/" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="Claiming Pairs / Box-Line Reduction — Tutorial" />
+    <meta property="og:description" content="Master Claiming Pairs: the line forces the box—clean up candidates by removing conflicts within the box." />
+    <meta property="og:image" content="/favicon.svg" />
+    <meta property="og:type" content="article" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Claiming Pairs / Box-Line Reduction — Tutorial" />
+    <meta name="twitter:description" content="Use Box-Line Reduction to project constraints from a row or column into a box and simplify the grid." />
+    <meta name="twitter:image" content="/favicon.svg" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/src/index.css" />
+    <script>
+      (function(){
+        var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+        if (isLocal) return
+        var s = document.createElement('script')
+        s.async = true
+        s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5101109858499684'
+        s.crossOrigin = 'anonymous'
+        document.head.appendChild(s)
+      })()
+    </script>
+  </head>
+  <body>
+    <header>
+      <div id="site-header"></div>
+    </header>
+    <main class="main-wrap">
+      <div class="container page-fit">
+        <nav class="breadcrumb"><a href="/index.html">Home</a><span>></span><a class="crumb-middle accent" href="/tutorial.html">Tutorial</a><span>></span><span class="crumb-middle">Claiming Pairs / Box-Line Reduction</span></nav>
+        <article class="seo-diff">
+          <h1 style="margin:0 0 12px;font-size:22px;font-weight:700;color:#111">Claiming Pairs / Box-Line Reduction</h1>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">1. What You Will Master</h2>
+          <p>In this section, you will learn Claiming Pairs (also known as Box-Line Reduction). This is the inverse of the Pointing Pair. You will learn to recognize when a Row or Column forces a number into a specific Box, thereby eliminating that number from the rest of the Box. This logic is subtle but essential for cleaning up pencil marks in crowded grids.</p>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">2. Main Content</h2>
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Concept</h3>
+          <p>A Claiming Pair occurs when a candidate appears multiple times in a Row (or Column), but all those instances fall within a single Box.</p>
+          <p>Because the number must exist somewhere in that Row, and it can only be inside that specific Box, the Row "claims" the right to place that number in the Box. Therefore, the number cannot exist anywhere else in that Box.</p>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Logic Step-by-Step</h3>
+          <p>Let's look at Row 2.</p>
+          <p><strong>Scan</strong>: You are looking for the number '7'.</p>
+          <p><strong>Observation</strong>: In Row 2, the only places a '7' can go are R2C4 and R2C5.</p>
+          <p><strong>Alignment</strong>: Notice that both R2C4 and R2C5 are inside Box 2 (top-middle).</p>
+          <p><strong>Deduction</strong>:</p>
+          <p>The '7' of Row 2 must be in Box 2.</p>
+          <p>Therefore, the '7' for Box 2 must be one of these two cells.</p>
+          <p><strong>Action</strong>: You can look at the rest of Box 2 (R1C4, R1C5, R3C4, R3C5, etc.) and eliminate any pencil marks for '7'.</p>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">Difference from Pointing Pairs</h3>
+          <p><strong>Pointing Pair</strong>: "The Box forces the Line." (We know it's in the box → eliminate from line).</p>
+          <p><strong>Claiming Pair</strong>: "The Line forces the Box." (We know it's in the line → eliminate from the rest of the box).</p>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">Visual Tip</h3>
+          <p>Claiming Pairs are easiest to spot when you are scanning a specific number across rows. If you see "Row 5 only has 3s here and here," check immediately if those spots share a box. If they do, you have a Claiming Pair.</p>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">3. Section Summary</h2>
+          <p>Claiming Pairs / Box-Line Reduction is a powerful cleanup tool. It reinforces the idea that Rows and Boxes are interconnected. If a Row says "My '7' must be here," the Box must respect that and remove its own '7's from other locations. Mastering this, along with Pointing Pairs, completes your understanding of Intersection logic.</p>
+
+          <div style="margin-top:16px;display:flex;gap:10px">
+            <a class="btn" href="/tutorial.html">← Back to Tutorial</a>
+          </div>
+        </article>
+      </div>
+    </main>
+    <div id="site-footer"></div>
+    <script>
+      (function(){
+        Promise.all([
+          fetch('/partials/header.html').then(r=>r.text()),
+          fetch('/partials/footer.html').then(r=>r.text())
+        ]).then(([h,f])=>{
+          var sh = document.getElementById('site-header'); if (sh) sh.innerHTML = h
+          var sf = document.getElementById('site-footer'); if (sf) sf.innerHTML = f
+        })
+      })()
+    </script>
+  </body>
+</html>

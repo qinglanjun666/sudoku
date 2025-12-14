@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script>
+      (function(){
+        var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+        if (isLocal) return
+        var s = document.createElement('script')
+        s.async = true
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-LX4B214LBK'
+        document.head.appendChild(s)
+        window.dataLayer = window.dataLayer || []
+        function gtag(){ dataLayer.push(arguments) }
+        window.gtag = gtag
+        gtag('js', new Date())
+        gtag('config', 'G-LX4B214LBK')
+      })()
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>XY-Chain — Tutorial</title>
+    <meta name="description" content="Learn the XY-Chain: connect a snake of bi-value cells to lock a digit at the chain ends and eliminate it from any cell that sees both endpoints." />
+    <link rel="canonical" href="/tutorial/xy-chain/" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="XY-Chain — Tutorial" />
+    <meta property="og:description" content="Master XY-Chain: stretch an XY-Wing into a chain of bi-value cells to force a digit at one end or the other and clear intersections." />
+    <meta property="og:image" content="/favicon.svg" />
+    <meta property="og:type" content="article" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="XY-Chain — Tutorial" />
+    <meta name="twitter:description" content="Use bi-value cells and internal strong links to propagate ON/OFF states, locking a digit at the ends for elimination." />
+    <meta name="twitter:image" content="/favicon.svg" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/src/index.css" />
+    <script>
+      (function(){
+        var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+        if (isLocal) return
+        var s = document.createElement('script')
+        s.async = true
+        s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5101109858499684'
+        s.crossOrigin = 'anonymous'
+        document.head.appendChild(s)
+      })()
+    </script>
+  </head>
+  <body>
+    <header>
+      <div id="site-header"></div>
+    </header>
+    <main class="main-wrap">
+      <div class="container page-fit">
+        <nav class="breadcrumb"><a href="/index.html">Home</a><span>></span><a class="crumb-middle accent" href="/tutorial.html">Tutorial</a><span>></span><span class="crumb-middle">XY-Chain</span></nav>
+        <article class="seo-diff">
+          <h1 style="margin:0 0 12px;font-size:22px;font-weight:700;color:#111">XY-Chain</h1>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">1. What You Will Master</h2>
+          <p>In this section, you will learn the XY-Chain. You will discover how to connect a series of Bi-Value Cells (cells with exactly two notes) into a long snake-like structure. You will learn to prove that the cell at the head of the snake and the cell at the tail forces a specific number to be true, eliminating that number from any cell that sees both ends.</p>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">2. Main Content</h2>
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Concept</h3>
+          <p>Recall the XY-Wing (Section 11.1): it had three cells. An XY-Chain is simply an XY-Wing that has been stretched out. It can have 4, 5, 6, or even 20 cells.</p>
+          <p><strong>Requirement</strong>: Every link in the chain must involve Bi-Value Cells.</p>
+          <p><strong>The Logic</strong>: Use the internal strong link of each cell. If a cell has notes {1, 2}, and we say "It is not 1," then it must be 2. This certainty allows us to move to the next cell.</p>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Structure</h3>
+          <p>Imagine a chain of cells:</p>
+          <p><strong>Start</strong>: {1, 2}</p>
+          <p><strong>Step 2</strong>: {2, 3} (sees Start)</p>
+          <p><strong>Step 3</strong>: {3, 4} (sees Step 2)</p>
+          <p><strong>End</strong>: {4, 1} (sees Step 3)</p>
+          <p>We started with 1 and ended with 1.</p>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Logic Trace</h3>
+          <p>Test the Start cell {1, 2}:</p>
+          <p><strong>Option A</strong>: The Start cell is 1.</p>
+          <p><strong>Option B</strong>: The Start cell is not 1 → it must be 2 → Step 2 cannot be 2 → Step 2 must be 3 → Step 3 cannot be 3 → Step 3 must be 4 → End cannot be 4 → End must be 1.</p>
+          <p><strong>Conclusion</strong>: Whether Option A or B, the number 1 appears at either the Start or the End. The digit is locked at the ends of the chain.</p>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Elimination</h3>
+          <p>Because the digit (e.g., '1') must exist in the Start or the End:</p>
+          <p>Identify any cell that is seen by both endpoints.</p>
+          <p><strong>Action</strong>: Eliminate the candidate '1' from that intersection.</p>
+          <p>Note: The intermediate steps (2, 3, 4) are connectors. The elimination only happens for the digit that starts and ends the chain.</p>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">How to Spot It</h3>
+          <p>Scan for Bi-Value Cells (BVCs). Pick a BVC and a number, e.g., "If this isn't 1, it's 2." Follow the 2 to a neighbor {2, 5} → that neighbor becomes 5. Continue following until a cell brings you back to your original number '1'. Then check the intersection of Start and End.</p>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">3. Section Summary</h2>
+          <p>The XY-Chain is a powerful weapon for cleaning up late-game puzzles. When the board is full of cells with only two options, an XY-Chain is almost guaranteed to exist. It relies on the simple binary logic of "If not this, then that," repeated until it forces a lock at the ends.</p>
+
+          <div style="margin-top:16px;display:flex;gap:10px">
+            <a class="btn" href="/tutorial.html">← Back to Tutorial</a>
+          </div>
+        </article>
+      </div>
+    </main>
+    <div id="site-footer"></div>
+    <script>
+      (function(){
+        Promise.all([
+          fetch('/partials/header.html').then(r=>r.text()),
+          fetch('/partials/footer.html').then(r=>r.text())
+        ]).then(([h,f])=>{
+          var sh = document.getElementById('site-header'); if (sh) sh.innerHTML = h
+          var sf = document.getElementById('site-footer'); if (sf) sf.innerHTML = f
+        })
+      })()
+    </script>
+  </body>
+</html>

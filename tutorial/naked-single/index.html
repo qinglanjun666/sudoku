@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script>
+      (function(){
+        var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+        if (isLocal) return
+        var s = document.createElement('script')
+        s.async = true
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-LX4B214LBK'
+        document.head.appendChild(s)
+        window.dataLayer = window.dataLayer || []
+        function gtag(){ dataLayer.push(arguments) }
+        window.gtag = gtag
+        gtag('js', new Date())
+        gtag('config', 'G-LX4B214LBK')
+      })()
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Naked Single — Tutorial</title>
+    <meta name="description" content="Learn the Naked Single (Sole Candidate): identify when a cell has only one possible digit due to constraints from its Row, Column, and Box." />
+    <link rel="canonical" href="/tutorial/naked-single/" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="Naked Single — Tutorial" />
+    <meta property="og:description" content="Master Naked Single: the sole candidate forced by Row, Column, and Box intersections." />
+    <meta property="og:image" content="/favicon.svg" />
+    <meta property="og:type" content="article" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Naked Single — Tutorial" />
+    <meta name="twitter:description" content="The Naked Single is a single-cell technique: one digit remains possible." />
+    <meta name="twitter:image" content="/favicon.svg" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/src/index.css" />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5101109858499684" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <header>
+      <div id="site-header"></div>
+    </header>
+    <main class="main-wrap">
+      <div class="container page-fit">
+        <nav class="breadcrumb"><a href="/index.html">Home</a><span>></span><a class="crumb-middle accent" href="/tutorial.html">Tutorial</a><span>></span><span class="crumb-middle">Naked Single (The Sole Candidate)</span></nav>
+        <article class="seo-diff">
+          <h1 style="margin:0 0 12px;font-size:22px;font-weight:700;color:#111">Naked Single (The Sole Candidate)</h1>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">1. What You Will Master</h2>
+          <p>In this section, you will learn the Naked Single, often called the "Sole Candidate." This technique focuses on a single specific cell rather than a whole house. You will learn to identify when a cell is so constrained by its Row, Column, and Box that only one number remains possible, even if the cell looks empty.</p>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">2. Main Content</h2>
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Concept</h3>
+          <p>A Naked Single occurs when a specific cell has only one possible candidate left. Unlike the "Full House" where the row is clearly full, a Naked Single can happen in a row that looks very empty. However, due to the intersection of its Row, Column, and Box, all digits from 1 to 9 are present in the peers except for one.</p>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">How It Works: The Intersection</h3>
+          <p>To find a Naked Single, you must look at the combined influence of:</p>
+          <ul style="margin:0 0 12px 18px; padding:0; color:#333">
+            <li>The Row the cell sits in.</li>
+            <li>The Column the cell sits in.</li>
+            <li>The Box the cell sits in.</li>
+          </ul>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">Step-by-Step Example</h3>
+          <p>Let's look at cell R5C5 (the very center of the grid). It is empty.</p>
+          <p>The Row (Row 5) contains: {1, 2, 4}</p>
+          <p>The Column (Col 5) contains: {3, 5, 7}</p>
+          <p>The Box (Box 5) contains: {6, 8}</p>
+          <p>Now, let's count from 1 to 9 for this specific cell:</p>
+          <p>Can it be 1? No (in Row).</p>
+          <p>Can it be 2? No (in Row).</p>
+          <p>Can it be 3? No (in Column).</p>
+          <p>Can it be 4? No (in Row).</p>
+          <p>Can it be 5? No (in Column).</p>
+          <p>Can it be 6? No (in Box).</p>
+          <p>Can it be 7? No (in Column).</p>
+          <p>Can it be 8? No (in Box).</p>
+          <p>Can it be 9? YES.</p>
+          <p>Conclusion: Since 1, 2, 3, 4, 5, 6, 7, and 8 are all "seeing" this cell, the only possible number for R5C5 is 9.</p>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">Why is it called "Naked"?</h3>
+          <p>It is called "Naked" because in advanced play (Level 2), when you write down pencil marks, this cell would have only one number written in it. It stands "naked" with no other options.</p>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">3. Section Summary</h2>
+          <p>The Naked Single is a test of your ability to synthesize information. You are looking for a cell that is under heavy attack from all directions. Even if the board looks wide open, a single cell might be the "sole survivor" that can only accept one specific digit. Finding these requires checking the "crossfire" of Row, Column, and Box.</p>
+
+          <div style="margin-top:16px;display:flex;gap:10px">
+            <a class="btn" href="/tutorial.html">← Back to Tutorial</a>
+          </div>
+        </article>
+      </div>
+    </main>
+    <div id="site-footer"></div>
+    <script>
+      (function(){
+        Promise.all([
+          fetch('/partials/header.html').then(r=>r.text()),
+          fetch('/partials/footer.html').then(r=>r.text())
+        ]).then(([h,f])=>{
+          var sh = document.getElementById('site-header'); if (sh) sh.innerHTML = h
+          var sf = document.getElementById('site-footer'); if (sf) sf.innerHTML = f
+        })
+      })()
+    </script>
+  </body>
+</html>

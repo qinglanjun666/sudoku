@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh">
+  <head>
+    <script>
+      (function(){
+        var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+        if (isLocal) return
+        var s = document.createElement('script')
+        s.async = true
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-LX4B214LBK'
+        document.head.appendChild(s)
+        window.dataLayer = window.dataLayer || []
+        function gtag(){ dataLayer.push(arguments) }
+        window.gtag = gtag
+        gtag('js', new Date())
+        gtag('config', 'G-LX4B214LBK')
+      })()
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>404 — 页面未找到 | Logic for Sudoku</title>
+    <meta name="description" content="抱歉，您访问的页面不存在或已被移动。请返回首页、查看网站地图或浏览教程。"/>
+    <link rel="canonical" href="/404.html" />
+    <meta name="robots" content="noindex, follow" />
+    <meta property="og:title" content="404 — 页面未找到" />
+    <meta property="og:description" content="该页面不存在或已被移动。试试回到首页或查看网站地图。" />
+    <meta property="og:image" content="/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="404 — 页面未找到" />
+    <meta name="twitter:description" content="返回首页、网站地图或教程目录继续浏览。" />
+    <meta name="twitter:image" content="/favicon.svg" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/src/index.css" />
+  </head>
+  <body>
+    <header>
+      <div id="site-header"></div>
+    </header>
+    <main class="main-wrap">
+      <div class="container page-fit" style="text-align:center">
+        <nav class="breadcrumb" style="justify-content:center"><a href="/index.html">Home</a><span>></span><span class="crumb-middle">404</span></nav>
+        <article class="seo-diff">
+          <h1 style="margin:8px 0 12px;font-size:24px;font-weight:700;color:#111">页面未找到</h1>
+          <p style="margin:0 0 12px;color:#333">抱歉，您访问的页面不存在、已被删除或移动到了新的地址。</p>
+          <div style="margin-top:16px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+            <a class="btn" href="/index.html">返回首页</a>
+            <a class="btn" href="/sitemap.html">网站地图</a>
+            <a class="btn" href="/tutorial.html">浏览教程</a>
+          </div>
+        </article>
+      </div>
+    </main>
+    <div id="site-footer"></div>
+    <script>
+      (function(){
+        var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+        if (!isLocal) {
+          var ads = document.createElement('script')
+          ads.async = true
+          ads.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5101109858499684'
+          ads.crossOrigin = 'anonymous'
+          document.head.appendChild(ads)
+        }
+        Promise.all([
+          fetch('/partials/header.html').then(r=>r.text()),
+          fetch('/partials/footer.html').then(r=>r.text())
+        ]).then(([h,f])=>{
+          var sh = document.getElementById('site-header'); if (sh) sh.innerHTML = h
+          var sf = document.getElementById('site-footer'); if (sf) sf.innerHTML = f
+        })
+      })()
+    </script>
+  </body>
+</html>

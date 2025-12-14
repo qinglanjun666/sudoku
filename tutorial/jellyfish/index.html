@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script>
+      (function(){
+        var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+        if (isLocal) return
+        var s = document.createElement('script')
+        s.async = true
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-LX4B214LBK'
+        document.head.appendChild(s)
+        window.dataLayer = window.dataLayer || []
+        function gtag(){ dataLayer.push(arguments) }
+        window.gtag = gtag
+        gtag('js', new Date())
+        gtag('config', 'G-LX4B214LBK')
+      })()
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Jellyfish — Tutorial</title>
+    <meta name="description" content="Learn Jellyfish: the 4×4 extension of fish patterns—four rows claimed by four columns for wide eliminations." />
+    <link rel="canonical" href="/tutorial/jellyfish/" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="Jellyfish — Tutorial" />
+    <meta property="og:description" content="Master Jellyfish: identify 4 rows aligned to 4 columns for a single digit and eliminate across cover lines." />
+    <meta property="og:image" content="/favicon.svg" />
+    <meta property="og:type" content="article" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Jellyfish — Tutorial" />
+    <meta name="twitter:description" content="Use Jellyfish to lock a digit across four lines and clean up large portions of the grid." />
+    <meta name="twitter:image" content="/favicon.svg" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/src/index.css" />
+    <script>
+      (function(){
+        var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+        if (isLocal) return
+        var s = document.createElement('script')
+        s.async = true
+        s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5101109858499684'
+        s.crossOrigin = 'anonymous'
+        document.head.appendChild(s)
+      })()
+    </script>
+  </head>
+  <body>
+    <header>
+      <div id="site-header"></div>
+    </header>
+    <main class="main-wrap">
+      <div class="container page-fit">
+        <nav class="breadcrumb"><a href="/index.html">Home</a><span>></span><a class="crumb-middle accent" href="/tutorial.html">Tutorial</a><span>></span><span class="crumb-middle">Jellyfish</span></nav>
+        <article class="seo-diff">
+          <h1 style="margin:0 0 12px;font-size:22px;font-weight:700;color:#111">Jellyfish</h1>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">1. What You Will Master</h2>
+          <p>In this section, you will learn the Jellyfish. This is the 4×4 extension of the X-Wing and Swordfish. You will understand how to identify four rows (or columns) that coordinate to lock a specific candidate into four perpendicular lines, allowing you to clear massive amounts of candidates from the rest of the grid.</p>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">2. Main Content</h2>
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Concept</h3>
+          <p>A Jellyfish occurs when a specific digit appears in exactly four Rows, and within those rows, the candidate falls into exactly four Columns.</p>
+          <p><strong>Base Set</strong>: 4 Rows.</p>
+          <p><strong>Cover Set</strong>: 4 Columns.</p>
+          <p><strong>The Rule</strong>: If N=4 Rows are restricted to N=4 Columns, the logic holds.</p>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Logic: The 4×4 Grid</h3>
+          <p>By now, you recognize the pattern:</p>
+          <p><strong>X-Wing</strong>: 2 Rows locked in 2 Columns.</p>
+          <p><strong>Swordfish</strong>: 3 Rows locked in 3 Columns.</p>
+          <p><strong>Jellyfish</strong>: 4 Rows locked in 4 Columns.</p>
+          <p>Because these 4 Rows must place their digit into these 4 Columns, they completely "use up" the capacity of those columns. No other row can place that digit in these columns.</p>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Elimination</h3>
+          <p><strong>Identify</strong>: Find 4 Rows where the digit exists only in Columns A, B, C, and D.</p>
+          <p><strong>Target</strong>: Look at the rest of Columns A, B, C, and D.</p>
+          <p><strong>Action</strong>: Eliminate the candidate from every cell in those columns that is not part of your 4 Base Rows.</p>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">Theoretical Limits: The Squirmbag (5×5)</h3>
+          <p>You might ask: "Is there a 5×5 fish?" Yes, it is called a Squirmbag. However, remember the rule of Inversion (from Hidden Quads):</p>
+          <p>If you have a 5×5 Fish in the Rows...</p>
+          <p>...that means the other 4 Rows form a Jellyfish (or smaller pattern) in the Columns.</p>
+          <p>Therefore, you never actually need to look for a Squirmbag. You just look for the smaller Fish in the opposite direction.</p>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">How to Spot It</h3>
+          <p>Jellyfish are extremely rare in manually constructed puzzles but common in computer-generated ones.</p>
+          <p><strong>Strategy</strong>: Do not hunt for them specifically. Instead, keep your candidates clean. Often, a Jellyfish reveals itself only after you have failed to find X-Wings and Swordfish.</p>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">3. Section Summary</h2>
+          <p>The Jellyfish is the final practical step of the "Basic Fish" ladder. It reinforces the power of "Set Theory" in Sudoku: if a set of N lines is restricted to N perpendicular coordinates, the network is closed. Anything outside that network is false. While you won't use this every day, understanding it proves you have mastered the geometry of the grid.</p>
+
+          <div style="margin-top:16px;display:flex;gap:10px">
+            <a class="btn" href="/tutorial.html">← Back to Tutorial</a>
+          </div>
+        </article>
+      </div>
+    </main>
+    <div id="site-footer"></div>
+    <script>
+      (function(){
+        Promise.all([
+          fetch('/partials/header.html').then(r=>r.text()),
+          fetch('/partials/footer.html').then(r=>r.text())
+        ]).then(([h,f])=>{
+          var sh = document.getElementById('site-header'); if (sh) sh.innerHTML = h
+          var sf = document.getElementById('site-footer'); if (sf) sf.innerHTML = f
+        })
+      })()
+    </script>
+  </body>
+</html>

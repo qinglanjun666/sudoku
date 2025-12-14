@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script>
+      (function(){
+        var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+        if (isLocal) return
+        var s = document.createElement('script')
+        s.async = true
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-LX4B214LBK'
+        document.head.appendChild(s)
+        window.dataLayer = window.dataLayer || []
+        function gtag(){ dataLayer.push(arguments) }
+        window.gtag = gtag
+        gtag('js', new Date())
+        gtag('config', 'G-LX4B214LBK')
+      })()
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Two-String Kite — Tutorial</title>
+    <meta name="description" content="Learn the Two-String Kite: use a box as the connector between a strong-linked row and column, proving the digit must exist in one of two tails and eliminating it at the intersection." />
+    <link rel="canonical" href="/tutorial/two-string-kite/" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="Two-String Kite — Tutorial" />
+    <meta property="og:description" content="Master Two-String Kite: connect row and column strong links through a box to force a digit in one tail and clear the intersection." />
+    <meta property="og:image" content="/favicon.svg" />
+    <meta property="og:type" content="article" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Two-String Kite — Tutorial" />
+    <meta name="twitter:description" content="Use a cornerstone box to link a strong row and column via the digit and eliminate at the tails' intersection." />
+    <meta name="twitter:image" content="/favicon.svg" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/src/index.css" />
+    <script>
+      (function(){
+        var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+        if (isLocal) return
+        var s = document.createElement('script')
+        s.async = true
+        s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5101109858499684'
+        s.crossOrigin = 'anonymous'
+        document.head.appendChild(s)
+      })()
+    </script>
+  </head>
+  <body>
+    <header>
+      <div id="site-header"></div>
+    </header>
+    <main class="main-wrap">
+      <div class="container page-fit">
+        <nav class="breadcrumb"><a href="/index.html">Home</a><span>></span><a class="crumb-middle accent" href="/tutorial.html">Tutorial</a><span>></span><span class="crumb-middle">Two-String Kite</span></nav>
+        <article class="seo-diff">
+          <h1 style="margin:0 0 12px;font-size:22px;font-weight:700;color:#111">Two-String Kite</h1>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">1. What You Will Master</h2>
+          <p>In this section, you will learn the Two-String Kite. You will learn how to use a specific Box as a "cornerstone" to connect a Row and a Column. This technique allows you to prove that a candidate must exist in one of two "tails" that hang out of the box, eliminating the candidate where those tails intersect.</p>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">2. Main Content</h2>
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Components</h3>
+          <p>A Two-String Kite requires one digit (e.g., '3') and three parts:</p>
+          <p><strong>The Box</strong>: A 3x3 Box that acts as the connector (e.g., Box 3).</p>
+          <p><strong>String 1 (The Row)</strong>: A Row passing through the box that has a Strong Link (exactly two '3's). One '3' is inside the box, the other '3' is outside.</p>
+          <p><strong>String 2 (The Column)</strong>: A Column passing through the box that also has a Strong Link. One '3' is inside the box, the other '3' is outside.</p>
+          <p><strong>The Crucial Link</strong>: The two candidates inside the box must "see" each other (share a row or column) or be connected by the box's logic so that they cannot both be true.</p>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Logic: "The Chain Reaction"</h3>
+          <p>Let's name the points:</p>
+          <p><strong>A</strong>: The '3' in the Row, outside the box (Tail 1).</p>
+          <p><strong>B</strong>: The '3' in the Row, inside the box.</p>
+          <p><strong>C</strong>: The '3' in the Column, inside the box.</p>
+          <p><strong>D</strong>: The '3' in the Column, outside the box (Tail 2).</p>
+          <p><strong>The Chain</strong>:</p>
+          <p>If A is False, then B must be True (Strong Link).</p>
+          <p>If B is True, then C must be False (they see each other in the box).</p>
+          <p>If C is False, then D must be True (Strong Link).</p>
+          <p><strong>Conclusion</strong>: If A is False, D is True. Therefore, it is impossible for A and D to both be False. One of them is the real digit.</p>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Elimination</h3>
+          <p>Because the digit must be in Tail 1 (A) or Tail 2 (D):</p>
+          <p>Identify the two outside candidates (the ends of the strings).</p>
+          <p>Find the cell where Tail 1's Row and Tail 2's Column intersect.</p>
+          <p><strong>Action</strong>: Eliminate the candidate from that intersection cell.</p>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">Visual Check</h3>
+          <p>Look at a corner box (like Box 3, 7, or 9).</p>
+          <p>Does a Row enter it with a 2-candidate limit?</p>
+          <p>Does a Column enter it with a 2-candidate limit?</p>
+          <p>Do the ends inside the box connect?</p>
+          <p>If yes, look at the ends outside the box. Where do they meet? Shoot that spot.</p>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">3. Section Summary</h2>
+          <p>The Two-String Kite is a classic "Turbot Fish" pattern (a chain of 3 strong links). It is useful because it feels natural: "A Row comes in, hits the Box, turns 90 degrees, and leaves as a Column." This change of direction (Row to Column) is what allows the intersection elimination.</p>
+
+          <div style="margin-top:16px;display:flex;gap:10px">
+            <a class="btn" href="/tutorial.html">← Back to Tutorial</a>
+          </div>
+        </article>
+      </div>
+    </main>
+    <div id="site-footer"></div>
+    <script>
+      (function(){
+        Promise.all([
+          fetch('/partials/header.html').then(r=>r.text()),
+          fetch('/partials/footer.html').then(r=>r.text())
+        ]).then(([h,f])=>{
+          var sh = document.getElementById('site-header'); if (sh) sh.innerHTML = h
+          var sf = document.getElementById('site-footer'); if (sf) sf.innerHTML = f
+        })
+      })()
+    </script>
+  </body>
+</html>

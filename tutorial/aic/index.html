@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script>
+      (function(){
+        var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+        if (isLocal) return
+        var s = document.createElement('script')
+        s.async = true
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-LX4B214LBK'
+        document.head.appendChild(s)
+        window.dataLayer = window.dataLayer || []
+        function gtag(){ dataLayer.push(arguments) }
+        window.gtag = gtag
+        gtag('js', new Date())
+        gtag('config', 'G-LX4B214LBK')
+      })()
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AIC (Alternating Inference Chains) — Tutorial</title>
+    <meta name="description" content="Learn AIC: build alternating chains mixing strong and weak links across rows, columns, boxes, and bi-value cells to create universal eliminations." />
+    <link rel="canonical" href="/tutorial/aic/" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="AIC (Alternating Inference Chains) — Tutorial" />
+    <meta property="og:description" content="Master AIC: alternate strong and weak links across any node type and eliminate candidates using the Start–End strong-link equivalence." />
+    <meta property="og:image" content="/favicon.svg" />
+    <meta property="og:type" content="article" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="AIC (Alternating Inference Chains) — Tutorial" />
+    <meta name="twitter:description" content="Connect rows, columns, boxes, and cells via alternating links to produce robust eliminations in complex positions." />
+    <meta name="twitter:image" content="/favicon.svg" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/src/index.css" />
+    <script>
+      (function(){
+        var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+        if (isLocal) return
+        var s = document.createElement('script')
+        s.async = true
+        s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5101109858499684'
+        s.crossOrigin = 'anonymous'
+        document.head.appendChild(s)
+      })()
+    </script>
+  </head>
+  <body>
+    <header>
+      <div id="site-header"></div>
+    </header>
+    <main class="main-wrap">
+      <div class="container page-fit">
+        <nav class="breadcrumb"><a href="/index.html">Home</a><span>></span><a class="crumb-middle accent" href="/tutorial.html">Tutorial</a><span>></span><span class="crumb-middle">AIC (Alternating Inference Chains)</span></nav>
+        <article class="seo-diff">
+          <h1 style="margin:0 0 12px;font-size:22px;font-weight:700;color:#111">AIC (Alternating Inference Chains)</h1>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">1. What You Will Master</h2>
+          <p>In this section, you will learn the Alternating Inference Chain (AIC). This is the "Grand Unified Theory" of Sudoku. You will learn how to build chains that mix and match different types of links—connecting a Strong Link in a Row to a Bi-Value Cell to a Strong Link in a Box. You will master the universal notation of chains and the ability to find eliminations in unstructured chaos.</p>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">2. Main Content</h2>
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Concept</h3>
+          <p>An AIC is a chain that alternates strictly between Strong Links and Weak Links.</p>
+          <p>Recall Section 13.1:</p>
+          <p><strong>Strong Link (=)</strong>: If A is False, B is True. (Cannot both be False).</p>
+          <p><strong>Weak Link (-)</strong>: If A is True, B is False. (Cannot both be True).</p>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Rules of the Chain</h3>
+          <p>To build a valid AIC, you must follow this rhythm:</p>
+          <p>Node A = Node B - Node C = Node D - Node E ...</p>
+          <p><strong>Start with a Candidate</strong>: Let Candidate A be assumed OFF (False).</p>
+          <p><strong>Strong Link</strong>: Because A is OFF, B must be ON.</p>
+          <p><strong>Weak Link</strong>: Because B is ON, C must be OFF.</p>
+          <p><strong>Strong Link</strong>: Because C is OFF, D must be ON.</p>
+          <p><strong>Conclusion</strong>: If we assume Start (A) is False, the End (D) is forced to be True. Therefore, A and D cannot both be False.</p>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">Mixing Node Types</h3>
+          <p>The power of AIC is that Nodes can be anything:</p>
+          <p><strong>Type 1</strong>: A specific candidate in a cell (e.g., the 7 in R1C1).</p>
+          <p><strong>Type 2</strong>: A logic state (e.g., the digit 7 in Row 1).</p>
+          <p>You can jump between them:</p>
+          <p>Link 1: (1)R1C1 is strongly linked to (1)R1C5 (Row Link).</p>
+          <p>Link 2: (1)R1C5 is weakly linked to (4)R1C5 (Cell Link / Bi-Value).</p>
+          <p>Link 3: (4)R1C5 is strongly linked to (4)R9C5 (Column Link).</p>
+          <p>This allows you to weave through numbers and houses seamlessly.</p>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Elimination</h3>
+          <p>The elimination target relies on the Strong Link property between the Start and End we just proved.</p>
+          <p><strong>The Logic</strong>: Since Start is False → End is True (and vice versa by reverse logic), Start and End behave like a Strong Link.</p>
+          <p><strong>The Kill</strong>: Any candidate that is weakly linked to both the Start and the End can be eliminated.</p>
+          <p><strong>Translation</strong>: Find a candidate that sees the Start and sees the End. If that candidate were True, it would render both Start and End False. But Start and End cannot both be False. Therefore, the common neighbor is impossible.</p>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">Standard Notation</h3>
+          <p>Sudoku communities use a shorthand. Learn to read it:</p>
+          <p>(1)R1C1 = (1)R1C5 - (4)R1C5 = (4)R9C5</p>
+          <p>= : Strong Link</p>
+          <p>- : Weak Link</p>
+          <p>(x)RxCx : Candidate x in Row r, Column c.</p>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">How to Spot It</h3>
+          <p>Find a Strong Link: Always start here. "Row 5 has only two 8s."</p>
+          <p>Extend Weakly: From one end of the 8s, look for a weak connection. "This 8 sees a Bi-Value Cell {8,9}."</p>
+          <p>Extend Strongly: "If that cell isn't 8, it is 9."</p>
+          <p>Repeat: "Where does that 9 go?" Look for another strong link.</p>
+          <p>Close the Loop: Try to land somewhere that sees your starting point.</p>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">3. Section Summary</h2>
+          <p>AIC is not a specific shape; it is a process. It is the ability to say: "If this is off, then that is on, which means this is off, which means that is on..." Every named pattern you learned (X-Wing, XY-Chain, Skyscraper) is just an AIC. X-Wing: (A) = (B) - (C) = (D). XY-Chain: (A) - (B) = (C) - (D) = ... Master AIC and you no longer need to memorize names—you read lines of force on the board.</p>
+
+          <div style="margin-top:16px;display:flex;gap:10px">
+            <a class="btn" href="/tutorial.html">← Back to Tutorial</a>
+          </div>
+        </article>
+      </div>
+    </main>
+    <div id="site-footer"></div>
+    <script>
+      (function(){
+        Promise.all([
+          fetch('/partials/header.html').then(r=>r.text()),
+          fetch('/partials/footer.html').then(r=>r.text())
+        ]).then(([h,f])=>{
+          var sh = document.getElementById('site-header'); if (sh) sh.innerHTML = h
+          var sf = document.getElementById('site-footer'); if (sf) sf.innerHTML = f
+        })
+      })()
+    </script>
+  </body>
+</html>

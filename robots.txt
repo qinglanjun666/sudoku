@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://logicforsudoku.com/sitemap.xml

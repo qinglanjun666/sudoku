@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script>
+      (function(){
+        var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+        if (isLocal) return
+        var s = document.createElement('script')
+        s.async = true
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-LX4B214LBK'
+        document.head.appendChild(s)
+        window.dataLayer = window.dataLayer || []
+        function gtag(){ dataLayer.push(arguments) }
+        window.gtag = gtag
+        gtag('js', new Date())
+        gtag('config', 'G-LX4B214LBK')
+      })()
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>When to Switch Notations — Tutorial</title>
+    <meta name="description" content="Learn when to switch from Snyder to Full Notation using a targeted hybrid approach—mark dense Houses without flooding the board." />
+    <link rel="canonical" href="/tutorial/when-to-switch-notations/" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="When to Switch Notations — Tutorial" />
+    <meta property="og:description" content="Master tactical timing: hybrid targeted filling before full notation to keep solving efficient." />
+    <meta property="og:image" content="/favicon.svg" />
+    <meta property="og:type" content="article" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="When to Switch Notations — Tutorial" />
+    <meta name="twitter:description" content="Switch notations gradually: mark constrained Houses first, then full boards only when necessary." />
+    <meta name="twitter:image" content="/favicon.svg" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/src/index.css" />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5101109858499684" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <header>
+      <div id="site-header"></div>
+    </header>
+    <main class="main-wrap">
+      <div class="container page-fit">
+        <nav class="breadcrumb"><a href="/index.html">Home</a><span>></span><a class="crumb-middle accent" href="/tutorial.html">Tutorial</a><span>></span><span class="crumb-middle">When to Switch Notations</span></nav>
+        <article class="seo-diff">
+          <h1 style="margin:0 0 12px;font-size:22px;font-weight:700;color:#111">When to Switch Notations</h1>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">1. What You Will Master</h2>
+          <p>In this section, you will learn the tactical timing of switching from Snyder Notation to Full Notation. You will master the Hybrid Strategy: identifying specific areas (Houses) that are "dense" enough to benefit from full marks, without flooding the entire board. This keeps your puzzle-solving efficient and focused.</p>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">2. Main Content</h2>
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The "Brick Wall" Moment</h3>
+          <p>Every solver hits a moment where progress stops.</p>
+          <p>You have scanned 1–9.</p>
+          <p>You have marked all Snyder pairs.</p>
+          <p>You have cleaned up all obvious singles.</p>
+          <p>Result: You are stuck.</p>
+          <p>This is the signal to switch strategies. But you don't need to fill the whole board yet.</p>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">Targeted Filling (The Hybrid Approach)</h3>
+          <p>Instead of auto-filling all 81 cells, look for Constrained Houses.</p>
+          <ul style="margin:0 0 12px 18px; padding:0; color:#333">
+            <li><strong>Identify</strong>: Find a Row, Column, or Box that has very few empty cells left (e.g., only 3 or 4 empty cells).</li>
+            <li><strong>Fill Only There</strong>: Add full candidates only to those specific cells.</li>
+            <li><strong>Analyze</strong>: Check if these new candidates create a Naked Pair or Triple (which we will learn in the next chapter).</li>
+          </ul>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Transition Workflow</h3>
+          <ul style="margin:0 0 12px 18px; padding:0; color:#333">
+            <li><strong>Phase 1</strong>: Pure Scanning (No marks).</li>
+            <li><strong>Phase 2</strong>: Snyder Notation (Marking pairs).</li>
+            <li><strong>Phase 3</strong>: Targeted Filling (Marking specific rows/cols with &lt;5 empty cells).</li>
+            <li><strong>Phase 4</strong>: Full Notation (The "Nuclear Option" — fill everything to find complex fish/chains).</li>
+          </ul>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">Cleaning as You Go</h3>
+          <p>Crucial Rule: Whenever you place a number (e.g., a big '5'), you must immediately erase the candidate '5's from all peers (Row, Col, Box).</p>
+          <p>If you don't clean up, your Full Notation becomes a "Lying Notation," and you will make logic errors.</p>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">3. Section Summary</h2>
+          <p>The transition from Snyder to Full Notation should be gradual, not sudden. Start by fully marking only the most restricted areas of the board. This often reveals hidden subsets without creating visual chaos. Remember: Notation is a tool to help your memory, not a replacement for your eyes. Keep the board as clean as possible for as long as possible.</p>
+
+          <div style="margin-top:16px;display:flex;gap:10px">
+            <a class="btn" href="/tutorial.html">← Back to Tutorial</a>
+          </div>
+        </article>
+      </div>
+    </main>
+    <div id="site-footer"></div>
+    <script>
+      (function(){
+        Promise.all([
+          fetch('/partials/header.html').then(r=>r.text()),
+          fetch('/partials/footer.html').then(r=>r.text())
+        ]).then(([h,f])=>{
+          var sh = document.getElementById('site-header'); if (sh) sh.innerHTML = h
+          var sf = document.getElementById('site-footer'); if (sf) sf.innerHTML = f
+        })
+      })()
+    </script>
+  </body>
+</html>

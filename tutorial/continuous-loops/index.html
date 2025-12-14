@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script>
+      (function(){
+        var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+        if (isLocal) return
+        var s = document.createElement('script')
+        s.async = true
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-LX4B214LBK'
+        document.head.appendChild(s)
+        window.dataLayer = window.dataLayer || []
+        function gtag(){ dataLayer.push(arguments) }
+        window.gtag = gtag
+        gtag('js', new Date())
+        gtag('config', 'G-LX4B214LBK')
+      })()
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Continuous Loops / X-Cycles — Logic for Sudoku</title>
+    <meta name="description" content="Master Continuous Loops (X-Cycles): closed alternating chains that upgrade every link to strong, enabling powerful eliminations and locked candidates." />
+    <link rel="canonical" href="/tutorial/continuous-loops/" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="Continuous Loops / X-Cycles — Logic for Sudoku" />
+    <meta property="og:description" content="Learn the stabilizing force of Continuous Loops (X-Cycles): convert weak links to strong and clear interfering candidates." />
+    <meta property="og:image" content="/favicon.svg" />
+    <meta property="og:type" content="article" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Continuous Loops / X-Cycles — Logic for Sudoku" />
+    <meta name="twitter:description" content="Closed alternating chains that crystallize into strong links and drive eliminations." />
+    <meta name="twitter:image" content="/favicon.svg" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/src/index.css" />
+  </head>
+  <body>
+    <header>
+      <div id="site-header"></div>
+    </header>
+    <main class="main-wrap">
+      <div class="container page-fit">
+        <nav class="breadcrumb"><a href="/index.html">Home</a><span>></span><a class="crumb-middle accent" href="/tutorial.html">Tutorial</a><span>></span><span class="crumb-middle">Continuous Loops / X-Cycles</span></nav>
+        <article class="seo-diff">
+          <h1 style="margin:0 0 12px;font-size:22px;font-weight:700;color:#111">Continuous Loops / X-Cycles</h1>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">1. What You Will Master</h2>
+          <p>In this section, you will learn the Continuous Loop (often called an X-Cycle when dealing with a single digit). You will discover the stabilizing power of a closed circuit. Unlike a standard chain which acts like a "gun" shooting a target, a Continuous Loop acts like a "force field," upgrading every link in the chain and eliminating candidates surrounding it.</p>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">2. Main Content</h2>
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Concept</h3>
+          <p>Recall the AIC from the previous section: <strong>Start = A - B = C - End</strong>. This proved that Start and End are linked.</p>
+          <p>A Continuous Loop occurs when the End is connected back to the Start with a link that maintains the alternating rhythm (Strong-Weak-Strong-Weak).</p>
+          <p><strong>Structure:</strong> A = B - C = D - A</p>
+          <p><strong>Condition:</strong> The number of nodes must be even.</p>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Logic: "The Perpetual Motion Machine"</h3>
+          <p>Because the loop is closed and alternating:</p>
+          <ul style="margin:0 0 12px 18px; padding:0; color:#333">
+            <li>If A is ON → B is OFF → C is ON → D is OFF → A is ON. (Consistent).</li>
+            <li>If A is OFF → B is ON → C is OFF → D is ON → A is OFF. (Consistent).</li>
+          </ul>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Transformation</h3>
+          <p>Because the logic holds up in both directions (clockwise and counter-clockwise), the distinction between "Strong" and "Weak" links inside the loop disappears.</p>
+          <p>Every Weak Link in the loop becomes a Strong Link.</p>
+          <p>Normally, A - B means "at most one is true." In a loop, it becomes "exactly one is true."</p>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Elimination</h3>
+          <p>Since every link in the loop effectively becomes a Strong Link, we can eliminate candidates located outside the loop that interfere with the loop's connections.</p>
+          <p><strong>Rule 1: The Weak Link Elimination</strong><br/>Look at any Weak Link connection inside the loop (e.g., the relationship between B and C above). Since B and C cannot both be False (they are now strongly linked by the loop), any outside candidate that sees BOTH B and C can be eliminated. Why? If the outsider were true, it would force both B and C to be False, breaking the loop.</p>
+          <p><strong>Rule 2: The Locked Candidates</strong><br/>Sometimes, the loop proves that a specific candidate must be part of the solution in a specific row or column, allowing you to clear the rest of that house.</p>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">Example Scenario (X-Cycle)</h3>
+          <p>You find a chain of the digit '5'. Row 1 (Strong) → Col 9 (Weak) → Row 8 (Strong) → Col 2 (Weak) → Back to Row 1.</p>
+          <p><strong>Result:</strong> The '5's in Col 9 and Col 2 are now "Strongly Linked" pairs.</p>
+          <p><strong>Action:</strong> Any other '5' that sees the pair in Col 9 or the pair in Col 2 can be removed.</p>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">How to Spot It</h3>
+          <p>Continuous loops are often found by accident while looking for an AIC. Start building an AIC: <strong>Start = Node A - Node B...</strong> Suddenly, you realize your last node lands in a spot that connects strongly back to your Start. Stop! You have found a loop. Don't look for a target cell. Instead, look at the links of your loop. Eliminate anything "weak" looking at your links.</p>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">3. Section Summary</h2>
+          <p>Continuous Loops are the most aesthetically pleasing patterns in Sudoku. They represent a perfectly balanced system. When you find one, the loop "crystallizes"—every candidate in the loop becomes essential, and the weak links between them become rigid bars of steel. Any external candidate trying to "break" a link by seeing both ends of it is instantly eliminated.</p>
+
+          <div style="margin-top:16px;display:flex;gap:10px">
+            <a class="btn" href="/tutorial.html">← Back to Tutorial</a>
+          </div>
+        </article>
+      </div>
+    </main>
+    <div id="site-footer"></div>
+    <script>
+      (function(){
+        var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+        if (!isLocal) {
+          var ads = document.createElement('script')
+          ads.async = true
+          ads.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5101109858499684'
+          ads.crossOrigin = 'anonymous'
+          document.head.appendChild(ads)
+        }
+        Promise.all([
+          fetch('/partials/header.html').then(r=>r.text()),
+          fetch('/partials/footer.html').then(r=>r.text())
+        ]).then(([h,f])=>{
+          var sh = document.getElementById('site-header'); if (sh) sh.innerHTML = h
+          var sf = document.getElementById('site-footer'); if (sf) sf.innerHTML = f
+        })
+      })()
+    </script>
+  </body>
+</html>

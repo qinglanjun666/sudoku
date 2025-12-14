@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script>
+      (function(){
+        var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+        if (isLocal) return
+        var s = document.createElement('script')
+        s.async = true
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-LX4B214LBK'
+        document.head.appendChild(s)
+        window.dataLayer = window.dataLayer || []
+        function gtag(){ dataLayer.push(arguments) }
+        window.gtag = gtag
+        gtag('js', new Date())
+        gtag('config', 'G-LX4B214LBK')
+      })()
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Skyscraper — Tutorial</title>
+    <meta name="description" content="Learn the Skyscraper: two strong-linked lines with aligned foundations and staggered tops form a mutated X-Wing that eliminates candidates in the crossfire." />
+    <link rel="canonical" href="/tutorial/skyscraper/" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="Skyscraper — Tutorial" />
+    <meta property="og:description" content="Master Skyscraper: use aligned foundations and a tilted roof to force a digit at one top and clear the intersection cells." />
+    <meta property="og:image" content="/favicon.svg" />
+    <meta property="og:type" content="article" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Skyscraper — Tutorial" />
+    <meta name="twitter:description" content="Identify two strong-linked rows/columns with one aligned side and one staggered side; eliminate the digit from cells seen by both tops." />
+    <meta name="twitter:image" content="/favicon.svg" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/src/index.css" />
+    <script>
+      (function(){
+        var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+        if (isLocal) return
+        var s = document.createElement('script')
+        s.async = true
+        s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5101109858499684'
+        s.crossOrigin = 'anonymous'
+        document.head.appendChild(s)
+      })()
+    </script>
+  </head>
+  <body>
+    <header>
+      <div id="site-header"></div>
+    </header>
+    <main class="main-wrap">
+      <div class="container page-fit">
+        <nav class="breadcrumb"><a href="/index.html">Home</a><span>></span><a class="crumb-middle accent" href="/tutorial.html">Tutorial</a><span>></span><span class="crumb-middle">Skyscraper</span></nav>
+        <article class="seo-diff">
+          <h1 style="margin:0 0 12px;font-size:22px;font-weight:700;color:#111">Skyscraper</h1>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">1. What You Will Master</h2>
+          <p>In this section, you will learn the Skyscraper. You can think of this as a "Mutated X-Wing." You will learn to identify two rows (or columns) that have a strong link on a specific number, where one side lines up perfectly and the other side is staggered. You will master the logic of eliminating candidates that are caught in the crossfire of the staggered "roof."</p>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">2. Main Content</h2>
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Concept</h3>
+          <p>A Skyscraper is formed by a specific digit (e.g., '6') appearing in two Base lines (let's say two Rows). In each Row, the '6' appears exactly twice (a Strong Link).</p>
+          <p><strong>The Foundation</strong>: Two of the candidates are in the same Column (they align vertically).</p>
+          <p><strong>The Roof</strong>: The other two candidates are in different Columns (they are staggered).</p>
+          <p>If you connect the dots, it doesn't form a rectangle (X-Wing). Instead, it looks like two tall towers of different heights—a Skyscraper.</p>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Logic: "The Tilted Roof"</h3>
+          <p>Consider the two staggered tops of the Skyscraper (the unaligned cells). Call them Top A and Top B. Because of the strong links in the rows and the alignment in the column:</p>
+          <p><strong>If Top A is False</strong>: The number must be in the Foundation of that row.</p>
+          <p><strong>The Foundation Link</strong>: Since the number is in the foundation of Row 1, it cannot be in the foundation of Row 2 (they share a column).</p>
+          <p><strong>Result</strong>: Therefore, the number must be in Top B.</p>
+          <p><strong>Conclusion</strong>: At least one of the tops (Top A or Top B) must contain the number. They cannot both be false.</p>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Elimination</h3>
+          <p>Because the number exists in Top A or Top B:</p>
+          <p>Identify the two staggered cells (the tips of the towers).</p>
+          <p>Find the Kill Zone: Any cell that is seen by both Top A and Top B.</p>
+          <p><strong>Action</strong>: Eliminate the candidate from that zone.</p>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">Example</h3>
+          <p><strong>Row 2</strong>: The digit is in R2C1 and R2C5.</p>
+          <p><strong>Row 6</strong>: The digit is in R6C1 and R6C8.</p>
+          <p><strong>The Check</strong>:</p>
+          <p>Column 1 aligns perfectly (The Foundation).</p>
+          <p>Column 5 and Column 8 are staggered (The Roof).</p>
+          <p><strong>The Action</strong>: Look for a cell that sees both R2C5 and R6C8. Example: R2C8 sees both. R6C5 sees both. Delete the digit from those cells.</p>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">3. Section Summary</h2>
+          <p>The Skyscraper is the first step in understanding that you don't need perfect rectangles to solve Sudoku. As long as one side of the pattern is solid (aligned), the other side can be loose. The logic shifts from eliminating the line (X-Wing) to eliminating the intersection of the loose ends (Skyscraper).</p>
+
+          <div style="margin-top:16px;display:flex;gap:10px">
+            <a class="btn" href="/tutorial.html">← Back to Tutorial</a>
+          </div>
+        </article>
+      </div>
+    </main>
+    <div id="site-footer"></div>
+    <script>
+      (function(){
+        Promise.all([
+          fetch('/partials/header.html').then(r=>r.text()),
+          fetch('/partials/footer.html').then(r=>r.text())
+        ]).then(([h,f])=>{
+          var sh = document.getElementById('site-header'); if (sh) sh.innerHTML = h
+          var sf = document.getElementById('site-footer'); if (sf) sf.innerHTML = f
+        })
+      })()
+    </script>
+  </body>
+</html>

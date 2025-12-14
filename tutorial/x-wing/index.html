@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script>
+      (function(){
+        var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+        if (isLocal) return
+        var s = document.createElement('script')
+        s.async = true
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-LX4B214LBK'
+        document.head.appendChild(s)
+        window.dataLayer = window.dataLayer || []
+        function gtag(){ dataLayer.push(arguments) }
+        window.gtag = gtag
+        gtag('js', new Date())
+        gtag('config', 'G-LX4B214LBK')
+      })()
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>X-Wing — Tutorial</title>
+    <meta name="description" content="Learn X-Wing: a single-digit rectangular pattern that locks columns or rows and eliminates candidates across the grid." />
+    <link rel="canonical" href="/tutorial/x-wing/" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="X-Wing — Tutorial" />
+    <meta property="og:description" content="Master X-Wing: identify a rectangle of a digit to eliminate candidates along its cover lines." />
+    <meta property="og:image" content="/favicon.svg" />
+    <meta property="og:type" content="article" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="X-Wing — Tutorial" />
+    <meta name="twitter:description" content="Use X-Wing to lock a digit across two lines and clean up the board." />
+    <meta name="twitter:image" content="/favicon.svg" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/src/index.css" />
+    <script>
+      (function(){
+        var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+        if (isLocal) return
+        var s = document.createElement('script')
+        s.async = true
+        s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5101109858499684'
+        s.crossOrigin = 'anonymous'
+        document.head.appendChild(s)
+      })()
+    </script>
+  </head>
+  <body>
+    <header>
+      <div id="site-header"></div>
+    </header>
+    <main class="main-wrap">
+      <div class="container page-fit">
+        <nav class="breadcrumb"><a href="/index.html">Home</a><span>></span><a class="crumb-middle accent" href="/tutorial.html">Tutorial</a><span>></span><span class="crumb-middle">X-Wing</span></nav>
+        <article class="seo-diff">
+          <h1 style="margin:0 0 12px;font-size:22px;font-weight:700;color:#111">X-Wing</h1>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">1. What You Will Master</h2>
+          <p>In this section, you will learn the legendary X-Wing. This is the first of the "Fish" patterns (a family of single-digit rectangular formations). You will master the skill of identifying a rectangle formed by a single digit and understanding how this "locked rectangle" allows you to eliminate candidates from the entire length of the grid.</p>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">2. Main Content</h2>
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Concept</h3>
+          <p>An X-Wing occurs when you are analyzing a single specific number (e.g., '7') and you find the following pattern: There are exactly two Rows where the number '7' appears only twice, and importantly, these appearances align perfectly in the same two Columns.</p>
+          <p>The Shape: It forms a rectangle. Four cells, creating the corners of a box.</p>
+          <p>The Logic: Because of this rigid alignment, a logical "X" relationship is formed.</p>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Logic: Why It Works</h3>
+          <p>Imagine Row 2 and Row 6 both have candidate '7's only in Column 3 and Column 8.</p>
+          <p>Row 2: Must have a 7 in Col 3 OR Col 8.</p>
+          <p>Row 6: Must have a 7 in Col 3 OR Col 8.</p>
+          <p>This creates a linked dependency.</p>
+          <p>Option A: If Row 2 puts its 7 in Col 3... then Row 6 must put its 7 in Col 8.</p>
+          <p>Option B: If Row 2 puts its 7 in Col 8... then Row 6 must put its 7 in Col 3.</p>
+          <p>In either scenario (A or B), Column 3 and Column 8 are permanently occupied by these two rows. The '7's for these columns are provided exclusively by Row 2 and Row 6.</p>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Elimination</h3>
+          <p>Because Col 3 and Col 8 are "locked" by the X-Wing:</p>
+          <p>You can look up and down the rest of Column 3.</p>
+          <p>You can look up and down the rest of Column 8.</p>
+          <p><strong>Action</strong>: Eliminate the candidate '7' from every other cell in those columns (except the four corners of the X-Wing).</p>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">Horizontal vs. Vertical X-Wings</h3>
+          <p>The logic works both ways:</p>
+          <p><strong>Row X-Wing</strong>: You find the pattern in Rows (Base), and eliminate in Columns (Cover).</p>
+          <p><strong>Column X-Wing</strong>: You find the pattern in Columns (Base), and eliminate in Rows (Cover).</p>
+          <p>Rule: If two Columns have a digit only in the same two Rows, you eliminate that digit from the rest of those Rows.</p>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">How to Spot It</h3>
+          <p>Scanning for X-Wings requires "Single Digit Filtering."</p>
+          <p>Highlight all '5's on the board.</p>
+          <p>Look for rows that have exactly two '5's.</p>
+          <p>Do those two '5's line up vertically with another row that has exactly two '5's?</p>
+          <p>If yes, you have an X-Wing.</p>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">3. Section Summary</h2>
+          <p>The X-Wing is all about identifying a Closed Rectangular Loop. When two rows limit a number to the same two columns, they effectively claim those columns for themselves. Any other candidate of that number sitting in the "line of fire" (the rest of the column) is invalid. Remember: The X-Wing only works on one number at a time.</p>
+
+          <div style="margin-top:16px;display:flex;gap:10px">
+            <a class="btn" href="/tutorial.html">← Back to Tutorial</a>
+          </div>
+        </article>
+      </div>
+    </main>
+    <div id="site-footer"></div>
+    <script>
+      (function(){
+        Promise.all([
+          fetch('/partials/header.html').then(r=>r.text()),
+          fetch('/partials/footer.html').then(r=>r.text())
+        ]).then(([h,f])=>{
+          var sh = document.getElementById('site-header'); if (sh) sh.innerHTML = h
+          var sf = document.getElementById('site-footer'); if (sf) sf.innerHTML = f
+        })
+      })()
+    </script>
+  </body>
+</html>
