@@ -18,17 +18,17 @@
     </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>The Unique Solution Rule — Logic for Sudoku</title>
-    <meta name="description" content="Understand the Unique Solution Rule and the deadly 2x2 pattern. Learn how to avoid creating multiple solutions by eliminating candidates that would form a rectangle with identical pairs." />
-    <link rel="canonical" href="/tutorial/unique-solution-rule/" />
+    <title>BUG (Bivalue Universal Grave) — Logic for Sudoku</title>
+    <meta name="description" content="Learn BUG and BUG+1: recognize near-dead states where all cells are bivalue except one tri-value, and use the counting trick to solve it instantly." />
+    <link rel="canonical" href="/tutorial/bug/" />
     <meta name="robots" content="index, follow" />
-    <meta property="og:title" content="The Unique Solution Rule — Logic for Sudoku" />
-    <meta property="og:description" content="Master the Unique Solution Rule: prevent deadly 2x2 rectangles and keep puzzles valid with a single solution." />
+    <meta property="og:title" content="BUG (Bivalue Universal Grave) — Logic for Sudoku" />
+    <meta property="og:description" content="Master the BUG+1 technique: find the tri-value cell in a sea of bivalue cells and use counts to solve it." />
     <meta property="og:image" content="/favicon.svg" />
     <meta property="og:type" content="article" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="The Unique Solution Rule — Logic for Sudoku" />
-    <meta name="twitter:description" content="Use uniqueness logic to avoid multiple solutions by eliminating risky candidates." />
+    <meta name="twitter:title" content="BUG (Bivalue Universal Grave) — Logic for Sudoku" />
+    <meta name="twitter:description" content="Use the BUG+1 counting trick to break deadly states and finish hard puzzles." />
     <meta name="twitter:image" content="/favicon.svg" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/src/index.css" />
@@ -39,46 +39,49 @@
     </header>
     <main class="main-wrap">
       <div class="container page-fit">
-        <nav class="breadcrumb"><a href="/index.html">Home</a><span>></span><a class="crumb-middle accent" href="/tutorial.html">Tutorial</a><span>></span><span class="crumb-middle">The Unique Solution Rule</span></nav>
+        <nav class="breadcrumb"><a href="/index.html">Home</a><span>></span><a class="crumb-middle accent" href="/tutorial.html">Tutorial</a><span>></span><span class="crumb-middle">BUG (Bivalue Universal Grave)</span></nav>
         <article class="seo-diff">
-          <h1 style="margin:0 0 12px;font-size:22px;font-weight:700;color:#111">The Unique Solution Rule</h1>
+          <h1 style="margin:0 0 12px;font-size:22px;font-weight:700;color:#111">BUG (Bivalue Universal Grave)</h1>
 
           <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">1. What You Will Master</h2>
-          <p>In this section, you will learn the controversial but incredibly powerful Unique Solution Rule. You will understand what a "Deadly Pattern" is—a specific configuration of four cells that would destroy the puzzle's validity. You will learn that your goal in this chapter is not to find a pattern, but to prevent one from forming.</p>
+          <p>In this section, you will learn the Bivalue Universal Grave (BUG) principle, specifically the BUG+1 technique. You will learn to recognize a board state where every remaining cell has exactly two candidates, except for one cell which has three. You will learn the simple counting trick to instantly solve that three-candidate cell.</p>
 
           <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">2. Main Content</h2>
-          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Axiom</h3>
-          <p>Most Sudoku apps and tournaments operate on a golden rule: "A valid Sudoku puzzle must have exactly one unique solution." If a puzzle has two different solutions, it is considered "broken" or invalid. We can use this assumption to eliminate candidates.</p>
-          <p><em>Note:</em> If you are solving a handmade puzzle from a newspaper that might be flawed, this logic is risky. But for computer-generated or app-based puzzles, it is 100% safe.</p>
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Theory: The "Grave"</h3>
+          <p>Imagine a Sudoku board where every single unsolved cell contains exactly two candidates (a Bi-Value Cell). If this state existed, the puzzle would be logically "dead." It would be a giant web of Deadly Patterns, meaning the puzzle would have either zero solutions or two solutions. Since valid Sudoku puzzles must have exactly one solution, a perfect BUG state is impossible.</p>
 
-          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The "Deadly Pattern" (2x2)</h3>
-          <p>Imagine a rectangle of four cells:</p>
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Situation: BUG+1</h3>
+          <p>In real games, you often reach a state that is almost a BUG.</p>
           <ul style="margin:0 0 12px 18px; padding:0; color:#333">
-            <li>Row 1: Cell A and Cell B.</li>
-            <li>Row 9: Cell C and Cell D.</li>
-            <li>They form a perfect rectangle (sharing rows and columns).</li>
-            <li>All four cells share the exact same two candidates, e.g., {2, 7}.</li>
-            <li>Crucially: These four cells are contained within exactly two Boxes. (e.g., A and C are in Box 1; B and D are in Box 2).</li>
+            <li><strong>The Grid:</strong> The puzzle is mostly solved.</li>
+            <li><strong>The Cells:</strong> Every empty cell has pencil marks.</li>
+            <li><strong>The Pattern:</strong> Every single empty cell has exactly 2 candidates...</li>
+            <li><strong>The Exception:</strong> ...except for ONE cell, which has 3 candidates.</li>
           </ul>
+          <p>This is called a BUG+1. The "+1" is the extra candidate in that tri-value cell. That extra candidate is the only thing keeping the puzzle alive. If you removed it, the puzzle would die (become invalid). Therefore, that extra candidate MUST be the solution.</p>
 
-          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">Why It Is Deadly</h3>
-          <p>If this pattern exists (four cells, two boxes, candidates {2, 7}), the puzzle is broken.</p>
-          <p><strong>Solution 1:</strong><br/>Top Left: 2, Top Right: 7<br/>Bottom Left: 7, Bottom Right: 2</p>
-          <p><strong>Solution 2:</strong><br/>Top Left: 7, Top Right: 2<br/>Bottom Left: 2, Bottom Right: 7</p>
-          <p>Because these cells don't affect any other rows/cols/boxes differently (since 2 and 7 are switched locally within their own closed loop), both solutions would be valid. This means the puzzle has two answers. Since we know the puzzle is valid, this state is impossible.</p>
-
-          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Strategy: Avoidance</h3>
-          <p>You never look for a Deadly Pattern to keep it. You look for a pattern that is about to become deadly, and you kill it before it happens. "If I put a 7 here, it creates a Deadly Pattern. Therefore, I cannot put a 7 here."</p>
-
-          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Conditions for a Deadly Pattern</h3>
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Logic: How to Find the "Extra"</h3>
+          <p>You have found the tri-value cell (e.g., {2, 4, 7}). How do you know which number is the "extra" one that prevents the Grave?</p>
+          <p><strong>The Shortcut Rule (The Counting Trick):</strong> Look at the Row (or Column, or Box) containing the BUG cell. Count how many times each candidate appears in that house.</p>
           <ul style="margin:0 0 12px 18px; padding:0; color:#333">
-            <li><strong>Rectangular:</strong> 4 cells forming a rectangle.</li>
-            <li><strong>Binary:</strong> All cells contain only candidates X and Y.</li>
-            <li><strong>Two Boxes:</strong> The cells must sit in exactly two boxes (if they are spread across 4 boxes, the logic doesn't work).</li>
+            <li>Candidate '2': Appears 2 times total (once in our cell, once elsewhere).</li>
+            <li>Candidate '4': Appears 2 times total.</li>
+            <li>Candidate '7': Appears 3 times total.</li>
+          </ul>
+          <p><strong>Conclusion:</strong> The candidate that appears 3 times is the anomaly. It is the "+1". <strong>Action:</strong> The cell MUST be 7.</p>
+          <p><strong>Why this works:</strong> In a perfect BUG (Deadly State), every candidate appears exactly twice in every house (forming closed loops). By finding the candidate that appears 3 times, you have found the "Odd Man Out" that breaks the loop and fixes the puzzle.</p>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">Step-by-Step Strategy</h3>
+          <ul style="margin:0 0 12px 18px; padding:0; color:#333">
+            <li><strong>Endgame Scan:</strong> You are stuck at the end of a hard puzzle.</li>
+            <li><strong>Bi-Value Check:</strong> Scan the empty cells. Are they all pairs? ({1,2}, {3,5}, {1,5}...).</li>
+            <li><strong>Find the Pivot:</strong> Find the one cell that has 3 numbers.</li>
+            <li><strong>Count:</strong> Look at that cell's Row. Count the instances of its numbers.</li>
+            <li><strong>Solve:</strong> Two of the numbers will have a "buddy" (2 instances). One will be the "boss" (3 instances). Pick the boss.</li>
           </ul>
 
           <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">3. Section Summary</h2>
-          <p>The Unique Solution Rule acts as a "Guard Rail." It tells you where you cannot go. If a specific move would trap you in an interchangeable loop of digits, that move is illegal. In the next few sections, we will apply this to the "Unique Rectangle" (UR) techniques, which are the practical weapons derived from this rule.</p>
+          <p>The BUG+1 is the ultimate "Meta-Logic" move. It relies entirely on the assumption that the puzzle is valid. If you see a sea of Bi-Value cells, don't panic. Look for the island (the tri-value cell). That island holds the key. Solving it usually collapses the entire rest of the puzzle instantly.</p>
 
           <div style="margin-top:16px;display:flex;gap:10px">
             <a class="btn" href="/tutorial.html">← Back to Tutorial</a>

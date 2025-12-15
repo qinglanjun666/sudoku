@@ -107,6 +107,41 @@
         ]).then(([h,f])=>{
           var sh = document.getElementById('site-header'); if (sh) sh.innerHTML = h
           var sf = document.getElementById('site-footer'); if (sf) sf.innerHTML = f
+          fetch('/tutorial.html').then(r=>r.text()).then(function(txt){
+            var tmp = document.createElement('div')
+            tmp.innerHTML = txt
+            var as = tmp.querySelectorAll('a.accent[href^="/tutorial/"]')
+            var list = []
+            var titles = {}
+            for (var i=0;i<as.length;i++){
+              var href = as[i].getAttribute('href')
+              list.push(href)
+              var t = (as[i].textContent || '').trim()
+              titles[href] = t
+            }
+            var cur = location.pathname; if (cur.slice(-1) !== '/') cur = cur + '/'
+            var idx = list.indexOf(cur)
+            if (idx !== -1) {
+              var prev = list[idx-1] || null
+              var next = list[idx+1] || null
+              var art = document.querySelector('article.seo-diff')
+              if (art) {
+                var oldBack = Array.from(art.querySelectorAll('div')).find(function(d){
+                  var a = d.querySelector('a[href="/tutorial.html"]')
+                  return a && (a.textContent || '').indexOf('Back to Tutorial') !== -1
+                })
+                if (oldBack) { oldBack.remove() }
+                var nav = document.createElement('div')
+                nav.style.marginTop = '16px'
+                nav.style.display = 'flex'
+                nav.style.gap = '10px'
+                var back = document.createElement('a'); back.className='accent'; back.href='/tutorial.html'; back.textContent='Back to Tutorial'; nav.appendChild(back)
+                if (prev) { var pContainer=document.createElement('span'); pContainer.textContent='Previous: '; var p=document.createElement('a'); p.className='accent'; p.href=prev; p.textContent=(titles[prev]||prev); pContainer.appendChild(p); nav.appendChild(pContainer) } else { var ps=document.createElement('span'); ps.style.opacity='0.6'; ps.textContent='Previous'; nav.appendChild(ps) }
+                if (next) { var nContainer=document.createElement('span'); nContainer.textContent='Next: '; var n=document.createElement('a'); n.className='accent'; n.href=next; n.textContent=(titles[next]||next); nContainer.appendChild(n); nav.appendChild(nContainer) } else { var ns=document.createElement('span'); ns.style.opacity='0.6'; ns.textContent='Next'; nav.appendChild(ns) }
+                art.appendChild(nav)
+              }
+            }
+          })
         })
       })()
     </script>

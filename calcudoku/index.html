@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Free Online Calcudoku - Daily Math Logic Puzzles</title>
+    <meta name="description" content="Play free online Calcudoku (Mathdoku). 4×4 logic math puzzles with cages, row/column uniqueness, and quick validation." />
+    <link rel="canonical" href="/calcudoku/" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="Free Online Calcudoku - Daily Math Logic Puzzles" />
+    <meta property="og:description" content="Try a 4×4 Calcudoku math logic puzzle. Fill numbers 1–4 with row/column uniqueness and cage arithmetic." />
+    <meta property="og:image" content="/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Free Online Calcudoku - Daily Math Logic Puzzles" />
+    <meta name="twitter:description" content="Play free Calcudoku online with a clean interface and instant checks." />
+    <meta name="twitter:image" content="/favicon.svg" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../src/index.css" />
+    <style>
+      .calcudoku-wrap { display:flex; gap:20px; align-items:flex-start }
+      .grid-wrap { position:relative }
+      .grid { display:grid; grid-template-columns:repeat(4, 1fr); grid-template-rows:repeat(4, 1fr); width:360px; height:360px; background:#fff; border-radius:12px; box-shadow:0 1px 4px rgba(0,0,0,0.06); overflow:hidden }
+      .cell { position:relative; display:flex; align-items:center; justify-content:center; font-size:22px; color:#111; border:1px solid #e5e7eb; cursor:pointer; user-select:none }
+      .cell.selected { background:#eff6ff; outline:2px solid #dbeafe }
+      .cage-label { position:absolute; top:4px; left:6px; font-size:12px; color:var(--color-secondary) }
+      .border-right-thick { border-right:3px solid #111 !important }
+      .border-bottom-thick { border-bottom:3px solid #111 !important }
+      .border-left-thick { border-left:3px solid #111 !important }
+      .border-top-thick { border-top:3px solid #111 !important }
+      .pad { position:fixed; left:0; right:0; bottom:0; background:#fff; border-top:1px solid var(--color-border); padding:12px; display:flex; gap:8px; justify-content:center; z-index:100 }
+      .pad .btn { min-width:48px }
+      .status { margin-top:12px; min-height:24px; color:#333 }
+      @media (max-width:480px) {
+        .grid { width:92vw; height:92vw }
+        .calcudoku-wrap { flex-direction:column; gap:12px }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div id="header-placeholder"></div>
+    </header>
+    <main class="main-wrap">
+      <div class="container page-fit">
+        <nav class="breadcrumb"><a href="/index.html">Home</a><span>></span><span class="crumb-middle">Calcudoku</span></nav>
+        <article class="seo-diff">
+          <h1 style="margin:8px 0 12px;font-size:22px;font-weight:700;color:#111">Calcudoku (Mathdoku)</h1>
+          <p class="secondary" style="margin:0 0 12px">Fill numbers 1–4. Rows and columns have no duplicates. Each cage must satisfy its target and operator.</p>
+          <div class="calcudoku-wrap">
+            <div class="grid-wrap">
+              <div id="grid" class="grid"></div>
+              <div class="status" id="status"></div>
+            </div>
+            <div>
+              <div class="secondary" style="margin-bottom:8px">Actions</div>
+              <div style="display:grid;grid-template-columns:1fr;gap:8px">
+                <button id="checkBtn" class="btn btn-primary">Check</button>
+                <button id="clearBtn" class="btn">Clear All</button>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </main>
+    <div id="footer-placeholder"></div>
+    <div class="pad" id="pad"></div>
+    <script>
+      (function(){
+        Promise.all([
+          fetch('../partials/header.html').then(r=>r.text()),
+          fetch('../partials/footer.html').then(r=>r.text())
+        ]).then(([h,f])=>{
+          var hp = document.getElementById('header-placeholder'); if (hp) hp.innerHTML = h
+          var fp = document.getElementById('footer-placeholder'); if (fp) fp.innerHTML = f
+        })
+      })()
+    </script>
+    <script>
+      (function(){
+        const params = new URLSearchParams(location.search)
+        let size = Number(params.get('size')) || 6
+        if (![4,5,6].includes(size)) size = 6
+        const solution = Array.from({length:size}, (_,r)=> Array.from({length:size}, (_,c)=> ((r+c)%size)+1))
+        const cages = []
+        for (let r=0;r<size;r++){
+          for (let c=0;c<size;){
+            const i1 = r*size + c
+            if (c+1 < size) {
+              const i2 = r*size + (c+1)
+              cages.push({ target: solution[r][c] + solution[r][c+1], op: '+', cells: [i1, i2] })
+              c += 2
+            } else {
+              cages.push({ target: solution[r][c], op: '', cells: [i1] })
+              c += 1
+            }
+          }
+        }
+        const currentLevel = { size, cages, solution }
+        const gridEl = document.getElementById('grid')
+        const statusEl = document.getElementById('status')
+        const state = { cells: Array.from({length:size*size}, ()=>null), selected: null }
+        const cageMap = new Map()
+        currentLevel.cages.forEach((c, idx) => c.cells.forEach(ci => cageMap.set(ci, idx)))
+        const cageTopLeft = new Map()
+        currentLevel.cages.forEach((c, idx) => {
+          const pts = c.cells.map(k => [Math.floor(k/size), k%size])
+          pts.sort((a,b)=> a[0]-b[0] || a[1]-b[1])
+          const k = pts[0][0]*size + pts[0][1]
+          cageTopLeft.set(idx, k)
+        })
+        function render() {
+          gridEl.innerHTML = ''
+          gridEl.style.gridTemplateColumns = 'repeat(' + size + ', 1fr)'
+          gridEl.style.gridTemplateRows = 'repeat(' + size + ', 1fr)'
+          for (let i=0;i<size*size;i++) {
+            const r = Math.floor(i/size), c = i%size
+            const cell = document.createElement('div')
+            cell.className = 'cell'
+            if (state.selected === i) cell.classList.add('selected')
+            const val = state.cells[i]
+            cell.textContent = val != null ? String(val) : ''
+            const cid = cageMap.get(i)
+            if (cid != null && cageTopLeft.get(cid) === i) {
+              const label = document.createElement('div')
+              label.className = 'cage-label'
+              const cage = currentLevel.cages[cid]
+              label.textContent = cage.target + (cage.op || '')
+              cell.appendChild(label)
+            }
+            const rightSame = c+1 < size && cageMap.get(i) === cageMap.get(i+1)
+            const leftSame = c-1 >= 0 && cageMap.get(i) === cageMap.get(i-1)
+            const bottomSame = r+1 < size && cageMap.get(i) === cageMap.get(i+size)
+            const topSame = r-1 >= 0 && cageMap.get(i) === cageMap.get(i-size)
+            if (!rightSame) cell.classList.add('border-right-thick')
+            if (!bottomSame) cell.classList.add('border-bottom-thick')
+            if (!leftSame) cell.classList.add('border-left-thick')
+            if (!topSame) cell.classList.add('border-top-thick')
+            cell.addEventListener('click', () => { state.selected = i; render() })
+            gridEl.appendChild(cell)
+          }
+        }
+        function setValue(v) {
+          if (state.selected == null) return
+          state.cells[state.selected] = v
+          render()
+        }
+        function getRow(i){ const r = Math.floor(i/size); return state.cells.slice(r*size, r*size+size) }
+        function getCol(i){ const c = i%size; return Array.from({length:size}, (_,k)=> state.cells[k*size+c]) }
+        function uniqOk(arr) {
+          const s = new Set()
+          for (const v of arr) { if (v == null) continue; if (s.has(v)) return false; s.add(v) }
+          return true
+        }
+        function sum(arr){ return arr.reduce((a,b)=>a+b,0) }
+        function prod(arr){ return arr.reduce((a,b)=>a*b,1) }
+        function anyOrderResult(arr, op, target) {
+          const nums = arr.slice()
+          if (nums.some(v => v == null)) return false
+          function perms(a) {
+            const res = []
+            function backtrack(t, rest) {
+              if (!rest.length) { res.push(t); return }
+              for (let i=0;i<rest.length;i++) backtrack(t.concat(rest[i]), rest.slice(0,i).concat(rest.slice(i+1)))
+            }
+            backtrack([], a)
+            return res
+          }
+          const ps = perms(nums)
+          for (const p of ps) {
+            if (op === '-') {
+              let v = p[0]
+              for (let i=1;i<p.length;i++) v -= p[i]
+              if (Math.abs(v) === target) return true
+            } else if (op === '/' || op === '÷') {
+              let v = p[0]
+              let ok = true
+              for (let i=1;i<p.length;i++) {
+                if (v % p[i] !== 0) { ok = false; break }
+                v = v / p[i]
+              }
+              if (ok && v === target) return true
+              if (ok && 1/v === target) return true
+            }
+          }
+          return false
+        }
+        function cageOk(cage) {
+          const vals = cage.cells.map(i => state.cells[i])
+          if (vals.some(v => v == null)) return false
+          if (!cage.op) { return vals.length === 1 && vals[0] === cage.target }
+          if (cage.op === '+') return sum(vals) === cage.target
+          if (cage.op === 'x' || cage.op === '×' || cage.op === '*') return prod(vals) === cage.target
+          if (cage.op === '-') return anyOrderResult(vals, '-', cage.target)
+          if (cage.op === '/' || cage.op === '÷') return anyOrderResult(vals, '/', cage.target)
+          return false
+        }
+        function check() {
+          let ok = true
+          for (let r=0;r<size;r++) { if (!uniqOk(state.cells.slice(r*size, r*size+size))) { ok = false; break } }
+          if (ok) for (let c=0;c<size;c++) { const col = Array.from({length:size}, (_,k)=> state.cells[k*size+c]); if (!uniqOk(col)) { ok = false; break } }
+          if (ok) for (const cage of currentLevel.cages) { if (!cageOk(cage)) { ok = false; break } }
+          statusEl.textContent = ok ? 'Correct' : 'Some rules are violated'
+          statusEl.style.color = ok ? '#0a7f2e' : '#b91c1c'
+        }
+        function clearAll() {
+          state.cells = Array.from({length:size*size}, ()=>null)
+          state.selected = null
+          statusEl.textContent = ''
+          render()
+        }
+        (function renderPad(){
+          const pad = document.getElementById('pad')
+          pad.innerHTML = ''
+          for (let k = 1; k <= size; k++) {
+            const b = document.createElement('button')
+            b.className = 'btn'
+            b.setAttribute('data-key', String(k))
+            b.textContent = String(k)
+            b.addEventListener('click', () => setValue(k))
+            pad.appendChild(b)
+          }
+          const clr = document.createElement('button')
+          clr.className = 'btn'
+          clr.setAttribute('data-key', 'clear')
+          clr.textContent = 'Clear'
+          clr.addEventListener('click', () => setValue(null))
+          pad.appendChild(clr)
+        })()
+        document.getElementById('checkBtn').addEventListener('click', check)
+        document.getElementById('clearBtn').addEventListener('click', clearAll)
+        render()
+      })()
+    </script>
+  </body>
+</html>

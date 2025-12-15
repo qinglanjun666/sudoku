@@ -18,17 +18,17 @@
     </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>The Unique Solution Rule — Logic for Sudoku</title>
-    <meta name="description" content="Understand the Unique Solution Rule and the deadly 2x2 pattern. Learn how to avoid creating multiple solutions by eliminating candidates that would form a rectangle with identical pairs." />
-    <link rel="canonical" href="/tutorial/unique-solution-rule/" />
+    <title>ALS-XZ Rule — Logic for Sudoku</title>
+    <meta name="description" content="Learn the ALS-XZ Rule: connect two ALS via a Restricted Common Candidate (x) to force digit z in one set, enabling powerful eliminations on peers." />
+    <link rel="canonical" href="/tutorial/als-xz/" />
     <meta name="robots" content="index, follow" />
-    <meta property="og:title" content="The Unique Solution Rule — Logic for Sudoku" />
-    <meta property="og:description" content="Master the Unique Solution Rule: prevent deadly 2x2 rectangles and keep puzzles valid with a single solution." />
+    <meta property="og:title" content="ALS-XZ Rule — Logic for Sudoku" />
+    <meta property="og:description" content="Find two ALS linked by a collision on 'x' to guarantee 'z' in one set and eliminate 'z' from any outside cell that sees both." />
     <meta property="og:image" content="/favicon.svg" />
     <meta property="og:type" content="article" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="The Unique Solution Rule — Logic for Sudoku" />
-    <meta name="twitter:description" content="Use uniqueness logic to avoid multiple solutions by eliminating risky candidates." />
+    <meta name="twitter:title" content="ALS-XZ Rule — Logic for Sudoku" />
+    <meta name="twitter:description" content="Use ALS groups and RCC collisions to create strong links and target eliminations." />
     <meta name="twitter:image" content="/favicon.svg" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/src/index.css" />
@@ -39,46 +39,54 @@
     </header>
     <main class="main-wrap">
       <div class="container page-fit">
-        <nav class="breadcrumb"><a href="/index.html">Home</a><span>></span><a class="crumb-middle accent" href="/tutorial.html">Tutorial</a><span>></span><span class="crumb-middle">The Unique Solution Rule</span></nav>
+        <nav class="breadcrumb"><a href="/index.html">Home</a><span>></span><a class="crumb-middle accent" href="/tutorial.html">Tutorial</a><span>></span><span class="crumb-middle">ALS-XZ Rule</span></nav>
         <article class="seo-diff">
-          <h1 style="margin:0 0 12px;font-size:22px;font-weight:700;color:#111">The Unique Solution Rule</h1>
+          <h1 style="margin:0 0 12px;font-size:22px;font-weight:700;color:#111">ALS-XZ Rule</h1>
 
           <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">1. What You Will Master</h2>
-          <p>In this section, you will learn the controversial but incredibly powerful Unique Solution Rule. You will understand what a "Deadly Pattern" is—a specific configuration of four cells that would destroy the puzzle's validity. You will learn that your goal in this chapter is not to find a pattern, but to prevent one from forming.</p>
+          <p>In this section, you will learn the ALS-XZ Rule. You will learn how to find two separate Almost Locked Sets that are connected by a "collision" on one specific digit (the Restricted Common Candidate). You will use this collision to prove that a different digit (z) must exist in one of the two sets, allowing you to eliminate z from any cell that "sees" both sets.</p>
 
           <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">2. Main Content</h2>
-          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Axiom</h3>
-          <p>Most Sudoku apps and tournaments operate on a golden rule: "A valid Sudoku puzzle must have exactly one unique solution." If a puzzle has two different solutions, it is considered "broken" or invalid. We can use this assumption to eliminate candidates.</p>
-          <p><em>Note:</em> If you are solving a handmade puzzle from a newspaper that might be flawed, this logic is risky. But for computer-generated or app-based puzzles, it is 100% safe.</p>
-
-          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The "Deadly Pattern" (2x2)</h3>
-          <p>Imagine a rectangle of four cells:</p>
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Components</h3>
+          <p>To perform an ALS-XZ move, you need three ingredients:</p>
           <ul style="margin:0 0 12px 18px; padding:0; color:#333">
-            <li>Row 1: Cell A and Cell B.</li>
-            <li>Row 9: Cell C and Cell D.</li>
-            <li>They form a perfect rectangle (sharing rows and columns).</li>
-            <li>All four cells share the exact same two candidates, e.g., {2, 7}.</li>
-            <li>Crucially: These four cells are contained within exactly two Boxes. (e.g., A and C are in Box 1; B and D are in Box 2).</li>
+            <li><strong>ALS A:</strong> A group of cells acting as a set (e.g., {1, 2, x, z}).</li>
+            <li><strong>ALS B:</strong> A second group of cells acting as a set (e.g., {3, 4, x, z}).</li>
+            <li><strong>RCC (Restricted Common Candidate — 'x'):</strong> A digit that appears in both sets and links them.</li>
           </ul>
+          <p><strong>Condition:</strong> The 'x' candidates in ALS A must see the 'x' candidates in ALS B. This creates a strong link between the sets (they cannot both contain 'x').</p>
 
-          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">Why It Is Deadly</h3>
-          <p>If this pattern exists (four cells, two boxes, candidates {2, 7}), the puzzle is broken.</p>
-          <p><strong>Solution 1:</strong><br/>Top Left: 2, Top Right: 7<br/>Bottom Left: 7, Bottom Right: 2</p>
-          <p><strong>Solution 2:</strong><br/>Top Left: 7, Top Right: 2<br/>Bottom Left: 2, Bottom Right: 7</p>
-          <p>Because these cells don't affect any other rows/cols/boxes differently (since 2 and 7 are switched locally within their own closed loop), both solutions would be valid. This means the puzzle has two answers. Since we know the puzzle is valid, this state is impossible.</p>
-
-          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Strategy: Avoidance</h3>
-          <p>You never look for a Deadly Pattern to keep it. You look for a pattern that is about to become deadly, and you kill it before it happens. "If I put a 7 here, it creates a Deadly Pattern. Therefore, I cannot put a 7 here."</p>
-
-          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Conditions for a Deadly Pattern</h3>
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Logic: The Seesaw</h3>
+          <p>Because the sets see each other, we cannot have 'x' in Set A and 'x' in Set B simultaneously. Therefore, at least one of the sets does not contain 'x'.</p>
           <ul style="margin:0 0 12px 18px; padding:0; color:#333">
-            <li><strong>Rectangular:</strong> 4 cells forming a rectangle.</li>
-            <li><strong>Binary:</strong> All cells contain only candidates X and Y.</li>
-            <li><strong>Two Boxes:</strong> The cells must sit in exactly two boxes (if they are spread across 4 boxes, the logic doesn't work).</li>
+            <li><strong>Scenario 1:</strong> Set A does NOT contain 'x' → Set A becomes a locked set for its other digits (including z) → z is true in Set A.</li>
+            <li><strong>Scenario 2:</strong> Set B does NOT contain 'x' → Set B becomes a locked set for its other digits (including z) → z is true in Set B.</li>
           </ul>
+          <p><strong>Conclusion:</strong> In every case, the digit z must exist in Set A or Set B.</p>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Elimination (The 'z')</h3>
+          <p>The digit z is the elimination target. It is the digit that appears in both sets (but is not the link).</p>
+          <p><strong>Target:</strong> Look for any cell outside the sets.</p>
+          <p><strong>Condition:</strong> If that cell sees all instances of 'z' in Set A and 'z' in Set B...</p>
+          <p><strong>Action:</strong> Eliminate 'z' from that outside cell.</p>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">Example</h3>
+          <p><strong>ALS A:</strong> {1, 9} and {1, 2, 9} in Row 1 (candidates: 1, 2, 9).</p>
+          <p><strong>ALS B:</strong> {2, 7} and {2, 7, 9} in Row 3 (candidates: 2, 7, 9).</p>
+          <p><strong>Link (RCC):</strong> The digit 9, with the '9's in the two ALS seeing each other (e.g., in the same column). One set must lose 9.</p>
+          <p><strong>Target (z):</strong> The digit 2 (present in both). Any cell that sees the '2's in ALS A and ALS B cannot be 2.</p>
+
+          <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">Doubly Linked ALS-XZ (Optional)</h3>
+          <p>If the two sets share two RCCs (e.g., both have x and y, and both pairs see each other), this forms a naked pair relationship between the sets. You can eliminate candidates from the sets themselves (mutual elimination). Rare but deadly.</p>
 
           <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">3. Section Summary</h2>
-          <p>The Unique Solution Rule acts as a "Guard Rail." It tells you where you cannot go. If a specific move would trap you in an interchangeable loop of digits, that move is illegal. In the next few sections, we will apply this to the "Unique Rectangle" (UR) techniques, which are the practical weapons derived from this rule.</p>
+          <p>The ALS-XZ rule is a "bent naked pair" made of groups rather than single cells.</p>
+          <ul style="margin:0 0 12px 18px; padding:0; color:#333">
+            <li>If Set A has the link, Set B forces the target.</li>
+            <li>If Set B has the link, Set A forces the target.</li>
+            <li>Therefore, the target is inescapable.</li>
+          </ul>
+          <p>Once you can identify ALS groups (N cells with N+1 candidates), spotting the links becomes a fun matching game.</p>
 
           <div style="margin-top:16px;display:flex;gap:10px">
             <a class="btn" href="/tutorial.html">← Back to Tutorial</a>

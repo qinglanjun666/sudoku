@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script>
+      (function(){
+        var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+        if (isLocal) return
+        var s = document.createElement('script')
+        s.async = true
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-LX4B214LBK'
+        document.head.appendChild(s)
+        window.dataLayer = window.dataLayer || []
+        function gtag(){ dataLayer.push(arguments) }
+        window.gtag = gtag
+        gtag('js', new Date())
+        gtag('config', 'G-LX4B214LBK')
+      })()
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>About Me — Logic for Sudoku</title>
+    <meta name="description" content="About Logic for Sudoku: a clear, logic-first Sudoku tutorial from Novice to Legend. No guessing, only reasoning." />
+    <link rel="canonical" href="/about/" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="About Me — Logic for Sudoku" />
+    <meta property="og:description" content="Learn the philosophy behind Logic for Sudoku: structured teaching, practical techniques, and a focus on pure logic." />
+    <meta property="og:image" content="/favicon.svg" />
+    <meta property="og:type" content="article" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="About Me — Logic for Sudoku" />
+    <meta name="twitter:description" content="Why this site exists and how it helps you master Sudoku through logic." />
+    <meta name="twitter:image" content="/favicon.svg" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/src/index.css" />
+  </head>
+  <body>
+    <header>
+      <div id="site-header"></div>
+    </header>
+    <main class="main-wrap">
+      <div class="container page-fit">
+        <nav class="breadcrumb"><a href="/index.html">Home</a><span>></span><span class="crumb-middle">About Me</span></nav>
+        <article class="seo-diff">
+          <h1 style="margin:0 0 12px;font-size:22px;font-weight:700;color:#111">About Me</h1>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">Who I Am</h2>
+          <p>I am the creator of Logic for Sudoku, a Sudoku enthusiast who values pure logic, reusable methods, and clear explanations. This site exists to shift Sudoku from “luck” back to “reasoning”, helping you progress from beginner to expert and systematically master each technique.</p>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">Site Focus</h2>
+          <p>Logic for Sudoku is a logic‑first tutorial site whose core goal is solving without guessing. Content is structured by skill levels: from basic rules and candidate notation, to fish, wings, and chaining; then uniqueness techniques and complex set‑based methods, ultimately covering advanced techniques and meta‑logic.</p>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">What You’ll Get Here</h2>
+          <ul style="margin:0 0 12px 18px; padding:0; color:#333">
+            <li>Clear concept explanations: terminology, structures, constraints, and recognition cues.</li>
+            <li>Standard reasoning frameworks: strong/weak links, AIC, loops, geometric and set thinking.</li>
+            <li>Transferable practice methods: observation, notation, patterns, and short‑chain training.</li>
+            <li>Strategies to avoid trial‑and‑error: stick to short chains and visual reasoning; no trial‑fill and backtracking.</li>
+          </ul>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">Why “Logic for Sudoku”</h2>
+          <p>The name states the philosophy: Sudoku is not arithmetic; it is constraint satisfaction and logical elimination. Every chapter revolves around verifiable logical steps, helping you find reliable breakthroughs at any level of difficulty.</p>
+
+          <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">Vision</h2>
+          <p>Make complexity simple, turn techniques into methods, and methods into intuition. Whether you are a beginner, intermediate, or advanced solver, you should be able to complete elegant solutions through clear logic.</p>
+        </article>
+      </div>
+    </main>
+    <div id="site-footer"></div>
+    <script>
+      (function(){
+        var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+        if (!isLocal) {
+          var ads = document.createElement('script')
+          ads.async = true
+          ads.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5101109858499684'
+          ads.crossOrigin = 'anonymous'
+          document.head.appendChild(ads)
+        }
+        Promise.all([
+          fetch('/partials/header.html').then(r=>r.text()),
+          fetch('/partials/footer.html').then(r=>r.text())
+        ]).then(([h,f])=>{
+          var sh = document.getElementById('site-header'); if (sh) sh.innerHTML = h
+          var sf = document.getElementById('site-footer'); if (sf) sf.innerHTML = f
+        })
+      })()
+    </script>
+  </body>
+</html>
