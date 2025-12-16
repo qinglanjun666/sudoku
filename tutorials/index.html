@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Game Tutorials</title>
+    <link rel="stylesheet" href="/src/index.css" />
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        margin: 0;
+        font-family: 'Inter', sans-serif;
+        background-color: #f9f9f9;
+      }
+      
+      header, footer {
+        flex-shrink: 0;
+      }
+
+      /* Layout */
+      .tutorial-container {
+        flex: 1;
+        display: flex;
+        max-width: 1400px;
+        margin: 0 auto;
+        width: 100%;
+        height: calc(100vh - 80px); /* Adjust based on header height */
+        overflow: hidden;
+        margin-top: 80px; /* Offset for fixed header */
+      }
+
+
+      /* Sidebar */
+      .sidebar {
+        width: 300px;
+        background: #fff;
+        border-right: 1px solid #eee;
+        overflow-y: auto;
+        padding: 20px;
+        flex-shrink: 0;
+      }
+
+      .sidebar-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        color: #111;
+      }
+
+      .game-section {
+        margin-bottom: 20px;
+      }
+
+      .game-header {
+        font-weight: 700;
+        cursor: pointer;
+        padding: 8px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: #333;
+        border-bottom: 1px solid #f0f0f0;
+      }
+      
+      .game-header:hover {
+        color: #3b82f6;
+      }
+
+      .game-header span {
+        transition: transform 0.2s;
+      }
+      
+      .game-section.active .game-header span {
+        transform: rotate(180deg);
+      }
+
+      .chapter-list {
+        display: none;
+        padding-left: 10px;
+        margin-top: 5px;
+      }
+      
+      .game-section.active .chapter-list {
+        display: block;
+      }
+
+      .chapter-title {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #555;
+        margin: 10px 0 5px;
+        cursor: pointer;
+      }
+      
+      .section-list {
+        display: none;
+        list-style: none;
+        padding-left: 15px;
+        margin: 0;
+      }
+      
+      .chapter-item.active .section-list {
+        display: block;
+      }
+
+      .section-link {
+        display: block;
+        padding: 4px 0;
+        font-size: 0.9rem;
+        color: #666;
+        text-decoration: none;
+        cursor: pointer;
+        transition: color 0.2s;
+      }
+
+      .section-link:hover, .section-link.active {
+        color: #3b82f6;
+      }
+
+      /* Content Area */
+      .content-area {
+        flex: 1;
+        padding: 40px;
+        overflow-y: auto;
+        background: #fff;
+      }
+
+      .content-wrapper {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      
+      /* Typography tweaks for injected content */
+      .content-wrapper h1 { margin-top: 0; }
+      .content-wrapper img { max-width: 100%; height: auto; }
+
+      .content-nav {
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+        display: flex;
+        justify-content: space-between;
+      }
+      
+      .nav-btn {
+        padding: 8px 16px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background: white;
+        color: #333;
+        text-decoration: none;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: all 0.2s;
+      }
+      
+      .nav-btn:hover {
+        background: #f0f9ff;
+        border-color: #3b82f6;
+        color: #3b82f6;
+      }
+
+      .nav-btn.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+      
+      /* Responsive */
+      @media (max-width: 768px) {
+        .tutorial-container {
+          flex-direction: column;
+          height: auto;
+        }
+        .sidebar {
+          width: 100%;
+          height: auto;
+          max-height: 300px;
+          border-right: none;
+          border-bottom: 1px solid #eee;
+        }
+        .content-area {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div id="site-header"></div>
+    </header>
+
+    <div class="tutorial-container">
+      <aside class="sidebar">
+        <div class="sidebar-title">Documentation</div>
+        
+        <!-- Sudoku Section -->
+        <div class="game-section active">
+          <div class="game-header" onclick="toggleGame(this)">
+            Sudoku Tutorial
+            <span>&#9662;</span>
+          </div>
+          <div class="chapter-list">
+            
+            <!-- Level 1 -->
+            <div class="chapter-item">
+              <div class="chapter-title" onclick="toggleChapter(this)">Chapter 1: Fundamentals</div>
+              <ul class="section-list">
+                <li><a class="section-link" data-src="/tutorial/rules/">1.1 The Rules of Sudoku</a></li>
+                <li><a class="section-link" data-src="/tutorial/rows-columns-boxes/">1.2 Rows, Columns, and Boxes</a></li>
+                <li><a class="section-link" data-src="/tutorial/terminology/">1.3 Terminology</a></li>
+              </ul>
+            </div>
+            
+            <div class="chapter-item">
+              <div class="chapter-title" onclick="toggleChapter(this)">Chapter 2: Basic Techniques</div>
+              <ul class="section-list">
+                <li><a class="section-link" data-src="/tutorial/full-house/">2.1 Full House</a></li>
+                <li><a class="section-link" data-src="/tutorial/hidden-single/">2.2 Hidden Single</a></li>
+                <li><a class="section-link" data-src="/tutorial/naked-single/">2.3 Naked Single</a></li>
+              </ul>
+            </div>
+
+             <div class="chapter-item">
+              <div class="chapter-title" onclick="toggleChapter(this)">Chapter 3: Scanning Skills</div>
+              <ul class="section-list">
+                <li><a class="section-link" data-src="/tutorial/cross-hatching/">3.1 Cross-Hatching</a></li>
+                <li><a class="section-link" data-src="/tutorial/slicing-and-slotting/">3.2 Slicing and Slotting</a></li>
+              </ul>
+            </div>
+            
+            <!-- Level 2 -->
+            <div class="chapter-item">
+              <div class="chapter-title" onclick="toggleChapter(this)">Chapter 4: Notation</div>
+              <ul class="section-list">
+                <li><a class="section-link" data-src="/tutorial/snyder-notation/">4.1 Snyder Notation</a></li>
+                <li><a class="section-link" data-src="/tutorial/full-notation/">4.2 Full Notation</a></li>
+                <li><a class="section-link" data-src="/tutorial/when-to-switch-notations/">4.3 Switching Notations</a></li>
+              </ul>
+            </div>
+            
+             <div class="chapter-item">
+              <div class="chapter-title" onclick="toggleChapter(this)">Chapter 5: Naked Subsets</div>
+              <ul class="section-list">
+                <li><a class="section-link" data-src="/tutorial/naked-pairs/">5.1 Naked Pairs</a></li>
+                <li><a class="section-link" data-src="/tutorial/naked-triples/">5.2 Naked Triples</a></li>
+                <li><a class="section-link" data-src="/tutorial/naked-quads/">5.3 Naked Quads</a></li>
+              </ul>
+            </div>
+            
+            <div class="chapter-item">
+              <div class="chapter-title" onclick="toggleChapter(this)">Chapter 6: Hidden Subsets</div>
+              <ul class="section-list">
+                <li><a class="section-link" data-src="/tutorial/hidden-pairs/">6.1 Hidden Pairs</a></li>
+                <li><a class="section-link" data-src="/tutorial/hidden-triples/">6.2 Hidden Triples</a></li>
+                <li><a class="section-link" data-src="/tutorial/hidden-quads/">6.3 Hidden Quads</a></li>
+              </ul>
+            </div>
+            
+             <div class="chapter-item">
+              <div class="chapter-title" onclick="toggleChapter(this)">Chapter 7: Intersections</div>
+              <ul class="section-list">
+                <li><a class="section-link" data-src="/tutorial/pointing-pairs/">7.1 Pointing Pairs</a></li>
+                <li><a class="section-link" data-src="/tutorial/claiming-pairs/">7.2 Claiming Pairs</a></li>
+              </ul>
+            </div>
+            
+             <!-- Level 3 -->
+            <div class="chapter-item">
+              <div class="chapter-title" onclick="toggleChapter(this)">Chapter 8: The Fish Family</div>
+              <ul class="section-list">
+                <li><a class="section-link" data-src="/tutorial/x-wing/">8.1 X-Wing</a></li>
+                <li><a class="section-link" data-src="/tutorial/swordfish/">8.2 Swordfish</a></li>
+                <li><a class="section-link" data-src="/tutorial/jellyfish/">8.3 Jellyfish</a></li>
+              </ul>
+            </div>
+            
+             <div class="chapter-item">
+              <div class="chapter-title" onclick="toggleChapter(this)">Chapter 9: Fish Variants</div>
+              <ul class="section-list">
+                <li><a class="section-link" data-src="/tutorial/finned-x-wing/">9.1 Finned X-Wing</a></li>
+                <li><a class="section-link" data-src="/tutorial/sashimi-x-wing/">9.2 Sashimi X-Wing</a></li>
+              </ul>
+            </div>
+            
+             <div class="chapter-item">
+              <div class="chapter-title" onclick="toggleChapter(this)">Chapter 10: Single Digit Chains</div>
+              <ul class="section-list">
+                <li><a class="section-link" data-src="/tutorial/simple-coloring/">10.1 Simple Coloring</a></li>
+                <li><a class="section-link" data-src="/tutorial/empty-rectangle/">10.2 Empty Rectangle</a></li>
+              </ul>
+            </div>
+            
+             <!-- Level 4 -->
+            <div class="chapter-item">
+              <div class="chapter-title" onclick="toggleChapter(this)">Chapter 11: The Wing Family</div>
+              <ul class="section-list">
+                <li><a class="section-link" data-src="/tutorial/xy-wing/">11.1 XY-Wing</a></li>
+                <li><a class="section-link" data-src="/tutorial/xyz-wing/">11.2 XYZ-Wing</a></li>
+                <li><a class="section-link" data-src="/tutorial/w-wing/">11.3 W-Wing</a></li>
+              </ul>
+            </div>
+            
+             <div class="chapter-item">
+              <div class="chapter-title" onclick="toggleChapter(this)">Chapter 12: Adv. Geometry</div>
+              <ul class="section-list">
+                <li><a class="section-link" data-src="/tutorial/skyscraper/">12.1 Skyscraper</a></li>
+                <li><a class="section-link" data-src="/tutorial/two-string-kite/">12.2 Two-String Kite</a></li>
+                <li><a class="section-link" data-src="/tutorial/turbot-fish/">12.3 Turbot Fish</a></li>
+              </ul>
+            </div>
+            
+             <!-- Level 5 -->
+            <div class="chapter-item">
+              <div class="chapter-title" onclick="toggleChapter(this)">Chapter 13: Standard Chains</div>
+              <ul class="section-list">
+                <li><a class="section-link" data-src="/tutorial/strong-vs-weak-links/">13.1 Strong vs. Weak Links</a></li>
+                <li><a class="section-link" data-src="/tutorial/xy-chain/">13.2 XY-Chain</a></li>
+                <li><a class="section-link" data-src="/tutorial/remote-pairs/">13.3 Remote Pairs</a></li>
+              </ul>
+            </div>
+            
+             <div class="chapter-item">
+              <div class="chapter-title" onclick="toggleChapter(this)">Chapter 14: Advanced Chains</div>
+              <ul class="section-list">
+                <li><a class="section-link" data-src="/tutorial/aic/">14.1 AIC</a></li>
+                <li><a class="section-link" data-src="/tutorial/continuous-loops/">14.2 Continuous Loops</a></li>
+                <li><a class="section-link" data-src="/tutorial/discontinuous-loops/">14.3 Discontinuous Loops</a></li>
+              </ul>
+            </div>
+            
+             <!-- Level 6 -->
+            <div class="chapter-item">
+              <div class="chapter-title" onclick="toggleChapter(this)">Chapter 15: Meta-Logic</div>
+              <ul class="section-list">
+                <li><a class="section-link" data-src="/tutorial/unique-solution-rule/">15.1 Unique Solution Rule</a></li>
+                <li><a class="section-link" data-src="/tutorial/unique-rectangle-type-1/">15.2 Unique Rectangle Type 1</a></li>
+                <li><a class="section-link" data-src="/tutorial/unique-rectangle-types-2-4/">15.3 Unique Rectangle Types 2-4</a></li>
+                 <li><a class="section-link" data-src="/tutorial/bug/">15.4 BUG</a></li>
+              </ul>
+            </div>
+            
+             <div class="chapter-item">
+              <div class="chapter-title" onclick="toggleChapter(this)">Chapter 16: Complex Sets</div>
+              <ul class="section-list">
+                <li><a class="section-link" data-src="/tutorial/als/">16.1 ALS</a></li>
+                <li><a class="section-link" data-src="/tutorial/als-xz/">16.2 ALS-XZ</a></li>
+                <li><a class="section-link" data-src="/tutorial/sue-de-coq/">16.3 Sue de Coq</a></li>
+                <li><a class="section-link" data-src="/tutorial/forcing-chains/">16.4 Forcing Chains</a></li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Calcudoku Section -->
+        <div class="game-section">
+          <div class="game-header" onclick="toggleGame(this)">
+            Calcudoku Tutorial
+            <span>&#9662;</span>
+          </div>
+          <div class="chapter-list">
+            <div class="chapter-item">
+              <div class="chapter-title" onclick="toggleChapter(this)">Part I: The Essentials</div>
+              <ul class="section-list">
+                <li><a class="section-link" data-src="/calcudoku/tutorial/index.html">Full Guide</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <main class="content-area">
+        <div class="content-wrapper" id="content-display">
+          <h1>Welcome to Game Tutorials</h1>
+          <p>Select a topic from the sidebar to begin learning.</p>
+        </div>
+      </main>
+    </div>
+
+    <div id="site-footer"></div>
+
+    <script>
+      // Header/Footer Injection
+      Promise.all([
+        fetch('/partials/header.html').then(r=>r.text()),
+        fetch('/partials/footer.html').then(r=>r.text())
+      ]).then(([h,f])=>{
+        document.getElementById('site-header').innerHTML = h;
+        document.getElementById('site-footer').innerHTML = f;
+      });
+
+      // Navigation Logic
+      function toggleGame(header) {
+        const section = header.parentElement;
+        section.classList.toggle('active');
+      }
+
+      function toggleChapter(title) {
+        const item = title.parentElement;
+        item.classList.toggle('active');
+      }
+
+      function updateHash(url) {
+        // Simple hash routing: #/tutorial/rules/
+        window.location.hash = url;
+      }
+
+      function loadContent(url) {
+         // Find matching link
+         const link = document.querySelector(`.section-link[data-src="${url}"]`);
+         if (!link) return;
+
+         // Update UI active state
+         document.querySelectorAll('.section-link').forEach(l => l.classList.remove('active'));
+         link.classList.add('active');
+         
+         // Expand parent chapter/game if needed
+         let parent = link.parentElement;
+         while (parent && !parent.classList.contains('sidebar')) {
+           if (parent.classList.contains('chapter-item')) parent.classList.add('active');
+           if (parent.classList.contains('game-section')) parent.classList.add('active');
+           parent = parent.parentElement;
+         }
+
+         const display = document.getElementById('content-display');
+         display.innerHTML = '<p>Loading...</p>';
+
+         fetch(url)
+          .then(res => {
+            if (!res.ok) throw new Error('Failed to load');
+            return res.text();
+          })
+          .then(text => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(text, 'text/html');
+            const article = doc.querySelector('article.seo-diff') || doc.querySelector('article') || doc.querySelector('main') || doc.body;
+            
+            // Cleanup
+            const navs = article.querySelectorAll('nav, .breadcrumb, .btn');
+            navs.forEach(n => n.remove());
+
+            // Update Page Title for SEO
+            const h1 = article.querySelector('h1');
+            const pageTitle = h1 ? h1.innerText : link.innerText;
+            document.title = `${pageTitle} — Play Sudoku Online — Logic for Sudoku`;
+
+            display.innerHTML = article.innerHTML;
+            
+            // Add Prev/Next Buttons
+            const links = Array.from(document.querySelectorAll('.section-link'));
+            const currentIndex = links.indexOf(link);
+            const prevLink = links[currentIndex - 1];
+            const nextLink = links[currentIndex + 1];
+
+            const navDiv = document.createElement('div');
+            navDiv.className = 'content-nav';
+            
+            const prevBtn = document.createElement('a');
+            prevBtn.className = `nav-btn ${!prevLink ? 'disabled' : ''}`;
+            if (prevLink) {
+              prevBtn.textContent = `← ${prevLink.innerText}`;
+              prevBtn.onclick = () => updateHash(prevLink.dataset.src);
+            } else {
+              prevBtn.textContent = '← Previous';
+            }
+            navDiv.appendChild(prevBtn);
+
+            const nextBtn = document.createElement('a');
+            nextBtn.className = `nav-btn ${!nextLink ? 'disabled' : ''}`;
+            if (nextLink) {
+              nextBtn.textContent = `${nextLink.innerText} →`;
+              nextBtn.onclick = () => updateHash(nextLink.dataset.src);
+            } else {
+              nextBtn.textContent = 'Next →';
+            }
+            navDiv.appendChild(nextBtn);
+
+            display.appendChild(navDiv);
+
+            // Scroll to top
+            document.querySelector('.content-area').scrollTop = 0;
+          })
+          .catch(err => {
+             display.innerHTML = '<p style="color:red">Error loading content.</p>';
+             console.error(err);
+          });
+      }
+
+      // Handle Hash Change
+      window.addEventListener('hashchange', () => {
+        const hash = window.location.hash.slice(1); // remove #
+        if (hash) {
+          loadContent(hash);
+        }
+      });
+
+      // Initial Load
+      const initialHash = window.location.hash.slice(1);
+      if (initialHash) {
+        loadContent(initialHash);
+      } else {
+        // Default to first link
+        const firstLink = document.querySelector('.section-link');
+        if (firstLink) {
+          updateHash(firstLink.dataset.src);
+        }
+      }
+
+      // Sidebar Link Click Event
+      document.querySelectorAll('.section-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          updateHash(link.dataset.src);
+        });
+      });
+    </script>
+  </body>
+</html>

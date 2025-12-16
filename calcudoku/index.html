@@ -2,235 +2,930 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Free Online Calcudoku - Daily Math Logic Puzzles</title>
-    <meta name="description" content="Play free online Calcudoku (Mathdoku). 4×4 logic math puzzles with cages, row/column uniqueness, and quick validation." />
-    <link rel="canonical" href="/calcudoku/" />
-    <meta name="robots" content="index, follow" />
-    <meta property="og:title" content="Free Online Calcudoku - Daily Math Logic Puzzles" />
-    <meta property="og:description" content="Try a 4×4 Calcudoku math logic puzzle. Fill numbers 1–4 with row/column uniqueness and cage arithmetic." />
-    <meta property="og:image" content="/favicon.svg" />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Free Online Calcudoku - Daily Math Logic Puzzles" />
-    <meta name="twitter:description" content="Play free Calcudoku online with a clean interface and instant checks." />
-    <meta name="twitter:image" content="/favicon.svg" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>Calcudoku - Logic Puzzle</title>
+    <meta name="description" content="Play responsive Calcudoku (Mathdoku). Logic puzzles with scalable grid sizes." />
     <link rel="stylesheet" href="../src/index.css" />
     <style>
-      .calcudoku-wrap { display:flex; gap:20px; align-items:flex-start }
-      .grid-wrap { position:relative }
-      .grid { display:grid; grid-template-columns:repeat(4, 1fr); grid-template-rows:repeat(4, 1fr); width:360px; height:360px; background:#fff; border-radius:12px; box-shadow:0 1px 4px rgba(0,0,0,0.06); overflow:hidden }
-      .cell { position:relative; display:flex; align-items:center; justify-content:center; font-size:22px; color:#111; border:1px solid #e5e7eb; cursor:pointer; user-select:none }
-      .cell.selected { background:#eff6ff; outline:2px solid #dbeafe }
-      .cage-label { position:absolute; top:4px; left:6px; font-size:12px; color:var(--color-secondary) }
-      .border-right-thick { border-right:3px solid #111 !important }
-      .border-bottom-thick { border-bottom:3px solid #111 !important }
-      .border-left-thick { border-left:3px solid #111 !important }
-      .border-top-thick { border-top:3px solid #111 !important }
-      .pad { position:fixed; left:0; right:0; bottom:0; background:#fff; border-top:1px solid var(--color-border); padding:12px; display:flex; gap:8px; justify-content:center; z-index:100 }
-      .pad .btn { min-width:48px }
-      .status { margin-top:12px; min-height:24px; color:#333 }
-      @media (max-width:480px) {
-        .grid { width:92vw; height:92vw }
-        .calcudoku-wrap { flex-direction:column; gap:12px }
+      :root {
+        --bg-color: #6699CC;
+        --board-bg: #FFFFFF;
+        --text-color: #333333;
+        --border-thick: 1px solid #333333; /* Thinner borders */
+        --border-thin: 1px dotted #ccc;
+        --highlight-cell: #e2e8f0;
+        --highlight-same-num: #bde0fe;
+        --highlight-cage: #f0f9ff;
+        --error-color: #ffcccc;
+      }
+
+      body {
+        background-color: var(--bg-color);
+        margin: 0;
+        padding-top: 80px; /* Prevent header overlap */
+        font-family: 'Inter', sans-serif;
+        color: var(--text-color);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+      }
+
+      /* Layout */
+      header, footer {
+        background: #fff;
+      }
+      
+      .main-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 8px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+      }
+
+      .game-controls {
+        margin-bottom: 8px;
+        display: flex;
+        gap: 10px;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 4px 12px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+
+      select {
+        padding: 4px 8px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        font-size: 1rem;
+        background-color: white;
+        cursor: pointer;
+      }
+
+
+      /* Grid Container */
+      .board-container {
+        background: var(--board-bg);
+        padding: 4px; /* Padding for outer border */
+        border-radius: 4px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        margin: 0 auto; /* Center horizontally */
+        width: 100%;
+        max-width: min(90vw, 50vh); /* More compact */
+        aspect-ratio: 1;
+        overflow: hidden;
+        box-sizing: border-box;
+      }
+
+      .grid {
+        display: grid;
+        /* grid-template-columns set via JS */
+        border: var(--border-thick);
+        user-select: none;
+        touch-action: manipulation;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+      }
+
+      /* Cell Styling */
+      .cell {
+        position: relative;
+        aspect-ratio: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem; /* Larger numbers */
+        font-weight: 700;
+        cursor: pointer;
+        background: var(--board-bg);
+        box-sizing: border-box;
+        /* Default thin borders */
+        border-right: var(--border-thin);
+        border-bottom: var(--border-thin);
+      }
+
+      /* Smart Borders (Applied via JS classes) */
+      .b-top { border-top: var(--border-thick) !important; }
+      .b-right { border-right: var(--border-thick) !important; }
+      .b-bottom { border-bottom: var(--border-thick) !important; }
+      .b-left { border-left: var(--border-thick) !important; }
+
+      /* Interaction States */
+      .cell.active {
+        background-color: var(--highlight-cell);
+        outline: 2px solid #3b82f6;
+        z-index: 10;
+      }
+      
+      .cell.cage-active {
+        background-color: var(--highlight-cage);
+      }
+
+      .cell.num-highlight {
+        background-color: var(--highlight-same-num);
+      }
+
+      .cell.error {
+        background-color: var(--error-color);
+        color: #991b1b;
+      }
+
+      .cell.hinted {
+        color: #2563eb; /* Blue text for hints */
+      }
+
+      /* Typography */
+      .target-label {
+        position: absolute;
+        top: 2px;
+        left: 4px;
+        font-size: 1.2rem; /* Larger cage target */
+        font-weight: 700;
+        line-height: 1;
+        color: #555;
+        pointer-events: none;
+      }
+
+      .cell-value {
+        z-index: 1;
+      }
+
+      /* Virtual Keypad - Integrated Flow */
+      .virtual-keypad {
+        margin-top: 8px; /* Reduced gap */
+        width: 100%;
+        max-width: min(90vw, 50vh); /* Match board width */
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        z-index: 100;
+      }
+
+      .keypad-row {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .key-btn {
+        flex: 1;
+        height: 64px;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        background: #f8f9fa;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #333;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.1s;
+        touch-action: manipulation;
+      }
+
+      .key-btn:active {
+        background: #e2e8f0;
+        transform: translateY(1px);
+      }
+
+      .action-btn {
+        flex: 1;
+        height: 48px;
+        font-size: 1rem;
+        font-weight: 600;
+        background: #edf2f7;
+        max-width: none;
+      }
+      
+      .action-btn.primary {
+        background: #3b82f6;
+        color: white;
+        border: none;
+      }
+      
+      .action-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      /* Menu Screen */
+      #menu-screen {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        max-width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
+      .menu-title {
+        color: white;
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 30px;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+
+      .menu-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        max-width: 600px;
+        width: 100%;
+      }
+
+      .menu-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        transition: transform 0.2s;
+      }
+
+      .menu-item:hover {
+        transform: translateY(-4px);
+      }
+
+      .menu-item-label {
+        color: white;
+        font-size: 1.2rem;
+        font-weight: 500;
+      }
+
+      .menu-icon {
+        background: white;
+        border-radius: 8px;
+        padding: 4px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        display: grid;
+        gap: 2px;
+        width: 80px;
+        height: 80px;
+        box-sizing: border-box;
+        border: 2px solid #333;
+      }
+
+      .menu-icon div {
+        background: transparent;
+        border: 1px solid #ccc;
+        border-radius: 1px;
+      }
+
+      @media (max-width: 600px) {
+        .menu-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
       }
     </style>
   </head>
   <body>
-    <header>
-      <div id="header-placeholder"></div>
-    </header>
-    <main class="main-wrap">
-      <div class="container page-fit">
-        <nav class="breadcrumb"><a href="/index.html">Home</a><span>></span><span class="crumb-middle">Calcudoku</span></nav>
-        <article class="seo-diff">
-          <h1 style="margin:8px 0 12px;font-size:22px;font-weight:700;color:#111">Calcudoku (Mathdoku)</h1>
-          <p class="secondary" style="margin:0 0 12px">Fill numbers 1–4. Rows and columns have no duplicates. Each cage must satisfy its target and operator.</p>
-          <div class="calcudoku-wrap">
-            <div class="grid-wrap">
-              <div id="grid" class="grid"></div>
-              <div class="status" id="status"></div>
-            </div>
-            <div>
-              <div class="secondary" style="margin-bottom:8px">Actions</div>
-              <div style="display:grid;grid-template-columns:1fr;gap:8px">
-                <button id="checkBtn" class="btn btn-primary">Check</button>
-                <button id="clearBtn" class="btn">Clear All</button>
-              </div>
-            </div>
-          </div>
-        </article>
+    <div id="header-placeholder"></div>
+
+    <!-- Menu Screen -->
+    <div id="menu-screen">
+      <div class="menu-title">Select a size:</div>
+      <a href="tutorial/" style="color: white; margin-bottom: 20px; font-size: 1.1rem; text-decoration: underline; cursor: pointer;">Calcudoku Tutorial</a>
+      <div class="menu-grid" id="menu-grid">
+        <!-- Injected by JS -->
       </div>
-    </main>
+    </div>
+
+    <!-- Game Screen (Initially Hidden) -->
+    <div class="main-container" id="game-screen" style="display: none;">
+      <div class="game-controls">
+        <button id="back-btn" class="action-btn" style="flex: 0 0 auto; margin-right: 10px;">&larr; Back</button>
+        <select id="size-selector">
+          <option value="3">3x3 Grid (Easy)</option>
+          <option value="4">4x4 Grid</option>
+          <option value="5">5x5 Grid</option>
+          <option value="6">6x6 Grid</option>
+          <option value="7">7x7 Grid (Hard)</option>
+          <option value="8">8x8 Grid (Expert)</option>
+          <option value="9">9x9 Grid (Master)</option>
+        </select>
+      </div>
+
+      <div class="board-container">
+        <div id="grid" class="grid"></div>
+      </div>
+      
+      <!-- Keypad Moved Here -->
+      <div class="virtual-keypad" id="keypad">
+        <!-- Injected by JS -->
+      </div>
+    </div>
+
     <div id="footer-placeholder"></div>
-    <div class="pad" id="pad"></div>
+
     <script>
-      (function(){
-        Promise.all([
-          fetch('../partials/header.html').then(r=>r.text()),
-          fetch('../partials/footer.html').then(r=>r.text())
-        ]).then(([h,f])=>{
-          var hp = document.getElementById('header-placeholder'); if (hp) hp.innerHTML = h
-          var fp = document.getElementById('footer-placeholder'); if (fp) fp.innerHTML = f
-        })
-      })()
-    </script>
-    <script>
-      (function(){
-        const params = new URLSearchParams(location.search)
-        let size = Number(params.get('size')) || 6
-        if (![4,5,6].includes(size)) size = 6
-        const solution = Array.from({length:size}, (_,r)=> Array.from({length:size}, (_,c)=> ((r+c)%size)+1))
-        const cages = []
-        for (let r=0;r<size;r++){
-          for (let c=0;c<size;){
-            const i1 = r*size + c
-            if (c+1 < size) {
-              const i2 = r*size + (c+1)
-              cages.push({ target: solution[r][c] + solution[r][c+1], op: '+', cells: [i1, i2] })
-              c += 2
-            } else {
-              cages.push({ target: solution[r][c], op: '', cells: [i1] })
-              c += 1
+      // Header/Footer Injection
+      Promise.all([
+        fetch('../partials/header.html').then(r => r.text()),
+        fetch('../partials/footer.html').then(r => r.text())
+      ]).then(([h, f]) => {
+        document.getElementById('header-placeholder').innerHTML = h;
+        document.getElementById('footer-placeholder').innerHTML = f;
+      });
+
+      // --- Game Logic ---
+
+      class CalcudokuGame {
+        constructor(size, cages, solution) {
+          this.size = size;
+          this.cages = cages; // Array of { id, target, op, cells: [indices] }
+          this.solution = solution;
+          this.grid = Array(size * size).fill(null).map((_, i) => ({
+            index: i,
+            value: null,
+            cageId: this.getCageId(i),
+            isError: false,
+            isHint: false
+          }));
+          this.history = [];
+          this.activeCellIndex = null;
+          this.hintUsed = false;
+
+          this.init();
+        }
+
+        getCageId(cellIndex) {
+          const cage = this.cages.find(c => c.cells.includes(cellIndex));
+          return cage ? cage.id : null;
+        }
+
+        init() {
+          this.renderGrid();
+          this.renderKeypad();
+          this.attachEvents();
+        }
+
+        // --- Rendering ---
+
+        renderGrid() {
+          const gridEl = document.getElementById('grid');
+          gridEl.style.gridTemplateColumns = `repeat(${this.size}, 1fr)`;
+          gridEl.innerHTML = '';
+          
+          // Dynamic font sizing
+          let fontSize = '2.5rem';
+          if (this.size >= 8) fontSize = '1.2rem';
+          else if (this.size >= 6) fontSize = '1.8rem';
+          else if (this.size >= 5) fontSize = '2.2rem';
+
+          this.grid.forEach(cell => {
+            const cellEl = document.createElement('div');
+            cellEl.className = 'cell';
+            cellEl.style.fontSize = fontSize;
+            cellEl.dataset.index = cell.index;
+
+            // Smart Borders
+            const borders = this.getBorderClasses(cell.index);
+            if (borders.length) cellEl.classList.add(...borders);
+
+            // Active State
+            if (this.activeCellIndex === cell.index) {
+              cellEl.classList.add('active');
+            } else if (this.activeCellIndex !== null) {
+               // Cage Highlight
+               const activeCell = this.grid[this.activeCellIndex];
+               if (activeCell.cageId === cell.cageId) {
+                 cellEl.classList.add('cage-active');
+               }
+               // Number Highlight
+               if (activeCell.value && activeCell.value === cell.value) {
+                 cellEl.classList.add('num-highlight');
+               }
             }
-          }
-        }
-        const currentLevel = { size, cages, solution }
-        const gridEl = document.getElementById('grid')
-        const statusEl = document.getElementById('status')
-        const state = { cells: Array.from({length:size*size}, ()=>null), selected: null }
-        const cageMap = new Map()
-        currentLevel.cages.forEach((c, idx) => c.cells.forEach(ci => cageMap.set(ci, idx)))
-        const cageTopLeft = new Map()
-        currentLevel.cages.forEach((c, idx) => {
-          const pts = c.cells.map(k => [Math.floor(k/size), k%size])
-          pts.sort((a,b)=> a[0]-b[0] || a[1]-b[1])
-          const k = pts[0][0]*size + pts[0][1]
-          cageTopLeft.set(idx, k)
-        })
-        function render() {
-          gridEl.innerHTML = ''
-          gridEl.style.gridTemplateColumns = 'repeat(' + size + ', 1fr)'
-          gridEl.style.gridTemplateRows = 'repeat(' + size + ', 1fr)'
-          for (let i=0;i<size*size;i++) {
-            const r = Math.floor(i/size), c = i%size
-            const cell = document.createElement('div')
-            cell.className = 'cell'
-            if (state.selected === i) cell.classList.add('selected')
-            const val = state.cells[i]
-            cell.textContent = val != null ? String(val) : ''
-            const cid = cageMap.get(i)
-            if (cid != null && cageTopLeft.get(cid) === i) {
-              const label = document.createElement('div')
-              label.className = 'cage-label'
-              const cage = currentLevel.cages[cid]
-              label.textContent = cage.target + (cage.op || '')
-              cell.appendChild(label)
+
+            // Error State
+            if (cell.isError) cellEl.classList.add('error');
+            
+            // Hint State
+            if (cell.isHint) cellEl.classList.add('hinted');
+
+            // Cage Target Label (Top-Left of first cell in cage)
+            const cage = this.cages.find(c => c.id === cell.cageId);
+            if (cage && cage.cells[0] === cell.index) {
+              const label = document.createElement('div');
+              label.className = 'target-label';
+              label.textContent = `${cage.target}${cage.op}`;
+              cellEl.appendChild(label);
             }
-            const rightSame = c+1 < size && cageMap.get(i) === cageMap.get(i+1)
-            const leftSame = c-1 >= 0 && cageMap.get(i) === cageMap.get(i-1)
-            const bottomSame = r+1 < size && cageMap.get(i) === cageMap.get(i+size)
-            const topSame = r-1 >= 0 && cageMap.get(i) === cageMap.get(i-size)
-            if (!rightSame) cell.classList.add('border-right-thick')
-            if (!bottomSame) cell.classList.add('border-bottom-thick')
-            if (!leftSame) cell.classList.add('border-left-thick')
-            if (!topSame) cell.classList.add('border-top-thick')
-            cell.addEventListener('click', () => { state.selected = i; render() })
-            gridEl.appendChild(cell)
-          }
-        }
-        function setValue(v) {
-          if (state.selected == null) return
-          state.cells[state.selected] = v
-          render()
-        }
-        function getRow(i){ const r = Math.floor(i/size); return state.cells.slice(r*size, r*size+size) }
-        function getCol(i){ const c = i%size; return Array.from({length:size}, (_,k)=> state.cells[k*size+c]) }
-        function uniqOk(arr) {
-          const s = new Set()
-          for (const v of arr) { if (v == null) continue; if (s.has(v)) return false; s.add(v) }
-          return true
-        }
-        function sum(arr){ return arr.reduce((a,b)=>a+b,0) }
-        function prod(arr){ return arr.reduce((a,b)=>a*b,1) }
-        function anyOrderResult(arr, op, target) {
-          const nums = arr.slice()
-          if (nums.some(v => v == null)) return false
-          function perms(a) {
-            const res = []
-            function backtrack(t, rest) {
-              if (!rest.length) { res.push(t); return }
-              for (let i=0;i<rest.length;i++) backtrack(t.concat(rest[i]), rest.slice(0,i).concat(rest.slice(i+1)))
+
+            // Value
+            if (cell.value) {
+              const valSpan = document.createElement('span');
+              valSpan.className = 'cell-value';
+              valSpan.textContent = cell.value;
+              cellEl.appendChild(valSpan);
             }
-            backtrack([], a)
-            return res
+
+            // Event
+            cellEl.addEventListener('click', () => this.selectCell(cell.index));
+
+            gridEl.appendChild(cellEl);
+          });
+        }
+
+        getBorderClasses(index) {
+          const classes = [];
+          const r = Math.floor(index / this.size);
+          const c = index % this.size;
+          const myCage = this.grid[index].cageId;
+
+          // Top
+          if (r === 0 || this.grid[index - this.size].cageId !== myCage) classes.push('b-top');
+          // Bottom
+          if (r === this.size - 1 || this.grid[index + this.size].cageId !== myCage) classes.push('b-bottom');
+          // Left
+          if (c === 0 || this.grid[index - 1].cageId !== myCage) classes.push('b-left');
+          // Right
+          if (c === this.size - 1 || this.grid[index + 1].cageId !== myCage) classes.push('b-right');
+
+          return classes;
+        }
+
+        renderKeypad() {
+          const keypad = document.getElementById('keypad');
+          keypad.innerHTML = '';
+
+          // Numbers Row
+          const nums = Array.from({length: this.size}, (_, i) => i + 1);
+          const numRow = document.createElement('div');
+          numRow.className = 'keypad-row';
+          nums.forEach(n => {
+            numRow.appendChild(this.createBtn(n, 'key-btn', () => this.inputValue(n)));
+          });
+          keypad.appendChild(numRow);
+
+          // Actions Row
+          const actionsRow = document.createElement('div');
+          actionsRow.className = 'keypad-row';
+          
+          const undoBtn = this.createBtn('Undo', 'key-btn action-btn', () => this.undo());
+          const restartBtn = this.createBtn('Restart', 'key-btn action-btn', () => this.restart());
+          
+          const hintBtn = this.createBtn('Hint', 'key-btn action-btn', () => this.hint());
+          if (this.hintUsed) hintBtn.disabled = true;
+
+          const newGameBtn = this.createBtn('New Game', 'key-btn action-btn primary', () => {
+             const n = parseInt(document.getElementById('size-selector').value);
+             startGame(n);
+          });
+
+          actionsRow.append(undoBtn, restartBtn, hintBtn, newGameBtn);
+          keypad.appendChild(actionsRow);
+        }
+
+        createBtn(text, className, onClick) {
+          const btn = document.createElement('button');
+          btn.className = className; // passed full class string
+          btn.textContent = text;
+          // Prevent focus stealing
+          btn.addEventListener('pointerdown', (e) => {
+             e.preventDefault();
+             onClick();
+          });
+          return btn;
+        }
+
+        attachEvents() {
+            // Keyboard support for desktop
+            document.addEventListener('keydown', (e) => {
+                if (this.activeCellIndex === null) return;
+                const key = e.key;
+                if (key >= '1' && key <= String(this.size)) {
+                    this.inputValue(parseInt(key));
+                } else if (key === 'Backspace' || key === 'Delete') {
+                    this.inputValue(null);
+                } else if (key === 'z' && (e.ctrlKey || e.metaKey)) {
+                    this.undo();
+                } else if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(key)) {
+                    e.preventDefault();
+                    this.moveSelection(key);
+                }
+            });
+        }
+
+        // --- Interaction ---
+
+        selectCell(index) {
+          this.activeCellIndex = index;
+          this.renderGrid();
+        }
+
+        moveSelection(key) {
+            if (this.activeCellIndex === null) return;
+            let r = Math.floor(this.activeCellIndex / this.size);
+            let c = this.activeCellIndex % this.size;
+            
+            if (key === 'ArrowUp' && r > 0) r--;
+            if (key === 'ArrowDown' && r < this.size - 1) r++;
+            if (key === 'ArrowLeft' && c > 0) c--;
+            if (key === 'ArrowRight' && c < this.size - 1) c++;
+
+            this.selectCell(r * this.size + c);
+        }
+
+        inputValue(val) {
+          if (this.activeCellIndex === null) return;
+          const cell = this.grid[this.activeCellIndex];
+          if (cell.isHint) return; // Cannot edit hints
+
+          // Save state for undo
+          this.saveState();
+
+          // Toggle if same value
+          if (val === cell.value) {
+            cell.value = null;
+          } else {
+            cell.value = val;
           }
-          const ps = perms(nums)
-          for (const p of ps) {
-            if (op === '-') {
-              let v = p[0]
-              for (let i=1;i<p.length;i++) v -= p[i]
-              if (Math.abs(v) === target) return true
-            } else if (op === '/' || op === '÷') {
-              let v = p[0]
-              let ok = true
-              for (let i=1;i<p.length;i++) {
-                if (v % p[i] !== 0) { ok = false; break }
-                v = v / p[i]
+
+          this.validate();
+          this.renderGrid();
+        }
+
+        saveState() {
+            const snapshot = this.grid.map(c => ({
+                value: c.value
+            }));
+            this.history.push(snapshot);
+            if (this.history.length > 20) this.history.shift();
+        }
+
+        undo() {
+            if (this.history.length === 0) return;
+            const snapshot = this.history.pop();
+            this.grid.forEach((c, i) => {
+                if (!c.isHint) { // Don't undo hints
+                    c.value = snapshot[i].value;
+                }
+            });
+            this.validate();
+            this.renderGrid();
+        }
+
+        restart() {
+            if (!confirm('Restart this game?')) return;
+            this.history = [];
+            this.hintUsed = false;
+            this.grid.forEach(c => {
+                c.value = null;
+                c.isError = false;
+                c.isHint = false;
+            });
+            this.renderGrid();
+            this.renderKeypad();
+        }
+
+        hint() {
+            if (this.hintUsed) return;
+            
+            // Find a cell to hint (prioritize errors, then empty)
+            let candidates = this.grid.filter(c => !c.isHint && (c.value === null || c.value !== this.solution[c.index]));
+            
+            if (candidates.length === 0) {
+                alert('Puzzle is already solved or correct!');
+                return;
+            }
+
+            // Pick random candidate
+            const cell = candidates[Math.floor(Math.random() * candidates.length)];
+            
+            // Apply hint
+            cell.value = this.solution[cell.index];
+            cell.isHint = true;
+            cell.isError = false;
+            this.hintUsed = true;
+            
+            this.validate();
+            this.renderGrid();
+            this.renderKeypad(); // Disable hint button
+        }
+
+        // --- Validation ---
+
+        validate() {
+          // Reset errors
+          this.grid.forEach(c => c.isError = false);
+
+          // 1. Row/Col Uniqueness
+          for (let i = 0; i < this.size; i++) {
+            this.checkGroup(this.getRow(i));
+            this.checkGroup(this.getCol(i));
+          }
+
+          // 2. Cage Arithmetic (only if cage is fully filled)
+          this.cages.forEach(cage => {
+            const cells = cage.cells.map(idx => this.grid[idx]);
+            const values = cells.map(c => c.value);
+            if (values.every(v => v !== null)) {
+               if (!this.checkCageMath(values, cage.target, cage.op)) {
+                   cells.forEach(c => c.isError = true);
+               }
+            }
+          });
+        }
+
+        checkGroup(indices) {
+          const seen = new Map();
+          indices.forEach(idx => {
+            const val = this.grid[idx].value;
+            if (val !== null) {
+              if (seen.has(val)) {
+                this.grid[idx].isError = true;
+                this.grid[seen.get(val)].isError = true;
+              } else {
+                seen.set(val, idx);
               }
-              if (ok && v === target) return true
-              if (ok && 1/v === target) return true
+            }
+          });
+        }
+
+        checkCageMath(values, target, op) {
+           // Sort for easier math
+           const nums = [...values].sort((a,b) => b - a); // Descending
+           
+           if (op === '+') return nums.reduce((a,b) => a+b, 0) === target;
+           if (op === 'x' || op === '*') return nums.reduce((a,b) => a*b, 1) === target;
+           
+           if (op === '-') {
+             if (values.length === 2) {
+                 return (nums[0] - nums[1]) === target;
+             }
+             return false;
+           }
+
+           if (op === '/' || op === '÷') {
+               if (values.length === 2) {
+                   return (nums[0] / nums[1]) === target;
+               }
+               return false;
+           }
+           
+           // No op (single cell cage)
+           if (!op || op === '') return values[0] === target;
+
+           return false;
+        }
+
+        getRow(r) {
+            return Array.from({length: this.size}, (_, c) => r * this.size + c);
+        }
+        
+        getCol(c) {
+            return Array.from({length: this.size}, (_, r) => r * this.size + c);
+        }
+
+      }
+
+      // --- Puzzle Generator ---
+      
+      class PuzzleGenerator {
+        static generate(size) {
+          // 1. Generate Base Latin Square
+          let grid = this.createLatinSquare(size);
+          
+          // 2. Shuffle (Rows, Cols, Numbers)
+          grid = this.shuffleGrid(grid, size);
+
+          // 3. Get Cage Layout (Shapes)
+          const layout = this.getCageLayout(size);
+
+          // 4. Calculate Targets
+          const cages = layout.map((cageIndices, i) => {
+            const values = cageIndices.map(idx => grid[idx]);
+            const { target, op } = this.calculateCageTarget(values);
+            return {
+              id: `c${i}`,
+              cells: cageIndices,
+              target,
+              op
+            };
+          });
+
+          return { size, cages, solution: grid };
+        }
+
+        static createLatinSquare(size) {
+          // Simple cyclic Latin Square
+          const grid = new Array(size * size);
+          for (let r = 0; r < size; r++) {
+            for (let c = 0; c < size; c++) {
+              grid[r * size + c] = (r + c) % size + 1;
             }
           }
-          return false
+          return grid;
         }
-        function cageOk(cage) {
-          const vals = cage.cells.map(i => state.cells[i])
-          if (vals.some(v => v == null)) return false
-          if (!cage.op) { return vals.length === 1 && vals[0] === cage.target }
-          if (cage.op === '+') return sum(vals) === cage.target
-          if (cage.op === 'x' || cage.op === '×' || cage.op === '*') return prod(vals) === cage.target
-          if (cage.op === '-') return anyOrderResult(vals, '-', cage.target)
-          if (cage.op === '/' || cage.op === '÷') return anyOrderResult(vals, '/', cage.target)
-          return false
-        }
-        function check() {
-          let ok = true
-          for (let r=0;r<size;r++) { if (!uniqOk(state.cells.slice(r*size, r*size+size))) { ok = false; break } }
-          if (ok) for (let c=0;c<size;c++) { const col = Array.from({length:size}, (_,k)=> state.cells[k*size+c]); if (!uniqOk(col)) { ok = false; break } }
-          if (ok) for (const cage of currentLevel.cages) { if (!cageOk(cage)) { ok = false; break } }
-          statusEl.textContent = ok ? 'Correct' : 'Some rules are violated'
-          statusEl.style.color = ok ? '#0a7f2e' : '#b91c1c'
-        }
-        function clearAll() {
-          state.cells = Array.from({length:size*size}, ()=>null)
-          state.selected = null
-          statusEl.textContent = ''
-          render()
-        }
-        (function renderPad(){
-          const pad = document.getElementById('pad')
-          pad.innerHTML = ''
-          for (let k = 1; k <= size; k++) {
-            const b = document.createElement('button')
-            b.className = 'btn'
-            b.setAttribute('data-key', String(k))
-            b.textContent = String(k)
-            b.addEventListener('click', () => setValue(k))
-            pad.appendChild(b)
+
+        static shuffleGrid(grid, size) {
+          let newGrid = [...grid];
+          const idx = (r, c) => r * size + c;
+
+          // 1. Shuffle Rows
+          for (let i = 0; i < size; i++) {
+            const r1 = Math.floor(Math.random() * size);
+            const r2 = Math.floor(Math.random() * size);
+            for (let c = 0; c < size; c++) {
+              [newGrid[idx(r1, c)], newGrid[idx(r2, c)]] = [newGrid[idx(r2, c)], newGrid[idx(r1, c)]];
+            }
           }
-          const clr = document.createElement('button')
-          clr.className = 'btn'
-          clr.setAttribute('data-key', 'clear')
-          clr.textContent = 'Clear'
-          clr.addEventListener('click', () => setValue(null))
-          pad.appendChild(clr)
-        })()
-        document.getElementById('checkBtn').addEventListener('click', check)
-        document.getElementById('clearBtn').addEventListener('click', clearAll)
-        render()
-      })()
+
+          // 2. Shuffle Cols
+          for (let i = 0; i < size; i++) {
+            const c1 = Math.floor(Math.random() * size);
+            const c2 = Math.floor(Math.random() * size);
+            for (let r = 0; r < size; r++) {
+              [newGrid[idx(r, c1)], newGrid[idx(r, c2)]] = [newGrid[idx(r, c2)], newGrid[idx(r, c1)]];
+            }
+          }
+
+          // 3. Shuffle Numbers
+          const map = Array.from({length: size}, (_, i) => i + 1);
+          for (let i = map.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [map[i], map[j]] = [map[j], map[i]];
+          }
+          newGrid = newGrid.map(v => map[v - 1]);
+
+          return newGrid;
+        }
+
+        static getCageLayout(size) {
+          const cages = [];
+          const visited = new Set();
+          
+          for (let i = 0; i < size * size; i++) {
+            if (visited.has(i)) continue;
+            
+            const cage = [i];
+            visited.add(i);
+            
+            // Random cage size: 1 to 4 cells (weighted)
+            // 3x3 grids prefer smaller cages (max 3)
+            let maxCageSize = size === 3 ? 3 : 4;
+            let targetSize = 1;
+            const r = Math.random();
+            if (r > 0.15) targetSize = 2;
+            if (r > 0.55) targetSize = 3;
+            if (r > 0.85 && maxCageSize >= 4) targetSize = 4;
+            
+            while (cage.length < targetSize) {
+              // Find all valid unvisited neighbors of current cage
+              const neighbors = [];
+              for (const cellIndex of cage) {
+                const r = Math.floor(cellIndex / size);
+                const c = cellIndex % size;
+                
+                const candidates = [
+                  {r: r-1, c: c}, {r: r+1, c: c},
+                  {r: r, c: c-1}, {r: r, c: c+1}
+                ];
+                
+                for (const cand of candidates) {
+                  if (cand.r >= 0 && cand.r < size && cand.c >= 0 && cand.c < size) {
+                    const idx = cand.r * size + cand.c;
+                    if (!visited.has(idx) && !neighbors.includes(idx)) {
+                      neighbors.push(idx);
+                    }
+                  }
+                }
+              }
+              
+              if (neighbors.length === 0) break; // No room to grow
+              
+              // Pick random neighbor
+              const next = neighbors[Math.floor(Math.random() * neighbors.length)];
+              cage.push(next);
+              visited.add(next);
+            }
+            
+            cages.push(cage);
+          }
+          return cages;
+        }
+
+        static calculateCageTarget(values) {
+          if (values.length === 1) {
+            return { target: values[0], op: '' };
+          }
+
+          const sorted = [...values].sort((a, b) => b - a);
+          const ops = [];
+          
+          // Addition
+          ops.push({ op: '+', target: sorted.reduce((a, b) => a + b, 0) });
+          
+          // Multiplication (prefer < 1000)
+          const product = sorted.reduce((a, b) => a * b, 1);
+          if (product < 1000) ops.push({ op: 'x', target: product });
+
+          // Subtraction (2 cells)
+          if (values.length === 2) {
+             ops.push({ op: '-', target: sorted[0] - sorted[1] });
+          }
+
+          // Division (2 cells)
+          if (values.length === 2 && sorted[0] % sorted[1] === 0) {
+             ops.push({ op: '÷', target: sorted[0] / sorted[1] });
+          }
+
+          // Random pick
+          return ops[Math.floor(Math.random() * ops.length)];
+        }
+      }
+
+      let game;
+
+      function startGame(n) {
+          const data = PuzzleGenerator.generate(n);
+          game = new CalcudokuGame(data.size, data.cages, data.solution);
+      }
+
+      document.getElementById('size-selector').addEventListener('change', (e) => {
+          startGame(parseInt(e.target.value));
+      });
+
+      // Start default
+      // startGame(4); // Removed default start
+      
+      // --- Menu Logic ---
+      const menuGrid = document.getElementById('menu-grid');
+      const sizes = [
+        { s: 3, label: '3×3' },
+        { s: 4, label: '4×4' },
+        { s: 5, label: '5×5' },
+        { s: 6, label: '6×6' },
+        { s: 7, label: '7×7' },
+        { s: 8, label: '8×8' },
+        { s: 9, label: '9×9' }
+      ];
+
+      sizes.forEach(({s, label}) => {
+        const item = document.createElement('div');
+        item.className = 'menu-item';
+        
+        // Create mini grid icon
+        const icon = document.createElement('div');
+        icon.className = 'menu-icon';
+        icon.style.gridTemplateColumns = `repeat(${Math.min(s, 3)}, 1fr)`; // Simplify for icon
+        // We just show a 3x3 representation for all, or scale it?
+        // Actually, let's just show a 3x3 grid for all but label it differently,
+        // OR render actual NxN but up to a limit so it doesn't look too dense.
+        // The screenshot shows distinct grid densities. Let's try to match size.
+        icon.style.gridTemplateColumns = `repeat(${s}, 1fr)`;
+        
+        for(let i=0; i<s*s; i++) {
+            const cell = document.createElement('div');
+            // Thicker border for icon maybe?
+            cell.style.border = '1px solid #ddd';
+            icon.appendChild(cell);
+        }
+
+        const lbl = document.createElement('div');
+        lbl.className = 'menu-item-label';
+        lbl.textContent = label;
+
+        item.appendChild(lbl);
+        item.appendChild(icon);
+        
+        item.addEventListener('click', () => {
+          showGame(s);
+        });
+
+        menuGrid.appendChild(item);
+      });
+
+      function showGame(size) {
+        document.getElementById('menu-screen').style.display = 'none';
+        document.getElementById('game-screen').style.display = 'flex';
+        
+        const selector = document.getElementById('size-selector');
+        selector.value = size;
+        
+        startGame(size);
+      }
+
+      function showMenu() {
+        document.getElementById('game-screen').style.display = 'none';
+        document.getElementById('menu-screen').style.display = 'flex';
+        // Stop current game logic if needed (e.g. timers) - none here currently
+      }
+
+      document.getElementById('back-btn').addEventListener('click', showMenu);
+
+
     </script>
   </body>
 </html>
