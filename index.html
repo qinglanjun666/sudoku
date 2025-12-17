@@ -43,10 +43,17 @@
       <section class="hero-primary">
         <div class="hero-inner">
           <div class="hero-left">
-            <h1 class="hero-title">Sudoku: Logic, Brain & Challenge Online</h1>
-            <p class="hero-subtitle">A simple and powerful logic puzzle solution for your whole mind.</p>
-            <div>
-              <a id="playNowHero" class="btn btn-yellow btn-new" href="/medium/">Play Now</a>
+            <h1 class="hero-title">While They Scroll, You Solve.</h1>
+            <p class="hero-subtitle">
+              Ordinary minds seek entertainment. Exceptional minds seek challenge.<br>
+              Escape the algorithm. Find clarity in numbers.
+            </p>
+            <div style="display:flex; gap:12px; margin-top:24px; flex-wrap:wrap">
+              <a class="btn btn-yellow btn-new" href="/sudoku/">Start Training Now</a>
+              <button id="saveFavBtn" class="btn" style="background:white; border:1px solid #ccc; color:#333">Save to Favorites</button>
+            </div>
+            <div style="margin-top:24px; font-size:14px; color:white; font-style:italic">
+              "Share this with the 3 smartest people you know."
             </div>
           </div>
           <div class="hero-right">
@@ -76,7 +83,7 @@
             </div>
           </div>
         </div>
-        <div class="hero-usedby">Used by 2,000,000 people worldwide</div>
+        <!-- <div class="hero-usedby">Used by 2,000,000 people worldwide</div> -->
       </section>
       
     </main>
@@ -89,60 +96,31 @@
       ]).then(([h,f])=>{
         var sh = document.getElementById('site-header'); if (sh) sh.innerHTML = h
         var sf = document.getElementById('site-footer'); if (sf) sf.innerHTML = f
-        var btn = document.getElementById('playNowHero')
-        if (btn) {
-          btn.addEventListener('click', function(e){
-            e.preventDefault()
-            var m = document.getElementById('heroSelectModal'); if (m) m.remove()
-            m = document.createElement('div')
-            m.id = 'heroSelectModal'
-            m.style.position = 'fixed'
-            m.style.inset = '0'
-            m.style.background = 'rgba(0,0,0,0.35)'
-            m.style.display = 'flex'
-            m.style.alignItems = 'center'
-            m.style.justifyContent = 'center'
-            var card = document.createElement('div')
-            card.style.background = '#fff'
-            card.style.border = '1px solid var(--color-border)'
-            card.style.borderRadius = '12px'
-            card.style.boxShadow = '0 10px 36px rgba(0,0,0,0.12)'
-            card.style.padding = '20px'
-            card.style.width = '420px'
-            var h1 = document.createElement('div')
-            h1.textContent = 'Choose a difficulty'
-            h1.style.fontWeight = '600'
-            h1.style.marginBottom = '12px'
-            var list = document.createElement('div')
-            list.style.display = 'grid'
-            list.style.gridTemplateColumns = '1fr 1fr'
-            list.style.gap = '10px'
-            function makeBtn(text, href){
-              var a = document.createElement('a')
-              a.className = 'btn btn-primary'
-              a.textContent = text
-              a.href = href
-              return a
+        
+        var favBtn = document.getElementById('saveFavBtn')
+        if (favBtn) {
+          favBtn.addEventListener('click', function(e){
+            e.preventDefault();
+            var url = window.location.href;
+            var title = document.title;
+            
+            try {
+              // Try IE method
+              if (window.external && ('AddFavorite' in window.external)) {
+                window.external.AddFavorite(url, title);
+              } 
+              // Try Firefox < 23 method
+              else if (window.sidebar && window.sidebar.addPanel) {
+                window.sidebar.addPanel(title, url, "");
+              } 
+              // Fallback for modern browsers (Chrome, Safari, Firefox 23+, Edge)
+              else {
+                alert('Press ' + (navigator.userAgent.match(/Mac/) ? 'Cmd' : 'Ctrl') + '+D to bookmark this page.');
+              }
+            } catch (err) {
+              // If anything fails, fallback to alert
+              alert('Press ' + (navigator.userAgent.match(/Mac/) ? 'Cmd' : 'Ctrl') + '+D to bookmark this page.');
             }
-            list.appendChild(makeBtn('Easy', '/easy/'))
-            list.appendChild(makeBtn('Medium', '/medium/'))
-            list.appendChild(makeBtn('Hard', '/hard/'))
-            list.appendChild(makeBtn('6×6', '/six/'))
-            var row = document.createElement('div')
-            row.style.display = 'flex'
-            row.style.justifyContent = 'flex-end'
-            row.style.marginTop = '12px'
-            var cancel = document.createElement('button')
-            cancel.className = 'btn'
-            cancel.textContent = 'Cancel'
-            cancel.addEventListener('click', function(){ m.remove() })
-            row.appendChild(cancel)
-            card.appendChild(h1)
-            card.appendChild(list)
-            card.appendChild(row)
-            m.appendChild(card)
-            document.body.appendChild(m)
-            m.addEventListener('click', function(e){ if (e.target === m) m.remove() })
           })
         }
       })
