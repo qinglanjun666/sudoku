@@ -37,7 +37,7 @@ html, body {
   background: #fff;
   border-bottom: 1px solid var(--color-border);
   height: 64px;
-  z-index: 50;
+  z-index: 9999;
 }
 .nav-inner {
   max-width: 1080px;
