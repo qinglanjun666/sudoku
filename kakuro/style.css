@@ -1,171 +1,227 @@
 :root {
-    --cell-size: 40px;
-    --border-color: #333; /* Deep gray border */
-    --clue-bg: #E0E0E0;   /* Light gray background for clues */
-    --input-bg: #FFFFFF;  /* White background for input */
-    --text-color: #000000;
-    --highlight-bg: #b3d9ff; /* Selection highlight */
-    --error-color: #ffcccc;
+  --cell-size: 50px;
+  --border-thick: 2px solid black;
+  --border-thin: 1px solid #333;
+  --bg-clue: #e0e0e0;
+  --bg-empty: #ffffff;
+  --text-color: #000;
+  --clue-text-size: 12px;
+  --input-text-size: 24px;
 }
 
 body {
-    background-color: #f5f5f5;
+  font-family: 'Inter', sans-serif;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding-top: 80px; /* Prevent header overlap */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  box-sizing: border-box;
 }
 
-.kakuro-container {
-    max-width: 1200px;
-    margin: 2rem auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0 1rem;
+/* Menu Screen (Calcudoku Style) */
+#difficulty-screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
-.game-controls {
-    margin-bottom: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    width: 100%;
+.menu-title {
+  color: #333;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 30px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
-.difficulty-selector {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    justify-content: center;
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 800px;
+  width: 100%;
 }
 
-.btn-difficulty {
-    padding: 0.5rem 1rem;
-    border: 1px solid #ccc;
-    background: white;
-    cursor: pointer;
-    font-family: inherit;
-    transition: all 0.2s;
+.menu-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  border: 1px solid #eee;
 }
 
-.btn-difficulty:hover {
-    background: #eee;
+.menu-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px rgba(0,0,0,0.1);
 }
 
-.btn-difficulty.active {
-    background: #333;
-    color: white;
-    border-color: #333;
+.menu-item-label {
+  color: #333;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
 }
 
-.game-status {
-    font-size: 1.1rem;
-    color: #555;
-    min-height: 1.5rem;
+.menu-item-sublabel {
+  color: #666;
+  font-size: 0.9rem;
+  margin-top: -8px;
 }
 
-/* Grid Styles */
-.kakuro-grid {
-    display: grid;
-    gap: 1px;
-    background-color: var(--border-color); /* Creates the grid lines */
-    border: 2px solid var(--border-color);
-    margin-bottom: 2rem;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+.menu-icon {
+  background: white;
+  border-radius: 4px;
+  padding: 2px;
+  display: grid;
+  gap: 1px;
+  width: 80px;
+  height: 80px;
+  box-sizing: border-box;
+  border: 2px solid #333;
+  background-color: #333; /* Gap color */
+}
+
+.menu-icon div {
+  background: white;
+}
+
+/* Responsive Menu */
+@media (max-width: 700px) {
+  .menu-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.main-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+h1 {
+  margin-bottom: 20px;
+  font-weight: 700;
+  color: #111;
+}
+
+/* Kakuro Board Container */
+.kakuro-board {
+  display: grid;
+  /* Grid template columns will be set by JS or inline */
+  border: var(--border-thick);
+  background-color: var(--border-thin); /* Color for gap if used, but we'll use borders on cells */
+  gap: 0; 
+  box-shadow: 4px 4px 8px rgba(0,0,0,0.2);
+}
+
+.kakuro-grid { 
+  /* 强制使用无衬线字体 */ 
+  font-family: "Helvetica Neue", Arial, sans-serif; 
+  font-weight: bold; 
 }
 
 .cell {
-    width: var(--cell-size);
-    height: var(--cell-size);
-    background-color: var(--input-bg);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: var(--text-color);
-    cursor: pointer;
-    user-select: none;
-    position: relative;
+  width: var(--cell-size);
+  height: var(--cell-size);
+  border-right: var(--border-thin);
+  border-bottom: var(--border-thin);
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  position: relative;
 }
 
-/* Clue Cell Styling */
-.cell.clue {
-    background-color: var(--clue-bg);
-    cursor: default;
-    /* CSS Diagonal Line */
-    background-image: linear-gradient(to top right, transparent 48%, #999 50%, transparent 52%);
+/* Remove right border for last column and bottom border for last row 
+   This is handled by the container border, but let's be precise. 
+   Actually standard is to have borders on all cells and container wraps them.
+   If we want container border 2px, and inner 1px, we can let cells have 1px borders.
+*/
+
+.cell.empty {
+  background-color: var(--bg-empty);
+  cursor: default; /* 改为 default，因为不再是原生输入框 */
 }
 
-.clue-val {
-    position: absolute;
-    font-size: 0.75rem; /* Small font for clues */
-    color: #444;
-    font-weight: bold;
-    line-height: 1;
+.cell-value { 
+  /* 填数格的数字要大且居中 */ 
+  font-size: 1.4rem; 
+  color: #000; 
 }
 
-.clue-val.down {
-    bottom: 3px;
-    left: 4px;
-}
-
-.clue-val.right {
-    top: 3px;
-    right: 4px;
-}
-
-/* Interaction States */
-.cell.input:hover {
-    background-color: #f0f0f0;
-}
-
+/* 移除原有的 :focus 样式，改为 .selected */
 .cell.selected {
-    background-color: var(--highlight-bg) !important;
+  background-color: #e8f0fe;
+  outline: 3px solid #4285f4; /* 明显的选中框 */
+  z-index: 10; /* 保证框在最上层 */
 }
 
-.cell.error {
-    background-color: var(--error-color) !important;
-    color: #d00;
+.cell.void {
+  background-color: var(--bg-clue);
 }
 
-/* Numpad for mobile/mouse users */
-.numpad {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 0.5rem;
-    margin-top: 1rem;
+.cell.clue { 
+     /* 关键修改：必须使用 to top right */ 
+     /* 只有这样，生成的黑色分割线才是从左上角划向右下角的 `\` */ 
+     background: linear-gradient( 
+         to top right, 
+         transparent 48%, 
+         #000 48%,       
+         #000 52%,       
+         transparent 52% 
+     ); 
+     background-color: #dcdcdc; /* 保持灰色底色 */ 
+     position: relative; 
+ }
+
+.clue-number {
+  position: absolute;
+  font-size: 0.75rem; /* 微调：减小字号增加呼吸感 */
+  font-weight: bold;
+  color: #000;
+  line-height: 1;
+  z-index: 2; /* 确保在斜线之上 */
 }
 
-.num-btn {
-    width: 40px;
-    height: 40px;
-    border: 1px solid #ccc;
-    background: white;
-    font-size: 1.2rem;
-    cursor: pointer;
-    border-radius: 4px;
+/* 下方列的提示 (Down) -> 必须位于左下角 */
+.clue-down {
+  bottom: 5px;  /* 距离底部有点空隙 */
+  left: 5px;    /* 距离左边有点空隙 */
 }
 
-.num-btn:active {
-    background: #ddd;
+/* 右侧行的提示 (Right) -> 必须位于右上角 */
+.clue-right {
+  top: 5px;     /* 距离顶部有点空隙 */
+  right: 5px;   /* 距离右边有点空隙 */
 }
 
-.num-btn.action-btn {
-    background: #ffebee;
-    color: #c62828;
-    border-color: #ffcdd2;
-}
-
-/* Responsive adjustments */
+/* Responsive adjustment */
 @media (max-width: 600px) {
-    :root {
-        --cell-size: 32px;
-    }
-    
-    .clue-val {
-        font-size: 0.6rem;
-    }
-    
-    .cell {
-        font-size: 1rem;
-    }
+  :root {
+    --cell-size: 36px;
+    --clue-text-size: 10px;
+    --input-text-size: 18px;
+  }
+}
+
+@media (max-width: 400px) {
+  .menu-grid {
+    grid-template-columns: 1fr;
+  }
 }

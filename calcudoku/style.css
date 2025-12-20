@@ -1,0 +1,282 @@
+:root {
+  --bg-color: #6699CC;
+  --board-bg: #FFFFFF;
+  --text-color: #333333;
+  --border-thick: 1px solid #333333; /* Thinner borders */
+  --border-thin: 1px dotted #ccc;
+  --highlight-cell: #e2e8f0;
+  --highlight-same-num: #bde0fe;
+  --highlight-cage: #f0f9ff;
+  --error-color: #ffcccc;
+}
+
+/* Ensure body takes full height for the layout */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.game-controls {
+  margin-bottom: 8px;
+  display: flex;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 4px 12px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+select {
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  background-color: white;
+  cursor: pointer;
+}
+
+
+/* Grid Container */
+.board-container {
+  background: var(--board-bg);
+  padding: 4px; /* Padding for outer border */
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  margin: 0 auto; /* Center horizontally */
+  width: 100%;
+  max-width: min(90vw, 50vh); /* More compact */
+  aspect-ratio: 1;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.grid {
+  display: grid;
+  /* grid-template-columns set via JS */
+  border: var(--border-thick);
+  user-select: none;
+  touch-action: manipulation;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* Cell Styling */
+.cell {
+  position: relative;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem; /* Larger numbers */
+  font-weight: 700;
+  cursor: pointer;
+  background: var(--board-bg);
+  box-sizing: border-box;
+  /* Default thin borders */
+  border-right: var(--border-thin);
+  border-bottom: var(--border-thin);
+}
+
+/* Smart Borders (Applied via JS classes) */
+.b-top { border-top: var(--border-thick) !important; }
+.b-right { border-right: var(--border-thick) !important; }
+.b-bottom { border-bottom: var(--border-thick) !important; }
+.b-left { border-left: var(--border-thick) !important; }
+
+/* Interaction States */
+.cell.active {
+  background-color: var(--highlight-cell);
+  outline: 2px solid #3b82f6;
+  z-index: 10;
+}
+
+.cell.cage-active {
+  background-color: var(--highlight-cage);
+}
+
+.cell.num-highlight {
+  background-color: var(--highlight-same-num);
+}
+
+.cell.error {
+  background-color: var(--error-color);
+  color: #991b1b;
+}
+
+.cell.hinted {
+  color: #2563eb; /* Blue text for hints */
+}
+
+/* Typography */
+.target-label {
+  position: absolute;
+  top: 2px;
+  left: 4px;
+  font-size: 1.2rem; /* Larger cage target */
+  font-weight: 700;
+  line-height: 1;
+  color: #555;
+  pointer-events: none;
+}
+
+.cell-value {
+  z-index: 1;
+}
+
+/* Virtual Keypad - Integrated Flow */
+.virtual-keypad {
+  margin-top: 8px; /* Reduced gap */
+  width: 100%;
+  max-width: min(90vw, 50vh); /* Match board width */
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 100;
+}
+
+.keypad-row {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.key-btn {
+  flex: 1;
+  height: 64px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background: #f8f9fa;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #333;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.1s;
+  touch-action: manipulation;
+}
+
+.key-btn:active {
+  background: #e2e8f0;
+  transform: translateY(1px);
+}
+
+.action-btn {
+  flex: 1;
+  height: 48px;
+  font-size: 1rem;
+  font-weight: 600;
+  background: #edf2f7;
+  max-width: none;
+}
+
+.action-btn.primary {
+  background: #3b82f6;
+  color: white;
+  border: none;
+}
+
+.action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Menu Screen */
+#menu-screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.menu-title {
+  color: #333;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 30px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 800px;
+  width: 100%;
+}
+
+.menu-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  border: 1px solid #eee;
+}
+
+.menu-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+}
+
+.menu-item-label {
+  color: #333;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.menu-item-sublabel {
+  color: #666;
+  font-size: 0.9rem;
+  margin-top: -8px;
+}
+
+.menu-icon {
+  background: white;
+  border-radius: 4px;
+  padding: 2px;
+  display: grid;
+  gap: 1px;
+  width: 80px;
+  height: 80px;
+  box-sizing: border-box;
+  border: 2px solid #333;
+  background-color: #333; /* Gap color for grid lines */
+}
+
+.menu-icon div {
+  background: white;
+  border-radius: 0;
+  border: none; /* Borders handled by gap */
+}
+
+@media (max-width: 700px) {
+  .menu-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
