@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script>
+      (function(){
+        var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+        if (isLocal) return
+        
+        // Analytics
+        var s = document.createElement('script')
+        s.async = true
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-LX4B214LBK'
+        document.head.appendChild(s)
+        window.dataLayer = window.dataLayer || []
+        function gtag(){ dataLayer.push(arguments) }
+        window.gtag = gtag
+        gtag('js', new Date())
+        gtag('config', 'G-LX4B214LBK')
+
+        // Ads
+        var ad = document.createElement('script')
+        ad.async = true
+        ad.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5101109858499684"
+        ad.crossOrigin = "anonymous"
+        document.head.appendChild(ad)
+      })()
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sudoku Difficulty Selection - Logic for Sudoku</title>
+    <meta name="description" content="Select your Sudoku difficulty: Easy, Medium, Hard, or Mini 6x6." />
+    <link rel="canonical" href="/sudoku/index.html" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="Sudoku Difficulty Selection - Logic for Sudoku" />
+    <meta property="og:description" content="Select your Sudoku difficulty: Easy, Medium, Hard, or Mini 6x6." />
+    <meta property="og:image" content="/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Sudoku Difficulty Selection - Logic for Sudoku" />
+    <meta name="twitter:description" content="Select your Sudoku difficulty: Easy, Medium, Hard, or Mini 6x6." />
+    <meta name="twitter:image" content="/favicon.svg" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/src/index.css?v=2" />
+    <link rel="stylesheet" href="style.css?v=1" />
+  </head>
+  <body>
+    <header>
+      <div id="site-header"></div>
+    </header>
+    <main class="main-wrap">
+       <div id="difficulty-screen">
+        <div class="menu-title">Select Difficulty</div>
+        <div class="menu-grid">
+            <a href="/easy/" class="menu-item">
+                <div class="menu-icon icon-9x9">
+                    <div></div><div></div><div></div>
+                    <div></div><div></div><div></div>
+                    <div></div><div></div><div></div>
+                </div>
+                <div class="menu-item-label">Easy</div>
+                <div class="menu-item-sublabel">9x9 Grid</div>
+            </a>
+            <a href="/medium/" class="menu-item">
+                <div class="menu-icon icon-9x9">
+                    <div></div><div></div><div></div>
+                    <div></div><div></div><div></div>
+                    <div></div><div></div><div></div>
+                </div>
+                <div class="menu-item-label">Medium</div>
+                <div class="menu-item-sublabel">9x9 Grid</div>
+            </a>
+            <a href="/hard/" class="menu-item">
+                <div class="menu-icon icon-9x9">
+                    <div></div><div></div><div></div>
+                    <div></div><div></div><div></div>
+                    <div></div><div></div><div></div>
+                </div>
+                <div class="menu-item-label">Hard</div>
+                <div class="menu-item-sublabel">9x9 Grid</div>
+            </a>
+            <a href="/six/" class="menu-item">
+                <div class="menu-icon icon-6x6">
+                    <div></div><div></div>
+                    <div></div><div></div>
+                </div>
+                <div class="menu-item-label">Mini 6x6</div>
+                <div class="menu-item-sublabel">Quick Game</div>
+            </a>
+        </div>
+      </div>
+    </main>
+    <div id="site-footer"></div>
+    <script>
+      (function(){
+        Promise.all([
+          fetch('/partials/header.html?v=' + Date.now()).then(r=>r.text()),
+          fetch('/partials/footer.html?v=' + Date.now()).then(r=>r.text())
+        ]).then(([h,f])=>{
+          var sh = document.getElementById('site-header'); if (sh) sh.innerHTML = h
+          var sf = document.getElementById('site-footer'); if (sf) sf.innerHTML = f
+        })
+      })()
+    </script>
+  </body>
+</html>

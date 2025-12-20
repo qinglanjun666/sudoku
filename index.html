@@ -28,79 +28,111 @@
     </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Sudoku Difficulty Selection - Logic for Sudoku</title>
-    <meta name="description" content="Select your Sudoku difficulty: Easy, Medium, Hard, or Mini 6x6." />
-    <link rel="canonical" href="/sudoku/index.html" />
+    <title>Play Sudoku Online — Logic for Sudoku</title>
+    <meta name="description" content="Sharpen your logic with free online Sudoku. Easy, Medium, Hard puzzles ready to play." />
+    <link rel="canonical" href="/index.html" />
     <meta name="robots" content="index, follow" />
-    <meta property="og:title" content="Sudoku Difficulty Selection - Logic for Sudoku" />
-    <meta property="og:description" content="Select your Sudoku difficulty: Easy, Medium, Hard, or Mini 6x6." />
+    <meta property="og:title" content="Play Sudoku Online — Logic for Sudoku" />
+    <meta property="og:description" content="Free online Sudoku with three difficulty levels. Sharpen your logic instantly. Easy, Medium, Hard puzzles." />
     <meta property="og:image" content="/favicon.svg" />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Sudoku Difficulty Selection - Logic for Sudoku" />
-    <meta name="twitter:description" content="Select your Sudoku difficulty: Easy, Medium, Hard, or Mini 6x6." />
+    <meta name="twitter:title" content="Play Sudoku Online — Logic for Sudoku" />
+    <meta name="twitter:description" content="Free online Sudoku with three difficulty levels. Sharpen your logic instantly. Easy, Medium, Hard puzzles." />
     <meta name="twitter:image" content="/favicon.svg" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/src/index.css?v=2" />
-    <link rel="stylesheet" href="style.css?v=1" />
   </head>
   <body>
     <header>
       <div id="site-header"></div>
     </header>
     <main class="main-wrap">
-       <div id="difficulty-screen">
-        <div class="menu-title">Select Difficulty</div>
-        <div class="menu-grid">
-            <a href="/easy/" class="menu-item">
-                <div class="menu-icon icon-9x9">
-                    <div></div><div></div><div></div>
-                    <div></div><div></div><div></div>
-                    <div></div><div></div><div></div>
+      <section class="hero-primary">
+        <div class="hero-inner">
+          <div class="hero-left">
+            <h1 class="hero-title">While They Scroll, You Solve.</h1>
+            <p class="hero-subtitle">
+              Ordinary minds seek entertainment. Exceptional minds seek challenge.<br>
+              Escape the algorithm. Find clarity in numbers.
+            </p>
+            <div style="display:flex; gap:12px; margin-top:24px; flex-wrap:wrap">
+              <a class="btn btn-yellow btn-new" href="/sudoku/">Start Training Now</a>
+              <button id="saveFavBtn" class="btn" style="background:white; border:1px solid #ccc; color:#333">Save to Favorites</button>
+            </div>
+            <div style="margin-top:24px; font-size:14px; color:white; font-style:italic">
+              "Share this with the 3 smartest people you know."
+            </div>
+          </div>
+          <div class="hero-right">
+            <div class="browser-mock">
+              <div class="mock-topbar">
+                <span class="mock-dot"></span>
+                <span class="mock-dot"></span>
+                <span class="mock-dot"></span>
+                <div style="margin-left:auto;color:#274472;font-weight:600">Sudoku+</div>
+              </div>
+              <div class="mock-body">
+                <div class="mock-toolbar">
+                  <div class="btn btn-toggle-active" style="pointer-events:none">Pencil</div>
+                  <div class="btn" style="pointer-events:none">Undo</div>
+                  <div class="btn" style="pointer-events:none">Hint</div>
+                  <div class="btn" style="pointer-events:none">Eraser</div>
                 </div>
-                <div class="menu-item-label">Easy</div>
-                <div class="menu-item-sublabel">9x9 Grid</div>
-            </a>
-            <a href="/medium/" class="menu-item">
-                <div class="menu-icon icon-9x9">
-                    <div></div><div></div><div></div>
-                    <div></div><div></div><div></div>
-                    <div></div><div></div><div></div>
+                <div class="mock-grid">
+                  <div class="mock-cell">7</div><div class="mock-cell"></div><div class="mock-cell">2</div><div class="mock-cell"></div><div class="mock-cell">5</div><div class="mock-cell"></div><div class="mock-cell">1</div><div class="mock-cell"></div><div class="mock-cell">9</div>
+                  <div class="mock-cell"></div><div class="mock-cell">4</div><div class="mock-cell"></div><div class="mock-cell">7</div><div class="mock-cell"></div><div class="mock-cell">2</div><div class="mock-cell"></div><div class="mock-cell">6</div><div class="mock-cell"></div>
+                  <div class="mock-cell">5</div><div class="mock-cell"></div><div class="mock-cell">9</div><div class="mock-cell"></div><div class="mock-cell">1</div><div class="mock-cell"></div><div class="mock-cell">3</div><div class="mock-cell"></div><div class="mock-cell">8</div>
+                  <div class="mock-cell"></div><div class="mock-cell">3</div><div class="mock-cell"></div><div class="mock-cell">1</div><div class="mock-cell"></div><div class="mock-cell">9</div><div class="mock-cell"></div><div class="mock-cell">5</div><div class="mock-cell"></div>
+                  <div class="mock-cell">8</div><div class="mock-cell"></div><div class="mock-cell">6</div><div class="mock-cell"></div><div class="mock-cell">4</div><div class="mock-cell"></div><div class="mock-cell">7</div><div class="mock-cell"></div><div class="mock-cell">2</div>
+                  <div class="mock-cell"></div><div class="mock-cell">7</div><div class="mock-cell"></div><div class="mock-cell">8</div><div class="mock-cell"></div><div class="mock-cell">3</div><div class="mock-cell"></div><div class="mock-cell">4</div><div class="mock-cell"></div>
                 </div>
-                <div class="menu-item-label">Medium</div>
-                <div class="menu-item-sublabel">9x9 Grid</div>
-            </a>
-            <a href="/hard/" class="menu-item">
-                <div class="menu-icon icon-9x9">
-                    <div></div><div></div><div></div>
-                    <div></div><div></div><div></div>
-                    <div></div><div></div><div></div>
-                </div>
-                <div class="menu-item-label">Hard</div>
-                <div class="menu-item-sublabel">9x9 Grid</div>
-            </a>
-            <a href="/six/" class="menu-item">
-                <div class="menu-icon icon-6x6">
-                    <div></div><div></div>
-                    <div></div><div></div>
-                </div>
-                <div class="menu-item-label">Mini 6x6</div>
-                <div class="menu-item-sublabel">Quick Game</div>
-            </a>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+        <!-- <div class="hero-usedby">Used by 2,000,000 people worldwide</div> -->
+      </section>
+      
     </main>
-    <div id="site-footer"></div>
-    <script>
-      (function(){
-        Promise.all([
-          fetch('/partials/header.html?v=' + Date.now()).then(r=>r.text()),
-          fetch('/partials/footer.html?v=' + Date.now()).then(r=>r.text())
-        ]).then(([h,f])=>{
-          var sh = document.getElementById('site-header'); if (sh) sh.innerHTML = h
-          var sf = document.getElementById('site-footer'); if (sf) sf.innerHTML = f
-        })
-      })()
-    </script>
+  <div id="site-footer"></div>
+  <script>
+    (function(){
+      Promise.all([
+        fetch('/partials/header.html?v=' + Date.now()).then(r=>r.text()),
+        fetch('/partials/footer.html?v=' + Date.now()).then(r=>r.text())
+      ]).then(([h,f])=>{
+        var sh = document.getElementById('site-header'); if (sh) sh.innerHTML = h
+        var sf = document.getElementById('site-footer'); if (sf) sf.innerHTML = f
+        
+        var favBtn = document.getElementById('saveFavBtn')
+        if (favBtn) {
+          favBtn.addEventListener('click', function(e){
+            e.preventDefault();
+            var url = window.location.href;
+            var title = document.title;
+            
+            try {
+              // Try IE method
+              if (window.external && ('AddFavorite' in window.external)) {
+                window.external.AddFavorite(url, title);
+              } 
+              // Try Firefox < 23 method
+              else if (window.sidebar && window.sidebar.addPanel) {
+                window.sidebar.addPanel(title, url, "");
+              } 
+              // Fallback for modern browsers (Chrome, Safari, Firefox 23+, Edge)
+              else {
+                alert('Press ' + (navigator.userAgent.match(/Mac/) ? 'Cmd' : 'Ctrl') + '+D to bookmark this page.');
+              }
+            } catch (err) {
+              // If anything fails, fallback to alert
+              alert('Press ' + (navigator.userAgent.match(/Mac/) ? 'Cmd' : 'Ctrl') + '+D to bookmark this page.');
+            }
+          })
+        }
+      })
+    })()
+  </script>
   </body>
-</html>
+  </html>
