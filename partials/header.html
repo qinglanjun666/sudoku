@@ -1,28 +1,68 @@
 <nav class="nav-bar">
   <div class="nav-inner">
-    <a class="logo" href="/index.html">Logic for Sudoku</a>
+    <a class="logo" href="/index.html" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
+      <!-- Vector Logo Replacement for perfect transparency -->
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
+        <rect x="4" y="12" width="8" height="8" rx="1.5" fill="#1e3a8a"/>
+        <rect x="14" y="12" width="8" height="8" rx="1.5" fill="#1e3a8a"/>
+        <rect x="24" y="12" width="8" height="8" rx="1.5" fill="#1e3a8a"/>
+        <rect x="4" y="22" width="8" height="8" rx="1.5" fill="#1e3a8a"/>
+        <rect x="14" y="22" width="8" height="8" rx="1.5" fill="#1e3a8a"/>
+        <rect x="24" y="22" width="8" height="8" rx="1.5" fill="#1e3a8a"/>
+        <rect x="14" y="2" width="8" height="8" rx="1.5" fill="#1e3a8a"/>
+      </svg>
+      <span style="font-family: 'Inter', system-ui, sans-serif; font-weight: 700; font-size: 20px; color: #1e3a8a; letter-spacing: -0.5px;">logicforsudoku.com</span>
+    </a>
     <div class="nav-channels">
-      <a href="/sudoku/index.html" class="channel-link btn">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="margin-right:6px; pointer-events:none"><path d="M3 3h7v7H3V3zm0 11h7v7H3v-7zm11-11h7v7h-7V3zm0 11h7v7h-7v-7z"/></svg>
-        Sudoku
-      </a>
-      <a href="/twenty-four/" class="channel-link btn">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="margin-right:6px"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-        24 Game
-      </a>
-      <a href="/calcudoku/" class="channel-link btn">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="margin-right:6px"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-6 14h-2v-2h2v2zm-4 0H7v-2h2v2zm8 0h-2v-2h2v2zm-8-4H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2zm-4-4h-2V7h2v2zm-4 0H7V7h2v2z"/></svg>
-        Calcudoku
-      </a>
-      <a href="/kakuro/" class="channel-link btn">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="margin-right:6px"><path d="M3 3h18v18H3V3zm16 16V5H5v14h14zM5 5h2v2H5V5zm4 0h2v2H9V5zm4 0h2v2h-2V5zm4 0h2v2h-2V5z"/></svg>
-        Kakuro
-      </a>
-      <a href="/tutorials/" class="channel-link btn">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="margin-right:6px"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-6 18H6v-2h6v2zm0-4H6v-2h6v2zm0-4H6V8h6v2zm5 8h-3v-2h3v2zm0-4h-3v-2h3v2zm0-4h-3V8h3v2z"/></svg>
-        Game Tutorial
-      </a>
+      <!-- Sudoku Dropdown -->
+      <div class="nav-item-dropdown">
+        <a href="/sudoku/" class="nav-link">Sudoku
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:4px; display:inline-block;"><path d="M1 1L5 5L9 1"/></svg>
+        </a>
+        <div class="dropdown-menu">
+          <a href="/sudoku/easy/" class="dropdown-item">Easy</a>
+          <a href="/sudoku/medium/" class="dropdown-item">Medium</a>
+          <a href="/sudoku/hard/" class="dropdown-item">Hard</a>
+          <a href="/sudoku/six/" class="dropdown-item">Mini 6x6</a>
+        </div>
+      </div>
 
+      <a href="/twenty-four/" class="nav-link">24 Game</a>
+
+      <!-- Calcudoku Dropdown -->
+      <div class="nav-item-dropdown">
+        <a href="/calcudoku/" class="nav-link">Calcudoku
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:4px; display:inline-block;"><path d="M1 1L5 5L9 1"/></svg>
+        </a>
+        <div class="dropdown-menu">
+          <a href="/calcudoku/?size=3" class="dropdown-item">3x3 (Easy)</a>
+          <a href="/calcudoku/?size=4" class="dropdown-item">4x4</a>
+          <a href="/calcudoku/?size=5" class="dropdown-item">5x5</a>
+          <a href="/calcudoku/?size=6" class="dropdown-item">6x6</a>
+          <a href="/calcudoku/?size=7" class="dropdown-item">7x7 (Hard)</a>
+          <a href="/calcudoku/?size=8" class="dropdown-item">8x8 (Expert)</a>
+          <a href="/calcudoku/?size=9" class="dropdown-item">9x9 (Master)</a>
+        </div>
+      </div>
+
+      <!-- Kakuro Dropdown -->
+      <div class="nav-item-dropdown">
+        <a href="/kakuro/" class="nav-link">Kakuro
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:4px; display:inline-block;"><path d="M1 1L5 5L9 1"/></svg>
+        </a>
+        <div class="dropdown-menu">
+          <a href="/kakuro/?difficulty=beginner" class="dropdown-item">Beginner (6x6)</a>
+          <a href="/kakuro/?difficulty=easy" class="dropdown-item">Easy (8x8)</a>
+          <a href="/kakuro/?difficulty=medium" class="dropdown-item">Medium (10x10)</a>
+          <a href="/kakuro/?difficulty=hard" class="dropdown-item">Hard (12x12)</a>
+          <a href="/kakuro/?difficulty=expert" class="dropdown-item">Expert (15x15)</a>
+        </div>
+      </div>
+
+      <a href="/tutorials/" class="nav-link">Tutorials</a>
+    </div>
+    <div class="nav-actions">
+      <a href="#" class="btn-nav-signup">Records</a>
     </div>
   </div>
 </nav>

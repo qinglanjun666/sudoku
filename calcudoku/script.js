@@ -98,205 +98,112 @@ class CalcudokuGame {
     });
   }
 
-  getBorderClasses(index) {
-    const classes = [];
-    const r = Math.floor(index / this.size);
-    const c = index % this.size;
-    const myCage = this.grid[index].cageId;
-
-    // Top
-    if (r === 0 || this.grid[index - this.size].cageId !== myCage) classes.push('b-top');
-    // Bottom
-    if (r === this.size - 1 || this.grid[index + this.size].cageId !== myCage) classes.push('b-bottom');
-    // Left
-    if (c === 0 || this.grid[index - 1].cageId !== myCage) classes.push('b-left');
-    // Right
-    if (c === this.size - 1 || this.grid[index + 1].cageId !== myCage) classes.push('b-right');
-
-    return classes;
-  }
-
   renderKeypad() {
-    const keypad = document.getElementById('keypad');
-    keypad.innerHTML = '';
-
-    // Numbers Row
-    const nums = Array.from({length: this.size}, (_, i) => i + 1);
-    const numRow = document.createElement('div');
-    numRow.className = 'keypad-row';
-    nums.forEach(n => {
-      numRow.appendChild(this.createBtn(n, 'key-btn', () => this.inputValue(n)));
-    });
-    keypad.appendChild(numRow);
-
-    // Actions Row
-    const actionsRow = document.createElement('div');
-    actionsRow.className = 'keypad-row';
+    const keypadEl = document.getElementById('keypad');
+    keypadEl.innerHTML = '';
     
-    const undoBtn = this.createBtn('Undo', 'key-btn action-btn', () => this.undo());
-    const restartBtn = this.createBtn('Restart', 'key-btn action-btn', () => this.restart());
+    // Numbers 1 to Size
+    for (let i = 1; i <= this.size; i++) {
+      const btn = document.createElement('button');
+      btn.className = 'keypad-btn';
+      btn.textContent = i;
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent document click
+        this.handleInput(i);
+      });
+      keypadEl.appendChild(btn);
+    }
     
-    const hintBtn = this.createBtn('Hint', 'key-btn action-btn', () => this.hint());
-    if (this.hintUsed) hintBtn.disabled = true;
-
-    // Use a different approach for New Game to integrate with menu
-    const newGameBtn = this.createBtn('New Game', 'key-btn action-btn primary', () => {
-        if (confirm('Start a new game with current settings?')) {
-            const n = parseInt(document.getElementById('size-selector').value);
-            startGame(n);
-        }
+    // Eraser
+    const eraser = document.createElement('button');
+    eraser.className = 'keypad-btn action';
+    eraser.textContent = '⌫';
+    eraser.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.handleInput(null);
     });
+    keypadEl.appendChild(eraser);
 
-    actionsRow.append(undoBtn, restartBtn, hintBtn, newGameBtn);
-    keypad.appendChild(actionsRow);
-  }
-
-  createBtn(text, className, onClick) {
-    const btn = document.createElement('button');
-    btn.className = className; // passed full class string
-    btn.textContent = text;
-    // Prevent focus stealing
-    btn.addEventListener('pointerdown', (e) => {
-       e.preventDefault();
-       onClick();
+    // Hint
+    const hint = document.createElement('button');
+    hint.className = 'keypad-btn action';
+    hint.textContent = '💡';
+    hint.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.handleHint();
     });
-    return btn;
+    keypadEl.appendChild(hint);
+
+    // Check
+    const check = document.createElement('button');
+    check.className = 'keypad-btn action';
+    check.textContent = '✓';
+    check.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.handleCheck();
+    });
+    keypadEl.appendChild(check);
   }
 
   attachEvents() {
-      // Keyboard support for desktop
-      // Remove previous listener to avoid duplicates if any (though class instance is new)
-      // Ideally we should handle cleanup.
-      
-      const keyHandler = (e) => {
-          if (this.activeCellIndex === null) return;
-          const key = e.key;
-          if (key >= '1' && key <= String(this.size)) {
-              this.inputValue(parseInt(key));
-          } else if (key === 'Backspace' || key === 'Delete') {
-              this.inputValue(null);
-          } else if (key === 'z' && (e.ctrlKey || e.metaKey)) {
-              this.undo();
-          } else if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(key)) {
-              e.preventDefault();
-              this.moveSelection(key);
-          }
-      };
-      
-      // Store handler to remove later if needed, but for now simple approach
-      document.onkeydown = keyHandler; 
+    // Keyboard support
+    document.onkeydown = (e) => {
+      const num = parseInt(e.key);
+      if (!isNaN(num) && num >= 1 && num <= this.size) {
+        this.handleInput(num);
+      } else if (e.key === 'Backspace' || e.key === 'Delete') {
+        this.handleInput(null);
+      } else if (e.key === 'ArrowUp') this.moveSelection(-this.size);
+      else if (e.key === 'ArrowDown') this.moveSelection(this.size);
+      else if (e.key === 'ArrowLeft') this.moveSelection(-1);
+      else if (e.key === 'ArrowRight') this.moveSelection(1);
+    };
   }
 
-  // --- Interaction ---
+  moveSelection(delta) {
+    if (this.activeCellIndex === null) {
+      this.activeCellIndex = 0;
+    } else {
+      const newIdx = this.activeCellIndex + delta;
+      if (newIdx >= 0 && newIdx < this.size * this.size) {
+        this.activeCellIndex = newIdx;
+      }
+    }
+    this.renderGrid();
+  }
 
   selectCell(index) {
     this.activeCellIndex = index;
     this.renderGrid();
   }
 
-  moveSelection(key) {
-      if (this.activeCellIndex === null) return;
-      let r = Math.floor(this.activeCellIndex / this.size);
-      let c = this.activeCellIndex % this.size;
-      
-      if (key === 'ArrowUp' && r > 0) r--;
-      if (key === 'ArrowDown' && r < this.size - 1) r++;
-      if (key === 'ArrowLeft' && c > 0) c--;
-      if (key === 'ArrowRight' && c < this.size - 1) c++;
-
-      this.selectCell(r * this.size + c);
-  }
-
-  inputValue(val) {
+  handleInput(val) {
     if (this.activeCellIndex === null) return;
-    const cell = this.grid[this.activeCellIndex];
-    if (cell.isHint) return; // Cannot edit hints
 
-    // Save state for undo
-    this.saveState();
-
-    // Toggle if same value
-    if (val === cell.value) {
-      cell.value = null;
-    } else {
-      cell.value = val;
+    // Save history
+    const prev = this.grid[this.activeCellIndex].value;
+    if (prev !== val) {
+        this.history.push({
+            index: this.activeCellIndex,
+            oldVal: prev,
+            newVal: val
+        });
+        
+        this.grid[this.activeCellIndex].value = val;
+        this.grid[this.activeCellIndex].isError = false; // Clear error on edit
+        this.grid[this.activeCellIndex].isHint = false;
+        this.renderGrid();
+        
+        // Auto check if full? No, let user check or check implicitly
+        // Let's do implicit cage check (visual feedback only if full?)
+        // Actually, let's just clear errors globally when input changes to reduce noise
+        this.grid.forEach(c => c.isError = false);
+        this.renderGrid();
     }
-
-    this.validate();
-    this.renderGrid();
   }
 
-  saveState() {
-      const snapshot = this.grid.map(c => ({
-          value: c.value
-      }));
-      this.history.push(snapshot);
-      if (this.history.length > 20) this.history.shift();
-  }
-
-  undo() {
-      if (this.history.length === 0) return;
-      const snapshot = this.history.pop();
-      this.grid.forEach((c, i) => {
-          if (!c.isHint) { // Don't undo hints
-              c.value = snapshot[i].value;
-          }
-      });
-      this.validate();
-      this.renderGrid();
-  }
-
-  restart() {
-      if (!confirm('Restart this game?')) return;
-      this.history = [];
-      this.hintUsed = false;
-      this.grid.forEach(c => {
-          c.value = null;
-          c.isError = false;
-          c.isHint = false;
-      });
-      this.renderGrid();
-      this.renderKeypad();
-  }
-
-  hint() {
-      if (this.hintUsed) return;
-      
-      // Find a cell to hint (prioritize errors, then empty)
-      let candidates = this.grid.filter(c => !c.isHint && (c.value === null || c.value !== this.solution[c.index]));
-      
-      if (candidates.length === 0) {
-          alert('Puzzle is already solved or correct!');
-          return;
-      }
-
-      // Pick random candidate
-      const cell = candidates[Math.floor(Math.random() * candidates.length)];
-      
-      // Apply hint
-      cell.value = this.solution[cell.index];
-      cell.isHint = true;
-      cell.isError = false;
-      this.hintUsed = true;
-      
-      this.validate();
-      this.renderGrid();
-      this.renderKeypad(); // Disable hint button
-  }
-
-  // --- Validation ---
-
-  validate() {
-    // Reset errors
-    this.grid.forEach(c => c.isError = false);
-
-    // 1. Row/Col Uniqueness
-    for (let i = 0; i < this.size; i++) {
-      this.checkGroup(this.getRow(i));
-      this.checkGroup(this.getCol(i));
-    }
-
-    // 2. Cage Arithmetic (only if cage is fully filled)
+  handleCheck() {
+    // 1. Check Cages
     this.cages.forEach(cage => {
       const cells = cage.cells.map(idx => this.grid[idx]);
       const values = cells.map(c => c.value);
@@ -306,6 +213,25 @@ class CalcudokuGame {
          }
       }
     });
+
+    // 2. Check Rows
+    for (let r = 0; r < this.size; r++) {
+        this.checkGroup(this.getRow(r));
+    }
+
+    // 3. Check Columns
+    for (let c = 0; c < this.size; c++) {
+        this.checkGroup(this.getCol(c));
+    }
+    
+    this.renderGrid();
+
+    // 4. Success Check
+    const isFull = this.grid.every(c => c.value !== null);
+    const hasError = this.grid.some(c => c.isError);
+    if (isFull && !hasError) {
+        setTimeout(() => alert('Congratulations! You solved it!'), 100);
+    }
   }
 
   checkGroup(indices) {
@@ -358,6 +284,36 @@ class CalcudokuGame {
       return Array.from({length: this.size}, (_, r) => r * this.size + c);
   }
 
+  getBorderClasses(index) {
+      const classes = [];
+      const r = Math.floor(index / this.size);
+      const c = index % this.size;
+      const cageId = this.grid[index].cageId;
+
+      // Check Top
+      if (r === 0 || this.grid[index - this.size].cageId !== cageId) classes.push('b-top');
+      // Check Bottom
+      if (r === this.size - 1 || this.grid[index + this.size].cageId !== cageId) classes.push('b-bottom');
+      // Check Left
+      if (c === 0 || this.grid[index - 1].cageId !== cageId) classes.push('b-left');
+      // Check Right
+      if (c === this.size - 1 || this.grid[index + 1].cageId !== cageId) classes.push('b-right');
+
+      return classes;
+  }
+
+  handleHint() {
+      if (this.hintUsed) return; // One hint per session
+      
+      const emptyCells = this.grid.filter(c => c.value === null);
+      if (emptyCells.length === 0) return;
+
+      const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+      randomCell.value = this.solution[randomCell.index];
+      randomCell.isHint = true;
+      this.hintUsed = true;
+      this.renderGrid();
+  }
 }
 
 // --- Puzzle Generator ---
@@ -594,3 +550,15 @@ function showMenu() {
 }
 
 document.getElementById('back-btn').addEventListener('click', showMenu);
+
+// Check URL Params
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  const size = params.get('size');
+  if (size) {
+    const s = parseInt(size);
+    if (!isNaN(s) && s >= 3 && s <= 9) {
+      showGame(s);
+    }
+  }
+})();

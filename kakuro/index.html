@@ -30,6 +30,11 @@
     </header>
     <main class="main-wrap">
       
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb" id="kakuro-breadcrumb" style="width: 100%; max-width: 1080px; margin: 16px auto 0; padding: 0 16px; box-sizing: border-box;">
+        <a href="/index.html">Home</a><span>></span><span class="crumb-middle">Kakuro</span>
+      </nav>
+
       <!-- Difficulty Selection Screen -->
       <div id="difficulty-screen">
         <div class="menu-title">Select Difficulty</div>
@@ -50,6 +55,7 @@
             <option value="expert">Expert (15x15)</option>
           </select>
           <button id="new-game-btn" class="btn" style="padding: 10px 20px; font-size: 1rem; cursor: pointer;">New Game</button>
+          <button id="replay-btn" class="btn" style="padding: 10px 20px; font-size: 1rem; cursor: pointer; background-color: #17a2b8; color: white; border: none;">Replay</button>
           <button id="show-answer-btn" class="btn" style="padding: 10px 20px; font-size: 1rem; cursor: pointer; background-color: #f0ad4e; color: white; border: none;">Show Answer</button>
         </div>
         <div id="kakuro-board" class="kakuro-board"></div>

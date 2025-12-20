@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const gameInterface = document.getElementById('game-interface');
     const backBtn = document.getElementById('back-btn');
     const newGameBtn = document.getElementById('new-game-btn');
+    const replayBtn = document.getElementById('replay-btn');
     const difficultySelect = document.getElementById('difficulty-select');
     const answerBtn = document.getElementById('show-answer-btn');
 
@@ -18,6 +19,24 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'hard',     label: 'Hard',     size: 12, desc: '12x12 Grid' },
         { id: 'expert',   label: 'Expert',   size: 15, desc: '15x15 Grid' }
     ];
+
+    function updateBreadcrumb(difficultyId) {
+        const breadcrumb = document.getElementById('kakuro-breadcrumb');
+        if (!breadcrumb) return;
+
+        let html = '<a href="/index.html">Home</a><span>></span>';
+        
+        if (difficultyId) {
+            html += '<a href="/kakuro/">Kakuro</a><span>></span>';
+            const diff = difficulties.find(d => d.id === difficultyId);
+            const label = diff ? diff.label : difficultyId;
+            html += `<span class="crumb-middle">${label}</span>`;
+        } else {
+            html += '<span class="crumb-middle">Kakuro</span>';
+        }
+        
+        breadcrumb.innerHTML = html;
+    }
 
     // 1. Generate Menu Grid
     if (menuGrid) {
@@ -79,6 +98,9 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Sync dropdown
         if (difficultySelect) difficultySelect.value = difficulty;
+
+        // Update Breadcrumb
+        updateBreadcrumb(difficulty);
         
         // Generate
         game.generateLevel(difficulty);
@@ -89,6 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
         backBtn.addEventListener('click', () => {
             gameInterface.style.display = 'none';
             difficultyScreen.style.display = 'flex'; // Use flex to center content
+            updateBreadcrumb(null);
         });
     }
 
@@ -98,6 +121,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const difficulty = difficultySelect ? difficultySelect.value : 'medium';
             game.generateLevel(difficulty);
         });
+    }
+
+    // Check URL Params
+    const params = new URLSearchParams(window.location.search);
+    const diffParam = params.get('difficulty');
+    if (diffParam && difficulties.some(d => d.id === diffParam)) {
+        startGame(diffParam);
+    }
+
+    if(replayBtn) {
+        replayBtn.addEventListener('click', () => game.resetBoard());
     }
 
     if(answerBtn) {
@@ -465,5 +499,16 @@ class KakuroGame {
                 }
             }
         }
+    }
+
+    // 重玩本局
+    resetBoard() {
+        if (!this.gridElement) return;
+        const cells = this.gridElement.querySelectorAll('.cell.empty');
+        cells.forEach(cell => {
+            cell.innerText = '';
+            cell.classList.remove('user-filled', 'revealed');
+            cell.style.color = ''; // Reset color
+        });
     }
 }

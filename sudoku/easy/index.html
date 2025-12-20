@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script>
+      (function(){
+        var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+        if (isLocal) return
+        var s = document.createElement('script')
+        s.async = true
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-LX4B214LBK'
+        document.head.appendChild(s)
+        window.dataLayer = window.dataLayer || []
+        function gtag(){ dataLayer.push(arguments) }
+        window.gtag = gtag
+        gtag('js', new Date())
+        gtag('config', 'G-LX4B214LBK')
+      })()
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Easy Sudoku — Logic for Sudoku</title>
+    <meta name="description" content="Solve Easy Sudoku puzzles online. No instructions needed." />
+    <link rel="canonical" href="/sudoku/easy/" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="Easy Sudoku — Logic for Sudoku" />
+    <meta property="og:description" content="Solve Easy Sudoku puzzles online. No instructions needed." />
+    <meta property="og:image" content="/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Easy Sudoku — Logic for Sudoku" />
+    <meta name="twitter:description" content="Solve Easy Sudoku puzzles online. No instructions needed." />
+    <meta name="twitter:image" content="/favicon.svg" />
+    <link rel="stylesheet" href="/src/index.css?v=2" />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5101109858499684" crossorigin="anonymous"></script>
+    
+  </head>
+  <body>
+    <header>
+      <div id="site-header"></div>
+    </header>
+    <main class="main-wrap">
+      <div class="container page-fit">
+        <nav class="breadcrumb"><a href="/index.html">Home</a><span>></span><a href="/sudoku/index.html">Sudoku</a><span>></span><span class="crumb-middle">Easy</span></nav>
+        <div class="game-header">
+          <div id="difficulty" class="difficulty">Difficulty: Easy</div>
+          <button id="newPuzzle" class="btn btn-primary btn-new desktop-only">New Puzzle</button>
+        </div>
+        <div class="game-wrap">
+          <div class="game-main">
+            <div class="sudoku-grid" id="grid"></div>
+          </div>
+          <aside class="game-side">
+            <div class="secondary" style="margin-bottom:12px">Interactions</div>
+            <button id="newPuzzleMobile" class="btn btn-primary btn-new mobile-only" style="margin-bottom:12px">New Puzzle</button>
+            <div id="numPad" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px"></div>
+            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px">
+              <button id="undoBtn" class="btn">Undo</button>
+              <button id="redoBtn" class="btn">Clear Entries</button>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:12px">
+              <button id="checkBtn" class="btn btn-primary">Check</button>
+            </div>
+            <div class="secondary" style="margin:12px 0 8px">Advanced Features</div>
+            <div style="display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:12px">
+              <button id="toggleLabelsBtn" class="btn">Show Row/Column Labels</button>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:12px">
+              <button id="printBtn" class="btn">Print Page</button>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:12px">
+              <button id="toggleConflictBtn" class="btn">Enable Conflict Highlight</button>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:12px">
+              <button id="toggleTimerBtn" class="btn">Show Timer</button>
+              <div id="timerDisplay" class="secondary" style="display:none">Timer: 0m 0s</div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </main>
+    <div id="site-footer"></div>
+    <script>
+      const diff = 'easy';
+      (function(){
+        Promise.all([
+          fetch('/partials/header.html?v=' + Date.now()).then(r=>r.text()),
+          fetch('/partials/footer.html?v=' + Date.now()).then(r=>r.text())
+        ]).then(([h,f])=>{
+          var sh = document.getElementById('site-header'); if (sh) sh.innerHTML = h
+          var sf = document.getElementById('site-footer'); if (sf) sf.innerHTML = f
+        })
+      })()
+    </script>
+    <script src="/src/game.js"></script>
+  </body>
+  </html>
