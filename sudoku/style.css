@@ -1,17 +1,17 @@
 
 /* Difficulty Selection Menu Styles */
 #difficulty-screen {
-  padding: 40px 20px;
+  padding: 24px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 60vh;
+  min-height: 50vh;
 }
 
 .menu-title {
   font-size: 2rem;
   font-weight: 700;
-  margin-bottom: 40px;
+  margin-bottom: 24px;
   color: var(--color-text-primary);
   text-align: center;
 }

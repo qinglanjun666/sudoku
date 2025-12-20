@@ -13,7 +13,7 @@ body {
   font-family: 'Inter', sans-serif;
   background-color: #f5f5f5;
   margin: 0;
-  padding-top: 80px; /* Prevent header overlap */
+  /* padding-top: 80px; removed to rely on .main-wrap */
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -29,7 +29,7 @@ body {
   justify-content: center;
   width: 100%;
   max-width: 100%;
-  padding: 20px;
+  padding: 24px 20px;
   box-sizing: border-box;
 }
 
@@ -37,7 +37,7 @@ body {
   color: #333;
   font-size: 2rem;
   font-weight: 600;
-  margin-bottom: 30px;
+  margin-bottom: 24px;
   text-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
