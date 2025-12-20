@@ -385,8 +385,8 @@
     <script>
       // Header/Footer Injection
       Promise.all([
-        fetch('/partials/header.html').then(r=>r.text()),
-        fetch('/partials/footer.html').then(r=>r.text())
+        fetch('/partials/header.html?v=' + Date.now()).then(r=>r.text()),
+        fetch('/partials/footer.html?v=' + Date.now()).then(r=>r.text())
       ]).then(([h,f])=>{
         document.getElementById('site-header').innerHTML = h;
         document.getElementById('site-footer').innerHTML = f;

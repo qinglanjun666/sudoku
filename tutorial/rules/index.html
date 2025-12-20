@@ -78,8 +78,8 @@
     <script>
       (function(){
         Promise.all([
-          fetch('/partials/header.html').then(r=>r.text()),
-          fetch('/partials/footer.html').then(r=>r.text())
+          fetch('/partials/header.html?v=' + Date.now()).then(r=>r.text()),
+          fetch('/partials/footer.html?v=' + Date.now()).then(r=>r.text())
         ]).then(([h,f])=>{
           var sh = document.getElementById('site-header'); if (sh) sh.innerHTML = h
           var sf = document.getElementById('site-footer'); if (sf) sf.innerHTML = f
