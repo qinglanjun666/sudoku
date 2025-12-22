@@ -31,7 +31,7 @@
     
     <main class="main-wrap">
       <div class="container page-fit">
-         <nav class="breadcrumb"><a href="/index.html">Home</a><span>></span><span class="crumb-middle">Calcudoku</span></nav>
+        <nav class="breadcrumb"><a href="/index.html">Home</a><span>></span><span class="crumb-middle">Calcudoku</span></nav>
         
         <!-- Menu Screen -->
         <div id="menu-screen">
@@ -43,27 +43,34 @@
         </div>
 
         <!-- Game Screen (Initially Hidden) -->
-        <div class="main-container" id="game-screen" style="display: none;">
-          <div class="game-controls">
-            <button id="back-btn" class="action-btn" style="flex: 0 0 auto; margin-right: 10px;">&larr; Back</button>
-            <select id="size-selector">
-              <option value="3">3x3 Grid (Easy)</option>
-              <option value="4">4x4 Grid</option>
-              <option value="5">5x5 Grid</option>
-              <option value="6">6x6 Grid</option>
-              <option value="7">7x7 Grid (Hard)</option>
-              <option value="8">8x8 Grid (Expert)</option>
-              <option value="9">9x9 Grid (Master)</option>
-            </select>
+        <div id="game-screen" style="display: none;">
+          <div class="game-header">
+            <div id="difficulty" class="difficulty">Calcudoku</div>
+            <button id="newGameBtnTop" class="btn btn-primary btn-new desktop-only">New Game</button>
           </div>
-
-          <div class="board-container">
-            <div id="grid" class="grid"></div>
-          </div>
-          
-          <!-- Keypad Moved Here -->
-          <div class="virtual-keypad" id="keypad">
-            <!-- Injected by JS -->
+          <div class="game-wrap">
+            <div class="game-main">
+              <div class="board-container">
+                <div id="grid" class="grid"></div>
+              </div>
+            </div>
+            <aside class="game-side">
+              <div class="secondary" style="margin-bottom:12px">Interactions</div>
+              <button id="newGameBtnMobile" class="btn btn-primary btn-new mobile-only" style="margin-bottom:12px">New Game</button>
+              
+              <!-- Number Pad -->
+              <div id="keypad" class="virtual-keypad" style="margin-bottom:12px"></div>
+              
+              <!-- Control Buttons -->
+              <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px">
+                <button id="undoBtn" class="btn">Undo</button>
+                <button id="showAnswerBtn" class="btn">Show Answer</button>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px">
+                <button id="replayBtn" class="btn">Replay</button>
+                <button id="newGameBtnSide" class="btn">New Game</button>
+              </div>
+            </aside>
           </div>
         </div>
       </div>
@@ -84,5 +91,6 @@
       })()
     </script>
     <script src="script.js"></script>
+    <script src="/src/records.js"></script>
   </body>
 </html>

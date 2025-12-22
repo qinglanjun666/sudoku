@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
   <head>
     <script>
@@ -18,16 +18,16 @@
     </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>ALS-XZ Rule — Logic for Sudoku</title>
+    <title>ALS-XZ Rule 鈥?Logic for Sudoku</title>
     <meta name="description" content="Learn the ALS-XZ Rule: connect two ALS via a Restricted Common Candidate (x) to force digit z in one set, enabling powerful eliminations on peers." />
     <link rel="canonical" href="/tutorial/als-xz/" />
     <meta name="robots" content="index, follow" />
-    <meta property="og:title" content="ALS-XZ Rule — Logic for Sudoku" />
+    <meta property="og:title" content="ALS-XZ Rule 鈥?Logic for Sudoku" />
     <meta property="og:description" content="Find two ALS linked by a collision on 'x' to guarantee 'z' in one set and eliminate 'z' from any outside cell that sees both." />
     <meta property="og:image" content="/favicon.svg" />
     <meta property="og:type" content="article" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="ALS-XZ Rule — Logic for Sudoku" />
+    <meta name="twitter:title" content="ALS-XZ Rule 鈥?Logic for Sudoku" />
     <meta name="twitter:description" content="Use ALS groups and RCC collisions to create strong links and target eliminations." />
     <meta name="twitter:image" content="/favicon.svg" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -52,15 +52,15 @@
           <ul style="margin:0 0 12px 18px; padding:0; color:#333">
             <li><strong>ALS A:</strong> A group of cells acting as a set (e.g., {1, 2, x, z}).</li>
             <li><strong>ALS B:</strong> A second group of cells acting as a set (e.g., {3, 4, x, z}).</li>
-            <li><strong>RCC (Restricted Common Candidate — 'x'):</strong> A digit that appears in both sets and links them.</li>
+            <li><strong>RCC (Restricted Common Candidate 鈥?'x'):</strong> A digit that appears in both sets and links them.</li>
           </ul>
           <p><strong>Condition:</strong> The 'x' candidates in ALS A must see the 'x' candidates in ALS B. This creates a strong link between the sets (they cannot both contain 'x').</p>
 
           <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Logic: The Seesaw</h3>
           <p>Because the sets see each other, we cannot have 'x' in Set A and 'x' in Set B simultaneously. Therefore, at least one of the sets does not contain 'x'.</p>
           <ul style="margin:0 0 12px 18px; padding:0; color:#333">
-            <li><strong>Scenario 1:</strong> Set A does NOT contain 'x' → Set A becomes a locked set for its other digits (including z) → z is true in Set A.</li>
-            <li><strong>Scenario 2:</strong> Set B does NOT contain 'x' → Set B becomes a locked set for its other digits (including z) → z is true in Set B.</li>
+            <li><strong>Scenario 1:</strong> Set A does NOT contain 'x' 鈫?Set A becomes a locked set for its other digits (including z) 鈫?z is true in Set A.</li>
+            <li><strong>Scenario 2:</strong> Set B does NOT contain 'x' 鈫?Set B becomes a locked set for its other digits (including z) 鈫?z is true in Set B.</li>
           </ul>
           <p><strong>Conclusion:</strong> In every case, the digit z must exist in Set A or Set B.</p>
 
@@ -89,7 +89,7 @@
           <p>Once you can identify ALS groups (N cells with N+1 candidates), spotting the links becomes a fun matching game.</p>
 
           <div style="margin-top:16px;display:flex;gap:10px">
-            <a class="btn" href="/tutorial.html">← Back to Tutorial</a>
+            <a class="btn" href="/tutorial.html">鈫?Back to Tutorial</a>
           </div>
         </article>
       </div>
@@ -149,5 +149,8 @@
         })
       })()
     </script>
+    <script src="/src/records.js"></script>
+
   </body>
 </html>
+

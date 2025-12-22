@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- Google tag (gtag.js) -->
     <script>
       (function(){
         var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
@@ -17,7 +18,7 @@
       })()
     </script>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
     <title>Kakuro (Cross Sums) - Logic for Sudoku</title>
     <meta name="description" content="Play Kakuro (Cross Sums) online. High contrast newspaper style interface." />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -28,51 +29,67 @@
     <header>
       <div id="site-header"></div>
     </header>
+    
     <main class="main-wrap">
-      
-      <!-- Breadcrumb -->
-      <nav class="breadcrumb" id="kakuro-breadcrumb" style="width: 100%; max-width: 1080px; margin: 16px auto 0; padding: 0 16px; box-sizing: border-box;">
-        <a href="/index.html">Home</a><span>></span><span class="crumb-middle">Kakuro</span>
-      </nav>
-
-      <!-- Difficulty Selection Screen -->
-      <div id="difficulty-screen">
-        <div class="menu-title">Select Difficulty</div>
-        <div id="menu-grid" class="menu-grid">
-          <!-- Injected by JS -->
+      <div class="container page-fit">
+        <nav class="breadcrumb" id="kakuro-breadcrumb"><a href="/index.html">Home</a><span>></span><span class="crumb-middle">Kakuro</span></nav>
+        
+        <!-- Menu Screen -->
+        <div id="menu-screen">
+          <div class="menu-title">Select Difficulty</div>
+          <div class="menu-grid" id="menu-grid">
+            <!-- Injected by JS -->
+          </div>
         </div>
-      </div>
 
-      <!-- Game Interface (Hidden by default) -->
-      <div id="game-interface" style="display: none; flex-direction: column; align-items: center; width: 100%;">
-        <div class="controls" style="margin-bottom: 20px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; justify-content: center;">
-          <button id="back-btn" class="btn" style="padding: 10px 15px; background-color: #666; color: white;">&larr; Menu</button>
-          <select id="difficulty-select" style="padding: 10px; font-size: 1rem;">
-            <option value="beginner">Beginner (6x6)</option>
-            <option value="easy">Easy (8x8)</option>
-            <option value="medium" selected>Medium (10x10)</option>
-            <option value="hard">Hard (12x12)</option>
-            <option value="expert">Expert (15x15)</option>
-          </select>
-          <button id="new-game-btn" class="btn" style="padding: 10px 20px; font-size: 1rem; cursor: pointer;">New Game</button>
-          <button id="replay-btn" class="btn" style="padding: 10px 20px; font-size: 1rem; cursor: pointer; background-color: #17a2b8; color: white; border: none;">Replay</button>
-          <button id="show-answer-btn" class="btn" style="padding: 10px 20px; font-size: 1rem; cursor: pointer; background-color: #f0ad4e; color: white; border: none;">Show Answer</button>
+        <!-- Game Screen (Initially Hidden) -->
+        <div id="game-screen" style="display: none;">
+          <div class="game-header">
+            <div id="difficulty-label" class="difficulty">Kakuro</div>
+            <button id="newGameBtnTop" class="btn btn-primary btn-new desktop-only">New Game</button>
+          </div>
+          <div class="game-wrap">
+            <div class="game-main">
+              <div class="board-container">
+                <div id="kakuro-board" class="kakuro-board"></div>
+              </div>
+            </div>
+            <aside class="game-side">
+              <div class="secondary" style="margin-bottom:12px">Interactions</div>
+              <button id="newGameBtnMobile" class="btn btn-primary btn-new mobile-only" style="margin-bottom:12px">New Game</button>
+              
+              <!-- Number Pad -->
+              <div id="keypad" class="virtual-keypad" style="margin-bottom:12px"></div>
+              
+              <!-- Control Buttons -->
+              <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px">
+                <button id="undoBtn" class="btn">Undo</button>
+                <button id="showAnswerBtn" class="btn">Show Answer</button>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px">
+                <button id="replayBtn" class="btn">Replay</button>
+                <button id="newGameBtnSide" class="btn">New Game</button>
+              </div>
+            </aside>
+          </div>
         </div>
-        <div id="kakuro-board" class="kakuro-board"></div>
       </div>
     </main>
+
     <div id="site-footer"></div>
+
     <script>
       (function(){
         Promise.all([
-          fetch('/partials/header.html?v=' + Date.now()).then(r=>r.text()),
-          fetch('/partials/footer.html?v=' + Date.now()).then(r=>r.text())
-        ]).then(([h,f])=>{
+          fetch('/partials/header.html?v=' + Date.now()).then(r => r.text()),
+          fetch('/partials/footer.html?v=' + Date.now()).then(r => r.text())
+        ]).then(([h, f]) => {
           var sh = document.getElementById('site-header'); if (sh) sh.innerHTML = h
           var sf = document.getElementById('site-footer'); if (sf) sf.innerHTML = f
-        })
+        });
       })()
     </script>
-    <script src="script.js?v=final_fix_v4"></script>
+    <script src="script.js?v=final_fix_v5"></script>
+    <script src="/src/records.js"></script>
   </body>
 </html>

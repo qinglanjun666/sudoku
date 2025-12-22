@@ -70,22 +70,41 @@
                 <span class="mock-dot"></span>
                 <span class="mock-dot"></span>
                 <span class="mock-dot"></span>
-                <div style="margin-left:auto;color:#274472;font-weight:600">Sudoku+</div>
+                <div style="margin-left:auto;color:#274472;font-weight:600;font-size:13px;display:flex;align-items:center;gap:6px">
+                   <span style="opacity:0.6">Daily Challenge</span>
+                   <span style="background:#e0f2fe;color:#0369a1;padding:2px 8px;border-radius:4px;font-size:11px">Hard</span>
+                </div>
               </div>
               <div class="mock-body">
-                <div class="mock-toolbar">
-                  <div class="btn btn-toggle-active" style="pointer-events:none">Pencil</div>
-                  <div class="btn" style="pointer-events:none">Undo</div>
-                  <div class="btn" style="pointer-events:none">Hint</div>
-                  <div class="btn" style="pointer-events:none">Eraser</div>
+                <div class="mock-toolbar" style="justify-content:space-between; margin-bottom:12px">
+                  <div style="display:flex;gap:8px">
+                      <div class="btn btn-toggle-active" style="pointer-events:none;padding:6px 12px;font-size:12px">Pencil</div>
+                      <div class="btn" style="pointer-events:none;padding:6px 12px;font-size:12px">Undo</div>
+                  </div>
+                  <div style="color:#666;font-size:13px;font-family:monospace;display:flex;align-items:center;gap:4px">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    04:23
+                  </div>
                 </div>
                 <div class="mock-grid">
-                  <div class="mock-cell">7</div><div class="mock-cell"></div><div class="mock-cell">2</div><div class="mock-cell"></div><div class="mock-cell">5</div><div class="mock-cell"></div><div class="mock-cell">1</div><div class="mock-cell"></div><div class="mock-cell">9</div>
-                  <div class="mock-cell"></div><div class="mock-cell">4</div><div class="mock-cell"></div><div class="mock-cell">7</div><div class="mock-cell"></div><div class="mock-cell">2</div><div class="mock-cell"></div><div class="mock-cell">6</div><div class="mock-cell"></div>
-                  <div class="mock-cell">5</div><div class="mock-cell"></div><div class="mock-cell">9</div><div class="mock-cell"></div><div class="mock-cell">1</div><div class="mock-cell"></div><div class="mock-cell">3</div><div class="mock-cell"></div><div class="mock-cell">8</div>
-                  <div class="mock-cell"></div><div class="mock-cell">3</div><div class="mock-cell"></div><div class="mock-cell">1</div><div class="mock-cell"></div><div class="mock-cell">9</div><div class="mock-cell"></div><div class="mock-cell">5</div><div class="mock-cell"></div>
-                  <div class="mock-cell">8</div><div class="mock-cell"></div><div class="mock-cell">6</div><div class="mock-cell"></div><div class="mock-cell">4</div><div class="mock-cell"></div><div class="mock-cell">7</div><div class="mock-cell"></div><div class="mock-cell">2</div>
-                  <div class="mock-cell"></div><div class="mock-cell">7</div><div class="mock-cell"></div><div class="mock-cell">8</div><div class="mock-cell"></div><div class="mock-cell">3</div><div class="mock-cell"></div><div class="mock-cell">4</div><div class="mock-cell"></div>
+                  <!-- Row 1 -->
+                  <div class="mock-cell"></div><div class="mock-cell" style="color:#0057FF">4</div><div class="mock-cell"></div><div class="mock-cell">1</div><div class="mock-cell"></div><div class="mock-cell"></div><div class="mock-cell"></div><div class="mock-cell">5</div><div class="mock-cell"></div>
+                  <!-- Row 2 -->
+                  <div class="mock-cell"></div><div class="mock-cell"></div><div class="mock-cell">8</div><div class="mock-cell"></div><div class="mock-cell"></div><div class="mock-cell">5</div><div class="mock-cell"></div><div class="mock-cell"></div><div class="mock-cell">1</div>
+                  <!-- Row 3 -->
+                  <div class="mock-cell"></div><div class="mock-cell">5</div><div class="mock-cell"></div><div class="mock-cell"></div><div class="mock-cell">2</div><div class="mock-cell"></div><div class="mock-cell">8</div><div class="mock-cell"></div><div class="mock-cell"></div>
+                  <!-- Row 4 -->
+                  <div class="mock-cell">3</div><div class="mock-cell"></div><div class="mock-cell"></div><div class="mock-cell">7</div><div class="mock-cell"></div><div class="mock-cell"></div><div class="mock-cell"></div><div class="mock-cell"></div><div class="mock-cell"></div>
+                  <!-- Row 5 -->
+                  <div class="mock-cell"></div><div class="mock-cell"></div><div class="mock-cell">7</div><div class="mock-cell"></div><div class="mock-cell"></div><div class="mock-cell">9</div><div class="mock-cell"></div><div class="mock-cell">1</div><div class="mock-cell"></div>
+                  <!-- Row 6 -->
+                  <div class="mock-cell"></div><div class="mock-cell">2</div><div class="mock-cell"></div><div class="mock-cell"></div><div class="mock-cell">5</div><div class="mock-cell"></div><div class="mock-cell">7</div><div class="mock-cell"></div><div class="mock-cell"></div>
+                  <!-- Row 7 -->
+                  <div class="mock-cell"></div><div class="mock-cell"></div><div class="mock-cell"></div><div class="mock-cell">8</div><div class="mock-cell"></div><div class="mock-cell">2</div><div class="mock-cell"></div><div class="mock-cell"></div><div class="mock-cell">5</div>
+                  <!-- Row 8 -->
+                  <div class="mock-cell">6</div><div class="mock-cell"></div><div class="mock-cell">1</div><div class="mock-cell"></div><div class="mock-cell"></div><div class="mock-cell"></div><div class="mock-cell">3</div><div class="mock-cell"></div><div class="mock-cell"></div>
+                  <!-- Row 9 -->
+                  <div class="mock-cell"></div><div class="mock-cell">9</div><div class="mock-cell"></div><div class="mock-cell">5</div><div class="mock-cell"></div><div class="mock-cell">3</div><div class="mock-cell"></div><div class="mock-cell">2</div><div class="mock-cell"></div>
                 </div>
               </div>
             </div>
@@ -122,19 +141,19 @@
                <div class="feature-mock">
                   <!-- Simple CSS Sudoku representation -->
                   <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:4px; background:#e5e7eb; padding:4px; border-radius:4px;">
-                     <div style="width:60px; height:60px; background:#fff; display:grid; grid-template-columns:repeat(3,1fr); gap:1px; border:1px solid #eee;">
+                     <div style="width:80px; height:80px; background:#fff; display:grid; grid-template-columns:repeat(3,1fr); gap:1px; border:1px solid #eee;">
                         <div style="background:#eff6ff"></div><div></div><div></div><div></div><div style="background:#eff6ff"></div><div></div><div></div><div></div><div></div>
                      </div>
-                     <div style="width:60px; height:60px; background:#fff; display:grid; grid-template-columns:repeat(3,1fr); gap:1px; border:1px solid #eee;"></div>
-                     <div style="width:60px; height:60px; background:#fff; display:grid; grid-template-columns:repeat(3,1fr); gap:1px; border:1px solid #eee;"></div>
-                     <div style="width:60px; height:60px; background:#fff; display:grid; grid-template-columns:repeat(3,1fr); gap:1px; border:1px solid #eee;"></div>
-                     <div style="width:60px; height:60px; background:#fff; display:grid; grid-template-columns:repeat(3,1fr); gap:1px; border:1px solid #eee;">
-                         <div style="display:flex;align-items:center;justify-content:center;color:#0057FF;font-weight:bold; width:100%; height:100%">5</div>
+                     <div style="width:80px; height:80px; background:#fff; display:grid; grid-template-columns:repeat(3,1fr); gap:1px; border:1px solid #eee;"></div>
+                     <div style="width:80px; height:80px; background:#fff; display:grid; grid-template-columns:repeat(3,1fr); gap:1px; border:1px solid #eee;"></div>
+                     <div style="width:80px; height:80px; background:#fff; display:grid; grid-template-columns:repeat(3,1fr); gap:1px; border:1px solid #eee;"></div>
+                     <div style="width:80px; height:80px; background:#fff; display:grid; grid-template-columns:repeat(3,1fr); gap:1px; border:1px solid #eee;">
+                         <div style="display:flex;align-items:center;justify-content:center;color:#0057FF;font-weight:bold; font-size:24px; width:100%; height:100%">5</div>
                      </div>
-                     <div style="width:60px; height:60px; background:#fff; display:grid; grid-template-columns:repeat(3,1fr); gap:1px; border:1px solid #eee;"></div>
-                     <div style="width:60px; height:60px; background:#fff; display:grid; grid-template-columns:repeat(3,1fr); gap:1px; border:1px solid #eee;"></div>
-                     <div style="width:60px; height:60px; background:#fff; display:grid; grid-template-columns:repeat(3,1fr); gap:1px; border:1px solid #eee;"></div>
-                     <div style="width:60px; height:60px; background:#fff; display:grid; grid-template-columns:repeat(3,1fr); gap:1px; border:1px solid #eee;"></div>
+                     <div style="width:80px; height:80px; background:#fff; display:grid; grid-template-columns:repeat(3,1fr); gap:1px; border:1px solid #eee;"></div>
+                     <div style="width:80px; height:80px; background:#fff; display:grid; grid-template-columns:repeat(3,1fr); gap:1px; border:1px solid #eee;"></div>
+                     <div style="width:80px; height:80px; background:#fff; display:grid; grid-template-columns:repeat(3,1fr); gap:1px; border:1px solid #eee;"></div>
+                     <div style="width:80px; height:80px; background:#fff; display:grid; grid-template-columns:repeat(3,1fr); gap:1px; border:1px solid #eee;"></div>
                   </div>
                </div>
             </div>
@@ -167,26 +186,49 @@
             </div>
             <div class="feature-visual">
               <div class="feature-mock">
-                 <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:0; border:2px solid #333; width:160px; height:160px; background:#fff">
-                    <div style="border:1px solid #ccc; position:relative;"><span style="position:absolute; top:2px; left:2px; font-size:10px; font-weight:bold">3+</span></div>
-                    <div style="border:1px solid #ccc; border-bottom:none;"></div>
-                    <div style="border:1px solid #ccc; position:relative;"><span style="position:absolute; top:2px; left:2px; font-size:10px; font-weight:bold">8x</span></div>
-                    <div style="border:1px solid #ccc;"></div>
+                 <div style="display:grid; grid-template-columns:repeat(4, 60px); grid-template-rows:repeat(4, 60px); gap:0; border:2px solid #1f2937; background:#fff;">
+                    <!-- Row 1 -->
+                    <div style="border-right:1px dotted #d1d5db; border-bottom:1px solid #1f2937; position:relative;">
+                        <span style="position:absolute; top:2px; left:4px; font-size:11px; font-weight:bold;">3+</span>
+                        <div style="display:flex;align-items:center;justify-content:center;height:100%;color:#1f2937;font-size:18px;">1</div>
+                    </div>
+                    <div style="border-right:1px solid #1f2937; border-bottom:1px dotted #d1d5db; position:relative;">
+                        <span style="position:absolute; top:2px; left:4px; font-size:11px; font-weight:bold;">2÷</span>
+                        <div style="display:flex;align-items:center;justify-content:center;height:100%;color:#1f2937;font-size:18px;">2</div>
+                    </div>
+                    <div style="border-right:1px dotted #d1d5db; border-bottom:1px solid #1f2937; position:relative;">
+                        <span style="position:absolute; top:2px; left:4px; font-size:11px; font-weight:bold;">12x</span>
+                    </div>
+                    <div style="border-bottom:1px solid #1f2937; position:relative;"></div>
                     
-                    <div style="border:1px solid #ccc;"></div>
-                    <div style="border:1px solid #ccc; border-top:none;"></div>
-                    <div style="border:1px solid #ccc;"></div>
-                    <div style="border:1px solid #ccc;"></div>
+                    <!-- Row 2 -->
+                    <div style="border-right:1px solid #1f2937; border-bottom:1px dotted #d1d5db; position:relative;">
+                        <span style="position:absolute; top:2px; left:4px; font-size:11px; font-weight:bold;">4</span>
+                    </div>
+                    <div style="border-right:1px solid #1f2937; border-bottom:1px dotted #d1d5db; position:relative;"></div>
+                    <div style="border-right:1px dotted #d1d5db; border-bottom:1px dotted #d1d5db; position:relative;">
+                        <span style="position:absolute; top:2px; left:4px; font-size:11px; font-weight:bold;">6+</span>
+                    </div>
+                    <div style="border-bottom:1px dotted #d1d5db; position:relative;"></div>
 
-                    <div style="border:1px solid #ccc;"></div>
-                    <div style="border:1px solid #ccc;"></div>
-                    <div style="border:1px solid #ccc;"></div>
-                    <div style="border:1px solid #ccc;"></div>
+                    <!-- Row 3 -->
+                    <div style="border-right:1px dotted #d1d5db; border-bottom:1px solid #1f2937; position:relative;">
+                        <span style="position:absolute; top:2px; left:4px; font-size:11px; font-weight:bold;">2-</span>
+                    </div>
+                    <div style="border-right:1px solid #1f2937; border-bottom:1px solid #1f2937; position:relative;"></div>
+                    <div style="border-right:1px dotted #d1d5db; border-bottom:1px solid #1f2937; position:relative;"></div>
+                    <div style="border-bottom:1px solid #1f2937; position:relative;"></div>
 
-                    <div style="border:1px solid #ccc;"></div>
-                    <div style="border:1px solid #ccc;"></div>
-                    <div style="border:1px solid #ccc;"></div>
-                    <div style="border:1px solid #ccc;"></div>
+                    <!-- Row 4 -->
+                    <div style="border-right:1px solid #1f2937; position:relative;">
+                         <span style="position:absolute; top:2px; left:4px; font-size:11px; font-weight:bold;">3</span>
+                         <div style="display:flex;align-items:center;justify-content:center;height:100%;color:#0057FF;font-weight:bold;font-size:24px;">3</div>
+                    </div>
+                    <div style="border-right:1px dotted #d1d5db; position:relative;">
+                         <span style="position:absolute; top:2px; left:4px; font-size:11px; font-weight:bold;">1-</span>
+                    </div>
+                    <div style="border-right:1px solid #1f2937; position:relative;"></div>
+                    <div style="position:relative;"></div>
                  </div>
               </div>
             </div>
@@ -200,10 +242,43 @@
             </div>
             <div class="feature-visual">
               <div class="feature-mock">
-                  <div style="display:grid; grid-template-columns:repeat(5,1fr); gap:1px; background:#333; width:180px; padding:1px">
-                      <div style="background:#ccc; height:36px;"></div><div style="background:#ccc;"></div><div style="background:#fff;"></div><div style="background:#fff;"></div><div style="background:#ccc;"></div>
-                      <div style="background:#ccc; height:36px;"></div><div style="background:#fff;"></div><div style="background:#fff;"></div><div style="background:#fff;"></div><div style="background:#fff;"></div>
-                      <div style="background:#fff; height:36px;"></div><div style="background:#fff;"></div><div style="background:#ccc;"></div><div style="background:#fff;"></div><div style="background:#fff;"></div>
+                  <div style="display:grid; grid-template-columns:repeat(4, 60px); grid-template-rows:repeat(4, 60px); gap:0; border:2px solid #1f2937; background:#fff;">
+                      <!-- Row 1 -->
+                      <div style="background:#e5e7eb; border-right:1px solid #d1d5db; border-bottom:1px solid #d1d5db;"></div>
+                      <div style="background: linear-gradient(to top right, transparent 49%, #9ca3af 50%, transparent 51%), #e5e7eb; border-right:1px solid #d1d5db; border-bottom:1px solid #d1d5db; position:relative;">
+                          <div style="position:absolute; bottom:2px; left:4px; font-size:12px; font-weight:bold; color:#1f2937">16</div>
+                          <div style="position:absolute; top:4px; right:4px; font-size:12px; font-weight:bold; color:#1f2937"></div>
+                      </div>
+                      <div style="background: linear-gradient(to top right, transparent 49%, #9ca3af 50%, transparent 51%), #e5e7eb; border-right:1px solid #d1d5db; border-bottom:1px solid #d1d5db; position:relative;">
+                          <div style="position:absolute; bottom:2px; left:4px; font-size:12px; font-weight:bold; color:#1f2937">12</div>
+                      </div>
+                      <div style="background:#e5e7eb; border-bottom:1px solid #d1d5db;"></div>
+
+                      <!-- Row 2 -->
+                      <div style="background: linear-gradient(to top right, transparent 49%, #9ca3af 50%, transparent 51%), #e5e7eb; border-right:1px solid #d1d5db; border-bottom:1px solid #d1d5db; position:relative;">
+                          <div style="position:absolute; top:4px; right:4px; font-size:12px; font-weight:bold; color:#1f2937">17</div>
+                      </div>
+                      <div style="border-right:1px solid #d1d5db; border-bottom:1px solid #d1d5db; display:flex; align-items:center; justify-content:center; color:#1f2937; font-size:18px;">9</div>
+                      <div style="border-right:1px solid #d1d5db; border-bottom:1px solid #d1d5db; display:flex; align-items:center; justify-content:center; color:#1f2937; font-size:18px;">8</div>
+                      <div style="background: linear-gradient(to top right, transparent 49%, #9ca3af 50%, transparent 51%), #e5e7eb; border-bottom:1px solid #d1d5db; position:relative;">
+                          <div style="position:absolute; bottom:2px; left:4px; font-size:12px; font-weight:bold; color:#1f2937">7</div>
+                      </div>
+
+                      <!-- Row 3 -->
+                      <div style="background: linear-gradient(to top right, transparent 49%, #9ca3af 50%, transparent 51%), #e5e7eb; border-right:1px solid #d1d5db; border-bottom:1px solid #d1d5db; position:relative;">
+                          <div style="position:absolute; top:4px; right:4px; font-size:12px; font-weight:bold; color:#1f2937">10</div>
+                      </div>
+                      <div style="border-right:1px solid #d1d5db; border-bottom:1px solid #d1d5db; display:flex; align-items:center; justify-content:center; color:#1f2937; font-size:18px;">7</div>
+                      <div style="border-right:1px solid #d1d5db; border-bottom:1px solid #d1d5db; display:flex; align-items:center; justify-content:center; color:#1f2937; font-size:18px;">1</div>
+                      <div style="border-bottom:1px solid #d1d5db; display:flex; align-items:center; justify-content:center; color:#1f2937; font-size:18px;">2</div>
+
+                      <!-- Row 4 -->
+                      <div style="background:#e5e7eb; border-right:1px solid #d1d5db;"></div>
+                      <div style="background: linear-gradient(to top right, transparent 49%, #9ca3af 50%, transparent 51%), #e5e7eb; border-right:1px solid #d1d5db; position:relative;">
+                           <div style="position:absolute; top:4px; right:4px; font-size:12px; font-weight:bold; color:#1f2937">8</div>
+                      </div>
+                      <div style="border-right:1px solid #d1d5db; display:flex; align-items:center; justify-content:center; color:#0057FF; font-weight:bold; font-size:24px;">3</div>
+                      <div style="display:flex; align-items:center; justify-content:center; color:#1f2937; font-size:18px;">5</div>
                   </div>
               </div>
             </div>
@@ -251,7 +326,10 @@
         }
       })
     })()
+    </script>
+    <script src="/src/records.js"></script>
     
+    <script>
     ;(function(){
       // Game Features Tabs
       var tabs = document.querySelectorAll('.features-tab');
@@ -276,5 +354,6 @@
       }
     })()
   </script>
+  <script src="/src/records.js"></script>
   </body>
   </html>

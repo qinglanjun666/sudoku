@@ -100,6 +100,7 @@ class CalcudokuGame {
 
   renderKeypad() {
     const keypadEl = document.getElementById('keypad');
+    if (!keypadEl) return;
     keypadEl.innerHTML = '';
     
     // Numbers 1 to Size
@@ -114,35 +115,16 @@ class CalcudokuGame {
       keypadEl.appendChild(btn);
     }
     
-    // Eraser
-    const eraser = document.createElement('button');
-    eraser.className = 'keypad-btn action';
-    eraser.textContent = '⌫';
-    eraser.addEventListener('click', (e) => {
+    // Add Clear Button to keypad as well for convenience
+    const clearBtn = document.createElement('button');
+    clearBtn.className = 'keypad-btn action';
+    clearBtn.textContent = 'Clear';
+    clearBtn.style.fontSize = '1rem';
+    clearBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         this.handleInput(null);
     });
-    keypadEl.appendChild(eraser);
-
-    // Hint
-    const hint = document.createElement('button');
-    hint.className = 'keypad-btn action';
-    hint.textContent = '💡';
-    hint.addEventListener('click', (e) => {
-        e.stopPropagation();
-        this.handleHint();
-    });
-    keypadEl.appendChild(hint);
-
-    // Check
-    const check = document.createElement('button');
-    check.className = 'keypad-btn action';
-    check.textContent = '✓';
-    check.addEventListener('click', (e) => {
-        e.stopPropagation();
-        this.handleCheck();
-    });
-    keypadEl.appendChild(check);
+    keypadEl.appendChild(clearBtn);
   }
 
   attachEvents() {
@@ -158,6 +140,64 @@ class CalcudokuGame {
       else if (e.key === 'ArrowLeft') this.moveSelection(-1);
       else if (e.key === 'ArrowRight') this.moveSelection(1);
     };
+
+    // Attach side panel buttons
+    const undoBtn = document.getElementById('undoBtn');
+    if (undoBtn) undoBtn.onclick = () => this.handleUndo();
+
+    const showAnswerBtn = document.getElementById('showAnswerBtn');
+    if (showAnswerBtn) showAnswerBtn.onclick = () => this.handleShowAnswer();
+
+    const replayBtn = document.getElementById('replayBtn');
+    if (replayBtn) replayBtn.onclick = () => this.handleReplay();
+
+    const newGameBtnTop = document.getElementById('newGameBtnTop');
+    if (newGameBtnTop) newGameBtnTop.onclick = () => this.handleNewGame();
+
+    const newGameBtnSide = document.getElementById('newGameBtnSide');
+    if (newGameBtnSide) newGameBtnSide.onclick = () => this.handleNewGame();
+
+    const newGameBtnMobile = document.getElementById('newGameBtnMobile');
+    if (newGameBtnMobile) newGameBtnMobile.onclick = () => this.handleNewGame();
+  }
+
+  handleUndo() {
+    if (this.history.length === 0) return;
+    const lastAction = this.history.pop();
+    this.grid[lastAction.index].value = lastAction.oldVal;
+    this.grid[lastAction.index].isError = false;
+    this.grid[lastAction.index].isHint = false;
+    this.activeCellIndex = lastAction.index;
+    this.renderGrid();
+  }
+
+  handleShowAnswer() {
+    if (!confirm('Are you sure you want to see the solution? This will end the current game.')) return;
+    this.grid.forEach((cell, i) => {
+        cell.value = this.solution[i];
+        cell.isError = false;
+        cell.isHint = false;
+    });
+    this.renderGrid();
+    this.history = []; // Clear history as game is effectively over
+  }
+
+  handleReplay() {
+    if (!confirm('Restart this puzzle?')) return;
+    this.grid.forEach(cell => {
+        cell.value = null;
+        cell.isError = false;
+        cell.isHint = false;
+    });
+    this.history = [];
+    this.activeCellIndex = null;
+    this.renderGrid();
+  }
+
+  handleNewGame() {
+    if (confirm('Start a new game? Current progress will be lost.')) {
+        startGame(this.size);
+    }
   }
 
   moveSelection(delta) {
@@ -479,9 +519,7 @@ function startGame(n) {
     game = new CalcudokuGame(data.size, data.cages, data.solution);
 }
 
-document.getElementById('size-selector').addEventListener('change', (e) => {
-    startGame(parseInt(e.target.value));
-});
+
 
 // --- Menu Logic ---
 const menuGrid = document.getElementById('menu-grid');
@@ -535,10 +573,7 @@ sizes.forEach(({s, label, desc}) => {
 
 function showGame(size) {
   document.getElementById('menu-screen').style.display = 'none';
-  document.getElementById('game-screen').style.display = 'flex';
-  
-  const selector = document.getElementById('size-selector');
-  selector.value = size;
+  document.getElementById('game-screen').style.display = 'block';
   
   startGame(size);
 }
@@ -549,7 +584,7 @@ function showMenu() {
   // Stop current game logic if needed (e.g. timers) - none here currently
 }
 
-document.getElementById('back-btn').addEventListener('click', showMenu);
+
 
 // Check URL Params
 (function() {

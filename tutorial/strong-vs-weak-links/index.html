@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
   <head>
     <script>
@@ -18,16 +18,16 @@
     </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Strong vs. Weak Links — Tutorial</title>
-    <meta name="description" content="Learn the fundamentals of Strong and Weak Links—the building blocks of advanced chains. Understand why 'If A is False, B is True' vs. 'If A is True, B is False' matters for Master-level solving." />
+    <title>Strong vs. Weak Links 鈥?Tutorial</title>
+    <meta name="description" content="Learn the fundamentals of Strong and Weak Links鈥攖he building blocks of advanced chains. Understand why 'If A is False, B is True' vs. 'If A is True, B is False' matters for Master-level solving." />
     <link rel="canonical" href="/tutorial/strong-vs-weak-links/" />
     <meta name="robots" content="index, follow" />
-    <meta property="og:title" content="Strong vs. Weak Links — Tutorial" />
+    <meta property="og:title" content="Strong vs. Weak Links 鈥?Tutorial" />
     <meta property="og:description" content="Master Strong and Weak Links: the engine and transmission of Sudoku logic. Build alternating chains correctly and avoid broken inference." />
     <meta property="og:image" content="/favicon.svg" />
     <meta property="og:type" content="article" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Strong vs. Weak Links — Tutorial" />
+    <meta name="twitter:title" content="Strong vs. Weak Links 鈥?Tutorial" />
     <meta name="twitter:description" content="Understand how Strong (cannot both be False) and Weak (cannot both be True) links drive AICs and advanced inference." />
     <meta name="twitter:image" content="/favicon.svg" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -79,9 +79,9 @@
 
           <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">Why Alternating Matters</h3>
           <p>To build a chain (like an X-Wing or XY-Chain), you must alternate between these states to create a logical flow:</p>
-          <p>Start (OFF) → Strong Link → (ON)</p>
-          <p>(ON) → Weak Link → (OFF)</p>
-          <p>(OFF) → Strong Link → (ON)</p>
+          <p>Start (OFF) 鈫?Strong Link 鈫?(ON)</p>
+          <p>(ON) 鈫?Weak Link 鈫?(OFF)</p>
+          <p>(OFF) 鈫?Strong Link 鈫?(ON)</p>
           <p>If you try to chain two Weak Links together ("If A is OFF, B is unknown... and if B is unknown, C is unknown..."), the chain breaks. You must bridge gaps using Strong Links.</p>
 
           <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">Visual Identification</h3>
@@ -92,7 +92,7 @@
           <p>Think of Strong Links as the engine and Weak Links as the transmission. Strong Links generate truth ("This must be true"). Weak Links transmit consequences ("Since this is true, that must be false"). In the upcoming chapters, we will construct Alternating Inference Chains (AIC). The rule will always be: Strong, Weak, Strong, Weak. Mastering this rhythm is the secret to becoming a Sudoku Master.</p>
 
           <div style="margin-top:16px;display:flex;gap:10px">
-            <a class="btn" href="/tutorial.html">← Back to Tutorial</a>
+            <a class="btn" href="/tutorial.html">鈫?Back to Tutorial</a>
           </div>
         </article>
       </div>
@@ -144,5 +144,8 @@
         })
       })()
     </script>
+    <script src="/src/records.js"></script>
+
   </body>
 </html>
+

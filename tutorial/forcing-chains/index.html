@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
   <head>
     <script>
@@ -18,16 +18,16 @@
     </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Forcing Chains — Logic for Sudoku</title>
+    <title>Forcing Chains 鈥?Logic for Sudoku</title>
     <meta name="description" content="Learn Forcing Chains: test parallel hypotheses to find convergences and eliminate impossible candidates." />
     <link rel="canonical" href="/tutorial/forcing-chains/" />
     <meta name="robots" content="index, follow" />
-    <meta property="og:title" content="Forcing Chains — Logic for Sudoku" />
+    <meta property="og:title" content="Forcing Chains 鈥?Logic for Sudoku" />
     <meta property="og:description" content="Trace branched logic paths; when all branches converge on the same result, lock it and clear the rest." />
     <meta property="og:image" content="/favicon.svg" />
     <meta property="og:type" content="article" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Forcing Chains — Logic for Sudoku" />
+    <meta name="twitter:title" content="Forcing Chains 鈥?Logic for Sudoku" />
     <meta name="twitter:description" content="A branched reasoning technique to confirm truths across multiple hypothetical paths." />
     <meta name="twitter:image" content="/favicon.svg" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -54,11 +54,11 @@
 
           <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">Types of Forcing Chains</h3>
           <h4 style="margin:6px 0 4px;font-size:15px;font-weight:600;color:#111">Cell Forcing Chain (The "Bifurcation")</h4>
-          <p>Start: A Bi-Value Cell with candidates {1, 2}. Path A: Assume the cell is 1. Follow the chain → Result: Target is OFF. Path B: Assume the cell is 2. Follow the chain → Result: Target is OFF. Result: Since the cell must be 1 or 2, the Target is OFF in all realities. Eliminate it.</p>
+          <p>Start: A Bi-Value Cell with candidates {1, 2}. Path A: Assume the cell is 1. Follow the chain 鈫?Result: Target is OFF. Path B: Assume the cell is 2. Follow the chain 鈫?Result: Target is OFF. Result: Since the cell must be 1 or 2, the Target is OFF in all realities. Eliminate it.</p>
           <h4 style="margin:6px 0 4px;font-size:15px;font-weight:600;color:#111">Unit Forcing Chain (The "Region Check")</h4>
-          <p>Start: A Row has '7' in only two spots (Strong Link). Path A: Assume Spot 1 is '7' → Result X. Path B: Assume Spot 2 is '7' → Result X. Result: Result X is confirmed.</p>
+          <p>Start: A Row has '7' in only two spots (Strong Link). Path A: Assume Spot 1 is '7' 鈫?Result X. Path B: Assume Spot 2 is '7' 鈫?Result X. Result: Result X is confirmed.</p>
           <h4 style="margin:6px 0 4px;font-size:15px;font-weight:600;color:#111">Nishio Forcing Chain (The "Contradiction")</h4>
-          <p>This is a single-branch forcing chain. "If I set this cell to '5', does the puzzle break immediately?" If yes → The cell is not '5'. Note: Many purists consider this "guessing" (Trial & Error), but if the logical steps are short enough to visualize without writing, it is considered a valid technique named after professional player Nishio.</p>
+          <p>This is a single-branch forcing chain. "If I set this cell to '5', does the puzzle break immediately?" If yes 鈫?The cell is not '5'. Note: Many purists consider this "guessing" (Trial & Error), but if the logical steps are short enough to visualize without writing, it is considered a valid technique named after professional player Nishio.</p>
 
           <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Controversy: Logic vs. Guessing</h3>
           <p>Forcing Chains are controversial. Pure Logic: "I can visualize both paths in my head simultaneously. I see the convergence." (Valid). Guessing (Bowman's Bingo): "I will write down a number in pen, solve for 20 minutes, see if I get stuck, then erase." (Invalid strategy).</p>
@@ -68,7 +68,7 @@
           <p>Find a "Pivot Cell" (usually a Bi-Value Cell) that connects to dense clusters of clues. Ask: "Does this pair {A, B} exert pressure on a distant cell?" Mental Check: "If A... [chain]... Target is 4." Mental Check: "If B... [chain]... Target is 4." If they match, write the 4.</p>
 
           <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">3. Section Summary</h2>
-          <p>Forcing Chains are the "Quantum Mechanics" of Sudoku. You exist in super-position, exploring two parallel universes. When those universes agree on a single fact, that fact becomes reality. This is the ultimate tool in your arsenal—capable of solving any solvable puzzle, provided you have the memory and patience to trace the threads.</p>
+          <p>Forcing Chains are the "Quantum Mechanics" of Sudoku. You exist in super-position, exploring two parallel universes. When those universes agree on a single fact, that fact becomes reality. This is the ultimate tool in your arsenal鈥攃apable of solving any solvable puzzle, provided you have the memory and patience to trace the threads.</p>
 
           <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">COURSE COMPLETE</h2>
           <p>Congratulations! You have finished the "Novice to Legend" Sudoku Tutorial.</p>
@@ -91,7 +91,7 @@
           <p>You are now a Sudoku Legend. Good luck, and may your logic always be sound!</p>
 
           <div style="margin-top:16px;display:flex;gap:10px">
-            <a class="btn" href="/tutorial.html">← Back to Tutorial</a>
+            <a class="btn" href="/tutorial.html">鈫?Back to Tutorial</a>
           </div>
         </article>
       </div>
@@ -151,5 +151,8 @@
         })
       })()
     </script>
+    <script src="/src/records.js"></script>
+
   </body>
 </html>
+

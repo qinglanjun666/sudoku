@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
   <head>
     <script>
@@ -18,16 +18,16 @@
     </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Continuous Loops / X-Cycles — Logic for Sudoku</title>
+    <title>Continuous Loops / X-Cycles 鈥?Logic for Sudoku</title>
     <meta name="description" content="Master Continuous Loops (X-Cycles): closed alternating chains that upgrade every link to strong, enabling powerful eliminations and locked candidates." />
     <link rel="canonical" href="/tutorial/continuous-loops/" />
     <meta name="robots" content="index, follow" />
-    <meta property="og:title" content="Continuous Loops / X-Cycles — Logic for Sudoku" />
+    <meta property="og:title" content="Continuous Loops / X-Cycles 鈥?Logic for Sudoku" />
     <meta property="og:description" content="Learn the stabilizing force of Continuous Loops (X-Cycles): convert weak links to strong and clear interfering candidates." />
     <meta property="og:image" content="/favicon.svg" />
     <meta property="og:type" content="article" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Continuous Loops / X-Cycles — Logic for Sudoku" />
+    <meta name="twitter:title" content="Continuous Loops / X-Cycles 鈥?Logic for Sudoku" />
     <meta name="twitter:description" content="Closed alternating chains that crystallize into strong links and drive eliminations." />
     <meta name="twitter:image" content="/favicon.svg" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -56,8 +56,8 @@
           <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Logic: "The Perpetual Motion Machine"</h3>
           <p>Because the loop is closed and alternating:</p>
           <ul style="margin:0 0 12px 18px; padding:0; color:#333">
-            <li>If A is ON → B is OFF → C is ON → D is OFF → A is ON. (Consistent).</li>
-            <li>If A is OFF → B is ON → C is OFF → D is ON → A is OFF. (Consistent).</li>
+            <li>If A is ON 鈫?B is OFF 鈫?C is ON 鈫?D is OFF 鈫?A is ON. (Consistent).</li>
+            <li>If A is OFF 鈫?B is ON 鈫?C is OFF 鈫?D is ON 鈫?A is OFF. (Consistent).</li>
           </ul>
 
           <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Transformation</h3>
@@ -71,7 +71,7 @@
           <p><strong>Rule 2: The Locked Candidates</strong><br/>Sometimes, the loop proves that a specific candidate must be part of the solution in a specific row or column, allowing you to clear the rest of that house.</p>
 
           <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">Example Scenario (X-Cycle)</h3>
-          <p>You find a chain of the digit '5'. Row 1 (Strong) → Col 9 (Weak) → Row 8 (Strong) → Col 2 (Weak) → Back to Row 1.</p>
+          <p>You find a chain of the digit '5'. Row 1 (Strong) 鈫?Col 9 (Weak) 鈫?Row 8 (Strong) 鈫?Col 2 (Weak) 鈫?Back to Row 1.</p>
           <p><strong>Result:</strong> The '5's in Col 9 and Col 2 are now "Strongly Linked" pairs.</p>
           <p><strong>Action:</strong> Any other '5' that sees the pair in Col 9 or the pair in Col 2 can be removed.</p>
 
@@ -79,10 +79,10 @@
           <p>Continuous loops are often found by accident while looking for an AIC. Start building an AIC: <strong>Start = Node A - Node B...</strong> Suddenly, you realize your last node lands in a spot that connects strongly back to your Start. Stop! You have found a loop. Don't look for a target cell. Instead, look at the links of your loop. Eliminate anything "weak" looking at your links.</p>
 
           <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">3. Section Summary</h2>
-          <p>Continuous Loops are the most aesthetically pleasing patterns in Sudoku. They represent a perfectly balanced system. When you find one, the loop "crystallizes"—every candidate in the loop becomes essential, and the weak links between them become rigid bars of steel. Any external candidate trying to "break" a link by seeing both ends of it is instantly eliminated.</p>
+          <p>Continuous Loops are the most aesthetically pleasing patterns in Sudoku. They represent a perfectly balanced system. When you find one, the loop "crystallizes"鈥攅very candidate in the loop becomes essential, and the weak links between them become rigid bars of steel. Any external candidate trying to "break" a link by seeing both ends of it is instantly eliminated.</p>
 
           <div style="margin-top:16px;display:flex;gap:10px">
-            <a class="btn" href="/tutorial.html">← Back to Tutorial</a>
+            <a class="btn" href="/tutorial.html">鈫?Back to Tutorial</a>
           </div>
         </article>
       </div>
@@ -142,5 +142,8 @@
         })
       })()
     </script>
+    <script src="/src/records.js"></script>
+
   </body>
 </html>
+

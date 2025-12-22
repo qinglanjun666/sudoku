@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
   <head>
     <script>
@@ -18,16 +18,16 @@
     </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>XY-Chain — Tutorial</title>
+    <title>XY-Chain 鈥?Tutorial</title>
     <meta name="description" content="Learn the XY-Chain: connect a snake of bi-value cells to lock a digit at the chain ends and eliminate it from any cell that sees both endpoints." />
     <link rel="canonical" href="/tutorial/xy-chain/" />
     <meta name="robots" content="index, follow" />
-    <meta property="og:title" content="XY-Chain — Tutorial" />
+    <meta property="og:title" content="XY-Chain 鈥?Tutorial" />
     <meta property="og:description" content="Master XY-Chain: stretch an XY-Wing into a chain of bi-value cells to force a digit at one end or the other and clear intersections." />
     <meta property="og:image" content="/favicon.svg" />
     <meta property="og:type" content="article" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="XY-Chain — Tutorial" />
+    <meta name="twitter:title" content="XY-Chain 鈥?Tutorial" />
     <meta name="twitter:description" content="Use bi-value cells and internal strong links to propagate ON/OFF states, locking a digit at the ends for elimination." />
     <meta name="twitter:image" content="/favicon.svg" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -74,7 +74,7 @@
           <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Logic Trace</h3>
           <p>Test the Start cell {1, 2}:</p>
           <p><strong>Option A</strong>: The Start cell is 1.</p>
-          <p><strong>Option B</strong>: The Start cell is not 1 → it must be 2 → Step 2 cannot be 2 → Step 2 must be 3 → Step 3 cannot be 3 → Step 3 must be 4 → End cannot be 4 → End must be 1.</p>
+          <p><strong>Option B</strong>: The Start cell is not 1 鈫?it must be 2 鈫?Step 2 cannot be 2 鈫?Step 2 must be 3 鈫?Step 3 cannot be 3 鈫?Step 3 must be 4 鈫?End cannot be 4 鈫?End must be 1.</p>
           <p><strong>Conclusion</strong>: Whether Option A or B, the number 1 appears at either the Start or the End. The digit is locked at the ends of the chain.</p>
 
           <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">The Elimination</h3>
@@ -84,13 +84,13 @@
           <p>Note: The intermediate steps (2, 3, 4) are connectors. The elimination only happens for the digit that starts and ends the chain.</p>
 
           <h3 style="margin:8px 0 6px;font-size:16px;font-weight:600;color:#111">How to Spot It</h3>
-          <p>Scan for Bi-Value Cells (BVCs). Pick a BVC and a number, e.g., "If this isn't 1, it's 2." Follow the 2 to a neighbor {2, 5} → that neighbor becomes 5. Continue following until a cell brings you back to your original number '1'. Then check the intersection of Start and End.</p>
+          <p>Scan for Bi-Value Cells (BVCs). Pick a BVC and a number, e.g., "If this isn't 1, it's 2." Follow the 2 to a neighbor {2, 5} 鈫?that neighbor becomes 5. Continue following until a cell brings you back to your original number '1'. Then check the intersection of Start and End.</p>
 
           <h2 style="margin:12px 0 8px;font-size:18px;font-weight:600;color:#111">3. Section Summary</h2>
           <p>The XY-Chain is a powerful weapon for cleaning up late-game puzzles. When the board is full of cells with only two options, an XY-Chain is almost guaranteed to exist. It relies on the simple binary logic of "If not this, then that," repeated until it forces a lock at the ends.</p>
 
           <div style="margin-top:16px;display:flex;gap:10px">
-            <a class="btn" href="/tutorial.html">← Back to Tutorial</a>
+            <a class="btn" href="/tutorial.html">鈫?Back to Tutorial</a>
           </div>
         </article>
       </div>
@@ -142,5 +142,8 @@
         })
       })()
     </script>
+    <script src="/src/records.js"></script>
+
   </body>
 </html>
+
