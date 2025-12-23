@@ -110,49 +110,7 @@
           var sf = document.getElementById('site-footer'); if (sf) sf.innerHTML = f
         })
 
-        // Records Logic
-        function initRecords() {
-            var btn = document.getElementById('recordsBtn');
-            var display = document.getElementById('recordsDisplay');
-            if (btn && display) {
-                // Remove existing listeners to avoid duplicates if re-run
-                var newBtn = btn.cloneNode(true);
-                btn.parentNode.replaceChild(newBtn, btn);
-                btn = newBtn;
-                
-                btn.addEventListener('click', function() {
-                    if (display.style.display === 'block') {
-                        display.style.display = 'none';
-                        return;
-                    }
-                    
-                    try {
-                        var raw = localStorage.getItem('sudoku_stats');
-                        var stats = raw ? JSON.parse(raw) : {};
-                        var completed = stats.completed || {};
-                        
-                        var html = '<div style="font-weight:600; margin-bottom:12px; color:#111; font-size:16px; border-bottom:1px solid #eee; padding-bottom:8px;">Games Completed</div>';
-                        html += '<div style="display:flex; justify-content:space-between; margin-bottom:6px; color:#4b5563;"><span>Easy:</span> <span style="font-weight:600; color:#111">' + (completed.easy || 0) + '</span></div>';
-                        html += '<div style="display:flex; justify-content:space-between; margin-bottom:6px; color:#4b5563;"><span>Medium:</span> <span style="font-weight:600; color:#111">' + (completed.medium || 0) + '</span></div>';
-                        html += '<div style="display:flex; justify-content:space-between; margin-bottom:6px; color:#4b5563;"><span>Hard:</span> <span style="font-weight:600; color:#111">' + (completed.hard || 0) + '</span></div>';
-                        html += '<div style="display:flex; justify-content:space-between; margin-bottom:0; color:#4b5563;"><span>Mini 6x6:</span> <span style="font-weight:600; color:#111">' + (completed['6x6'] || 0) + '</span></div>';
-                        
-                        display.innerHTML = html;
-                        display.style.display = 'block';
-                    } catch (e) {
-                        console.error(e);
-                        display.innerHTML = '<div style="color:red">Error loading stats</div>';
-                        display.style.display = 'block';
-                    }
-                });
-            }
-        }
-        
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initRecords);
-        } else {
-            initRecords();
-        }
+
       })()
     </script>
     <script src="/src/records.js"></script>

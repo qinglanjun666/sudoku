@@ -312,6 +312,12 @@
             if (Math.abs(final - 24) < EPS) {
               qs('#resultRow').textContent = 'Great job! Congratulations!'
               qs('#resultRow').style.color = '#28a745'
+              try {
+                  const raw = localStorage.getItem('24game_stats') || '{}'
+                  const stats = JSON.parse(raw)
+                  stats.completed = (stats.completed || 0) + 1
+                  localStorage.setItem('24game_stats', JSON.stringify(stats))
+              } catch(e){}
             } else {
               qs('#resultRow').textContent = 'Keep trying! Think again.'
               qs('#resultRow').style.color = '#dc3545'

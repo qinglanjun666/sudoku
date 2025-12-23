@@ -158,6 +158,7 @@ class KakuroGame {
     }
 
     async generateLevel(difficulty = 'medium') {
+        this.difficulty = difficulty;
         const config = {
             'beginner': { size: 6,  wallProb: 0.45 },
             'easy':     { size: 8,  wallProb: 0.40 },
@@ -465,6 +466,35 @@ class KakuroGame {
             if (val) dom.classList.add('user-filled');
             else dom.classList.remove('user-filled');
             dom.style.color = ''; // Reset color if it was revealed
+        }
+
+        this.checkWin();
+    }
+
+    checkWin() {
+        let complete = true;
+        for(let r=0; r<this.size; r++) {
+            for(let c=0; c<this.size; c++) {
+                if(this.grid[r][c].type === 'empty') {
+                    if(this.grid[r][c].val !== this.grid[r][c].solution) {
+                        complete = false;
+                        break;
+                    }
+                }
+            }
+            if(!complete) break;
+        }
+
+        if(complete) {
+            try {
+                const raw = localStorage.getItem('kakuro_stats') || '{}';
+                const stats = JSON.parse(raw);
+                if (!stats.completed) stats.completed = {};
+                const diff = this.difficulty || 'medium'; 
+                stats.completed[diff] = (stats.completed[diff] || 0) + 1;
+                localStorage.setItem('kakuro_stats', JSON.stringify(stats));
+            } catch(e) { console.error(e) }
+            setTimeout(() => alert('Congratulations! Puzzle Solved!'), 200);
         }
     }
 
