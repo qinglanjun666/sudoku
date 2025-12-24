@@ -74,8 +74,13 @@
             })
 
             html += '</div>' // Close container
-            
-            display.innerHTML = html
+                    
+                    // Add More Button
+                    html += `<div style="margin-top:12px; padding-top:12px; border-top:1px solid #eee; text-align:center;">
+                        <a href="/achievements/index.html" style="display:inline-block; padding:8px 16px; background:#f3f4f6; color:#374151; text-decoration:none; border-radius:6px; font-weight:600; font-size:13px; transition:background 0.2s;">View All Achievements & Trophies</a>
+                    </div>`
+
+                    display.innerHTML = html
             display.style.display = 'block'
             
             // Close when clicking outside

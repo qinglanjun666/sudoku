@@ -340,16 +340,16 @@ html, body {
   margin: 0 auto;
   padding: 0 24px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 64px;
-  align-items: stretch; /* Changed from center to stretch for equal height */
+  grid-template-columns: 1fr auto; /* Adaptive width for text, fixed/auto for image */
+  gap: 48px; /* Reduced gap slightly to give text more space */
+  align-items: center; /* Center vertically */
 }
 
 .hero-left {
-  max-width: 520px;
+  max-width: 600px; /* Allow more width if available */
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Center content vertically if it ends up taller */
+  justify-content: center;
 }
 
 .hero-title {
@@ -365,7 +365,7 @@ html, body {
   font-size: 18px;
   line-height: 1.6;
   color: rgba(255,255,255,0.9);
-  margin: 0 0 32px;
+  margin: 0 0 40px; /* Increased space before buttons */
 }
 
 .hero-right {
@@ -375,6 +375,32 @@ html, body {
 }
 
 /* Browser Mockup (Restored) */
+.hero-image {
+  width: 100%;
+  max-width: 590px; /* Updated to 590px */
+  height: auto;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+  display: block;
+  margin: auto;
+}
+
+@media (max-width: 960px) {
+  .hero-inner {
+    grid-template-columns: 1fr;
+    gap: 48px;
+    text-align: center;
+  }
+  .hero-left {
+    max-width: 100%;
+    align-items: center;
+  }
+  .hero-image {
+    max-width: 100%;
+  }
+}
+
 .browser-mock {
   width: 100%;
   max-width: 480px;
@@ -466,13 +492,7 @@ html, body {
   .hero-title {
     font-size: 36px;
   }
-  
-  /* Reset browser mock for mobile stacking */
-  .browser-mock {
-    position: relative;
-    height: auto;
-    min-height: 300px; /* Ensure some height */
-  }
+
 }
 
 /* Game Features Showcase (Blue Theme) */

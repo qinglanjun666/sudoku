@@ -270,6 +270,16 @@ class CalcudokuGame {
     const isFull = this.grid.every(c => c.value !== null);
     const hasError = this.grid.some(c => c.isError);
     if (isFull && !hasError) {
+        // Save Stats
+        try {
+            const raw = localStorage.getItem('calcudoku_stats') || '{}';
+            const stats = JSON.parse(raw);
+            if (!stats.completed) stats.completed = {};
+            const s = String(this.size);
+            stats.completed[s] = (stats.completed[s] || 0) + 1;
+            localStorage.setItem('calcudoku_stats', JSON.stringify(stats));
+        } catch(e) { console.error(e) }
+        
         setTimeout(() => alert('Congratulations! You solved it!'), 100);
     }
   }
