@@ -717,6 +717,16 @@
                 statusEl.textContent = 'Success! Well done.';
                 statusEl.style.color = '#10b981';
                 document.querySelectorAll('.cell').forEach(c => c.classList.add('success'));
+                
+                // Save Stats
+                try {
+                    const key = `${currentSettings.size}-${currentSettings.difficulty}`;
+                    const stats = JSON.parse(localStorage.getItem('futoshiki_stats') || '{"completed":{}}');
+                    stats.completed[key] = (stats.completed[key] || 0) + 1;
+                    localStorage.setItem('futoshiki_stats', JSON.stringify(stats));
+                } catch(e) {
+                    console.error('Error saving stats', e);
+                }
             } else {
                 statusEl.textContent = 'Incorrect. Keep trying.';
                 statusEl.style.color = '#ef4444';

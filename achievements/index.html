@@ -136,6 +136,7 @@
             sudoku: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/><path d="M15 3v18"/></svg>',
             calc: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="16" y1="14" x2="16" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>',
             kakuro: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3L2 12l10 9 10-9-10-9z"/></svg>',
+            futoshiki: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M14 8l-4 4 4 4"/></svg>',
             game24: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>'
         }
 
@@ -148,6 +149,7 @@
             const cStats = JSON.parse(localStorage.getItem('calcudoku_stats') || '{}').completed || {};
             const tfStats = JSON.parse(localStorage.getItem('24game_stats') || '{}');
             const tfWins = tfStats.completed || 0;
+            const fStats = JSON.parse(localStorage.getItem('futoshiki_stats') || '{}').completed || {};
 
             // Define Games and Trophies
             const games = [
@@ -193,6 +195,17 @@
                         { name: 'Intermediate Glory', desc: 'Win 5 Interm. (5x5) games', req: 5, current: cStats['5'] || 0 },
                         { name: 'Advanced Glory', desc: 'Win 5 Chall. (6x6) games', req: 5, current: cStats['6'] || 0 },
                         { name: 'Industry Expert', desc: 'Win 5 Hard (7x7+) games', req: 5, current: (cStats['7']||0) + (cStats['8']||0) + (cStats['9']||0) }
+                    ]
+                },
+                {
+                    id: 'futoshiki',
+                    name: 'Futoshiki',
+                    icon: icons.futoshiki,
+                    trophies: [
+                        { name: 'Beginner Glory', desc: 'Win 5 4x4 Easy games', req: 5, current: fStats['4-Easy'] || 0 },
+                        { name: 'Intermediate Glory', desc: 'Win 5 5x5 Easy games', req: 5, current: fStats['5-Easy'] || 0 },
+                        { name: 'Advanced Glory', desc: 'Win 5 6x6 Easy games', req: 5, current: fStats['6-Easy'] || 0 },
+                        { name: 'Industry Expert', desc: 'Win 10 Hard games', req: 10, current: (fStats['4-Hard']||0) + (fStats['5-Hard']||0) + (fStats['6-Hard']||0) }
                     ]
                 }
             ];

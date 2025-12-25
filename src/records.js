@@ -21,6 +21,7 @@
             // Read Stats
             const sStats = JSON.parse(localStorage.getItem('sudoku_stats') || '{}').completed || {}
             const kStats = JSON.parse(localStorage.getItem('kakuro_stats') || '{}').completed || {}
+            const fStats = JSON.parse(localStorage.getItem('futoshiki_stats') || '{}').completed || {}
             const tfStats = JSON.parse(localStorage.getItem('24game_stats') || '{}')
             const tfWins = tfStats.completed || 0
 
@@ -49,6 +50,12 @@
             html += row('Medium', kStats.medium)
             html += row('Hard', kStats.hard)
 
+            // Futoshiki
+            html += header('Futoshiki')
+            html += row('4x4', (fStats['4-Easy']||0) + (fStats['4-Hard']||0))
+            html += row('5x5', (fStats['5-Easy']||0) + (fStats['5-Hard']||0))
+            html += row('6x6', (fStats['6-Easy']||0) + (fStats['6-Hard']||0))
+
             // Quests
             html += '<div style="font-weight:600; margin:16px 0 8px; color:#111; font-size:15px; border-top:2px solid #eee; padding-top:12px;">Daily Quests</div>'
             
@@ -56,7 +63,8 @@
             const quests = [
                 { title: 'Sudoku Apprentice', desc: 'Win 30 Easy Sudoku games', completed: (sStats.easy || 0) >= 30 },
                 { title: 'Math Whiz', desc: 'Win 10 24-Games', completed: tfWins >= 10 },
-                { title: 'Kakuro Starter', desc: 'Win 5 Kakuro puzzles', completed: (Object.values(kStats).reduce((a,b)=>a+b,0)) >= 5 }
+                { title: 'Kakuro Starter', desc: 'Win 5 Kakuro puzzles', completed: (Object.values(kStats).reduce((a,b)=>a+b,0)) >= 5 },
+                { title: 'Futoshiki Novice', desc: 'Win 5 Futoshiki puzzles', completed: (Object.values(fStats).reduce((a,b)=>a+b,0)) >= 5 }
             ]
 
             quests.forEach(q => {
