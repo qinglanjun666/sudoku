@@ -52,25 +52,7 @@
       </div>
     </main>
     <div id="site-footer"></div>
-    <script>
-      (function(){
-        var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
-        if (!isLocal) {
-          var ads = document.createElement('script')
-          ads.async = true
-          ads.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5101109858499684'
-          ads.crossOrigin = 'anonymous'
-          document.head.appendChild(ads)
-        }
-        Promise.all([
-          fetch('/partials/header.html?v=' + Date.now()).then(r=>r.text()),
-          fetch('/partials/footer.html?v=' + Date.now()).then(r=>r.text())
-        ]).then(([h,f])=>{
-          var sh = document.getElementById('site-header'); if (sh) sh.innerHTML = h
-          var sf = document.getElementById('site-footer'); if (sf) sf.innerHTML = f
-        })
-      })()
-    </script>
+    <script src="/src/layout.js"></script>
     <script src="/src/records.js"></script>
   </body>
 </html>

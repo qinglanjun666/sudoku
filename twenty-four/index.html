@@ -99,11 +99,11 @@
     </header>
     <main class="main-wrap">
       <div class="container page-fit">
-        <div class="breadcrumb">
+        <nav class="breadcrumb">
           <a href="/index.html">Home</a>
-          <span>›</span>
+          <span>></span>
           <span class="crumb-middle">24 Game</span>
-        </div>
+        </nav>
         <!-- Hero section removed -->
         <section class="grid-section" style="padding-top:24px; padding-bottom: 24px;">
           <div class="grid-bg">
@@ -141,17 +141,7 @@
       </div>
     </main>
     <div id="site-footer"></div>
-    <script>
-      (function(){
-        Promise.all([
-          fetch('/partials/header.html?v=' + Date.now()).then(r=>r.text()),
-          fetch('/partials/footer.html?v=' + Date.now()).then(r=>r.text())
-        ]).then(([h,f])=>{
-          var sh = document.getElementById('site-header'); if (sh) sh.innerHTML = h
-          var sf = document.getElementById('site-footer'); if (sf) sf.innerHTML = f
-        })
-      })()
-    </script>
+    <script src="/src/layout.js"></script>
     <script>
       (function(){
         const qs = s => document.querySelector(s)

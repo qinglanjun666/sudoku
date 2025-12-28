@@ -32,7 +32,7 @@
     
     <main class="main-wrap">
       <div class="container page-fit">
-        <nav class="breadcrumb" id="kakuro-breadcrumb"><a href="/index.html">Home</a><span>></span><span class="crumb-middle">Kakuro</span></nav>
+        <nav class="breadcrumb"><a href="/index.html">Home</a><span>></span><span class="crumb-middle">Kakuro</span></nav>
         
         <!-- Menu Screen -->
         <div id="menu-screen">
@@ -78,17 +78,7 @@
 
     <div id="site-footer"></div>
 
-    <script>
-      (function(){
-        Promise.all([
-          fetch('/partials/header.html?v=' + Date.now()).then(r => r.text()),
-          fetch('/partials/footer.html?v=' + Date.now()).then(r => r.text())
-        ]).then(([h, f]) => {
-          var sh = document.getElementById('site-header'); if (sh) sh.innerHTML = h
-          var sf = document.getElementById('site-footer'); if (sf) sf.innerHTML = f
-        });
-      })()
-    </script>
+    <script src="/src/layout.js"></script>
     <script src="script.js?v=final_fix_v5"></script>
     <script src="/src/records.js"></script>
   </body>

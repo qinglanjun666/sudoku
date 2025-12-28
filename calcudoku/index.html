@@ -35,8 +35,7 @@
         
         <!-- Menu Screen -->
         <div id="menu-screen">
-          <div class="menu-title">Select a size:</div>
-          <a href="tutorial/" style="color: #3b82f6; margin-bottom: 20px; font-size: 1.1rem; text-decoration: underline; cursor: pointer;">Calcudoku Tutorial</a>
+          <div class="menu-title">Select Difficulty</div>
           <div class="menu-grid" id="menu-grid">
             <!-- Injected by JS -->
           </div>
@@ -78,18 +77,7 @@
 
     <div id="site-footer"></div>
 
-    <script>
-      // Header/Footer Injection
-      (function(){
-        Promise.all([
-          fetch('../partials/header.html?v=' + Date.now()).then(r => r.text()),
-          fetch('../partials/footer.html?v=' + Date.now()).then(r => r.text())
-        ]).then(([h, f]) => {
-          var sh = document.getElementById('site-header'); if (sh) sh.innerHTML = h
-          var sf = document.getElementById('site-footer'); if (sf) sf.innerHTML = f
-        });
-      })()
-    </script>
+    <script src="/src/layout.js"></script>
     <script src="script.js"></script>
     <script src="/src/records.js"></script>
   </body>

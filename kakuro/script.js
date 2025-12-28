@@ -27,23 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
             { id: 'expert',   label: 'Expert',   size: 15, desc: '15x15 Grid' }
         ];
 
-        function updateBreadcrumb(difficultyId) {
-            const breadcrumb = document.getElementById('kakuro-breadcrumb');
-            if (!breadcrumb) return;
-
-            let html = '<a href="/index.html">Home</a><span>></span>';
-            
-            if (difficultyId) {
-                html += '<a href="/kakuro/">Kakuro</a><span>></span>';
-                const diff = difficulties.find(d => d.id === difficultyId);
-                const label = diff ? diff.label : difficultyId;
-                html += `<span class="crumb-middle">${label}</span>`;
-            } else {
-                html += '<span class="crumb-middle">Kakuro</span>';
-            }
-            
-            breadcrumb.innerHTML = html;
-        }
 
         // 1. Generate Menu Grid
         if (menuGrid) {
@@ -108,9 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const diff = difficulties.find(d => d.id === difficulty);
             if (difficultyLabel && diff) difficultyLabel.textContent = `Kakuro: ${diff.label}`;
 
-            // Update Breadcrumb
-            updateBreadcrumb(difficulty);
-            
+
             // Generate
             game.generateLevel(difficulty);
         }
@@ -118,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
         function showMenu() {
             gameScreen.style.display = 'none';
             menuScreen.style.display = 'flex'; // Flex for centering
-            updateBreadcrumb(null);
+
         }
 
         // 2. Button Listeners
@@ -556,7 +537,20 @@ class KakuroGame {
         }
 
         this.gridElement.innerHTML = '';
-        this.gridElement.style.gridTemplateColumns = `repeat(${this.size}, var(--cell-size))`;
+        // this.gridElement.style.gridTemplateColumns = `repeat(${this.size}, var(--cell-size))`; // Old fixed size
+        this.gridElement.style.gridTemplateColumns = `repeat(${this.size}, 1fr)`; // Responsive
+
+        // Dynamic font sizing
+        let fontSize = '1.4rem';
+        let clueSize = '0.75rem';
+        if (this.size >= 12) {
+             fontSize = '1.1rem';
+             clueSize = '0.65rem';
+        }
+        if (this.size >= 15) {
+             fontSize = '0.9rem';
+             clueSize = '0.55rem';
+        }
         
         // Reset active cell
         this.activeCell = null;
@@ -575,12 +569,14 @@ class KakuroGame {
                         let s = document.createElement('span');
                         s.className = 'clue-number clue-down';
                         s.innerText = cell.down;
+                        s.style.fontSize = clueSize; // Dynamic clue size
                         div.appendChild(s);
                     }
                     if (cell.right) {
                         let s = document.createElement('span');
                         s.className = 'clue-number clue-right';
                         s.innerText = cell.right;
+                        s.style.fontSize = clueSize; // Dynamic clue size
                         div.appendChild(s);
                     }
                 } else if (cell.type === 'void') {
@@ -588,6 +584,8 @@ class KakuroGame {
                     div.style.backgroundColor = '#dcdcdc';
                 } else {
                     div.classList.add('empty');
+                    div.style.fontSize = fontSize; // Apply dynamic font size
+                    
                     // Restore value if exists (e.g. from state logic if we had persistent state)
                     // Currently we clear state on generate, but if we had it:
                     if (cell.val) {

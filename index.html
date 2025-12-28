@@ -28,8 +28,8 @@
     </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Play Sudoku Online — Logic for Sudoku</title>
-    <meta name="description" content="Sharpen your logic with free online Sudoku. Easy, Medium, Hard puzzles ready to play." />
+    <title>Free Online Sudoku Games | Daily Sudoku Puzzles_logicforsudoku</title>
+    <meta name="description" content="Play the best free online Sudoku games at LogicForSudoku.com. Enjoy daily Sudoku puzzles from easy to evil difficulty. Master the logic and solve grids now!" />
     <link rel="canonical" href="/index.html" />
     <meta name="robots" content="index, follow" />
     <meta property="og:title" content="Play Sudoku Online — Logic for Sudoku" />
@@ -41,7 +41,7 @@
     <meta name="twitter:description" content="Free online Sudoku with three difficulty levels. Sharpen your logic instantly. Easy, Medium, Hard puzzles." />
     <meta name="twitter:image" content="/favicon.svg" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="/src/index.css?v=2" />
+    <link rel="stylesheet" href="/src/index.css?v=3" />
   </head>
   <body>
     <header>
@@ -58,7 +58,7 @@
             </p>
             <div style="display:flex; gap:12px; margin-top:24px; flex-wrap:wrap">
               <a class="btn btn-yellow btn-new" href="/sudoku/">Start Training Now</a>
-              <button id="saveFavBtn" class="btn btn-outline-white">Save to Favorites</button>
+              <a href="/sudoku/daily/" class="btn btn-outline-white">Daily Challenge</a>
             </div>
             <div style="margin-top:24px; font-size:14px; color:white; font-style:italic">
               "Share this with the 3 smartest people you know."
@@ -95,26 +95,10 @@
             <div class="feature-info">
               <h3>Classic Sudoku</h3>
               <p>The timeless logic puzzle. Fill the 9x9 grid so that each row, column, and 3x3 box contains all digits from 1 to 9. Features smart pencil marks, auto-check, and multiple difficulty levels for beginners to experts.</p>
+              <a href="/sudoku/" class="btn btn-yellow btn-new" style="margin-top: 24px;">Play Now</a>
             </div>
-            <div class="feature-visual">
-               <div class="feature-mock">
-                  <!-- Simple CSS Sudoku representation -->
-                  <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:4px; background:#e5e7eb; padding:4px; border-radius:4px;">
-                     <div style="width:80px; height:80px; background:#fff; display:grid; grid-template-columns:repeat(3,1fr); gap:1px; border:1px solid #eee;">
-                        <div style="background:#eff6ff"></div><div></div><div></div><div></div><div style="background:#eff6ff"></div><div></div><div></div><div></div><div></div>
-                     </div>
-                     <div style="width:80px; height:80px; background:#fff; display:grid; grid-template-columns:repeat(3,1fr); gap:1px; border:1px solid #eee;"></div>
-                     <div style="width:80px; height:80px; background:#fff; display:grid; grid-template-columns:repeat(3,1fr); gap:1px; border:1px solid #eee;"></div>
-                     <div style="width:80px; height:80px; background:#fff; display:grid; grid-template-columns:repeat(3,1fr); gap:1px; border:1px solid #eee;"></div>
-                     <div style="width:80px; height:80px; background:#fff; display:grid; grid-template-columns:repeat(3,1fr); gap:1px; border:1px solid #eee;">
-                         <div style="display:flex;align-items:center;justify-content:center;color:#0057FF;font-weight:bold; font-size:24px; width:100%; height:100%">5</div>
-                     </div>
-                     <div style="width:80px; height:80px; background:#fff; display:grid; grid-template-columns:repeat(3,1fr); gap:1px; border:1px solid #eee;"></div>
-                     <div style="width:80px; height:80px; background:#fff; display:grid; grid-template-columns:repeat(3,1fr); gap:1px; border:1px solid #eee;"></div>
-                     <div style="width:80px; height:80px; background:#fff; display:grid; grid-template-columns:repeat(3,1fr); gap:1px; border:1px solid #eee;"></div>
-                     <div style="width:80px; height:80px; background:#fff; display:grid; grid-template-columns:repeat(3,1fr); gap:1px; border:1px solid #eee;"></div>
-                  </div>
-               </div>
+            <div class="feature-visual" style="background: transparent; padding: 0; box-shadow: none;">
+              <img src="/assets/sudoku-preview.png" alt="Sudoku Preview" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
             </div>
           </div>
 
@@ -123,17 +107,10 @@
             <div class="feature-info">
               <h3>24 Game</h3>
               <p>Combine four numbers using addition, subtraction, multiplication, and division to equal 24. A fast-paced mental arithmetic challenge that improves calculation speed and problem-solving flexibility.</p>
+              <a href="/twenty-four/" class="btn btn-yellow btn-new" style="margin-top: 24px;">Play Now</a>
             </div>
-            <div class="feature-visual">
-              <div class="feature-mock">
-                  <div style="display:flex; gap:12px; align-items:center;">
-                      <div style="width:48px; height:64px; background:#fff; border:1px solid #ccc; border-radius:4px; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:24px; color:#333; box-shadow:0 2px 4px rgba(0,0,0,0.1)">4</div>
-                      <div style="width:48px; height:64px; background:#fff; border:1px solid #ccc; border-radius:4px; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:24px; color:#333; box-shadow:0 2px 4px rgba(0,0,0,0.1)">8</div>
-                      <div style="width:48px; height:64px; background:#fff; border:1px solid #ccc; border-radius:4px; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:24px; color:#ef4444; box-shadow:0 2px 4px rgba(0,0,0,0.1)">3</div>
-                      <div style="width:48px; height:64px; background:#fff; border:1px solid #ccc; border-radius:4px; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:24px; color:#333; box-shadow:0 2px 4px rgba(0,0,0,0.1)">6</div>
-                  </div>
-                  <div style="margin-top:16px; color:#0057FF; font-weight:600; font-size:16px">Make 24!</div>
-              </div>
+            <div class="feature-visual" style="background: transparent; padding: 0; box-shadow: none;">
+              <img src="/assets/twenty-four-preview.png" alt="24 Game Preview" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
             </div>
           </div>
 
@@ -142,54 +119,10 @@
             <div class="feature-info">
               <h3>Calcudoku (KenKen)</h3>
               <p>Fill the grid with numbers so they don't repeat in rows or columns, while satisfying the mathematical operation in each cage. The perfect blend of Sudoku logic and arithmetic practice.</p>
+              <a href="/calcudoku/" class="btn btn-yellow btn-new" style="margin-top: 24px;">Play Now</a>
             </div>
-            <div class="feature-visual">
-              <div class="feature-mock">
-                 <div style="display:grid; grid-template-columns:repeat(4, 60px); grid-template-rows:repeat(4, 60px); gap:0; border:2px solid #1f2937; background:#fff;">
-                    <!-- Row 1 -->
-                    <div style="border-right:1px dotted #d1d5db; border-bottom:1px solid #1f2937; position:relative;">
-                        <span style="position:absolute; top:2px; left:4px; font-size:11px; font-weight:bold;">3+</span>
-                        <div style="display:flex;align-items:center;justify-content:center;height:100%;color:#1f2937;font-size:18px;">1</div>
-                    </div>
-                    <div style="border-right:1px solid #1f2937; border-bottom:1px dotted #d1d5db; position:relative;">
-                        <span style="position:absolute; top:2px; left:4px; font-size:11px; font-weight:bold;">2÷</span>
-                        <div style="display:flex;align-items:center;justify-content:center;height:100%;color:#1f2937;font-size:18px;">2</div>
-                    </div>
-                    <div style="border-right:1px dotted #d1d5db; border-bottom:1px solid #1f2937; position:relative;">
-                        <span style="position:absolute; top:2px; left:4px; font-size:11px; font-weight:bold;">12x</span>
-                    </div>
-                    <div style="border-bottom:1px solid #1f2937; position:relative;"></div>
-                    
-                    <!-- Row 2 -->
-                    <div style="border-right:1px solid #1f2937; border-bottom:1px dotted #d1d5db; position:relative;">
-                        <span style="position:absolute; top:2px; left:4px; font-size:11px; font-weight:bold;">4</span>
-                    </div>
-                    <div style="border-right:1px solid #1f2937; border-bottom:1px dotted #d1d5db; position:relative;"></div>
-                    <div style="border-right:1px dotted #d1d5db; border-bottom:1px dotted #d1d5db; position:relative;">
-                        <span style="position:absolute; top:2px; left:4px; font-size:11px; font-weight:bold;">6+</span>
-                    </div>
-                    <div style="border-bottom:1px dotted #d1d5db; position:relative;"></div>
-
-                    <!-- Row 3 -->
-                    <div style="border-right:1px dotted #d1d5db; border-bottom:1px solid #1f2937; position:relative;">
-                        <span style="position:absolute; top:2px; left:4px; font-size:11px; font-weight:bold;">2-</span>
-                    </div>
-                    <div style="border-right:1px solid #1f2937; border-bottom:1px solid #1f2937; position:relative;"></div>
-                    <div style="border-right:1px dotted #d1d5db; border-bottom:1px solid #1f2937; position:relative;"></div>
-                    <div style="border-bottom:1px solid #1f2937; position:relative;"></div>
-
-                    <!-- Row 4 -->
-                    <div style="border-right:1px solid #1f2937; position:relative;">
-                         <span style="position:absolute; top:2px; left:4px; font-size:11px; font-weight:bold;">3</span>
-                         <div style="display:flex;align-items:center;justify-content:center;height:100%;color:#0057FF;font-weight:bold;font-size:24px;">3</div>
-                    </div>
-                    <div style="border-right:1px dotted #d1d5db; position:relative;">
-                         <span style="position:absolute; top:2px; left:4px; font-size:11px; font-weight:bold;">1-</span>
-                    </div>
-                    <div style="border-right:1px solid #1f2937; position:relative;"></div>
-                    <div style="position:relative;"></div>
-                 </div>
-              </div>
+            <div class="feature-visual" style="background: transparent; padding: 0; box-shadow: none;">
+              <img src="/assets/calcudoku-preview.png" alt="Calcudoku Preview" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
             </div>
           </div>
 
@@ -198,48 +131,10 @@
             <div class="feature-info">
               <h3>Kakuro</h3>
               <p>Often called "Cross Sums," this puzzle challenges you to fill the grid with digits 1-9 that sum up to the clues given. A deep and rewarding puzzle for those who love number combinations.</p>
+              <a href="/kakuro/" class="btn btn-yellow btn-new" style="margin-top: 24px;">Play Now</a>
             </div>
-            <div class="feature-visual">
-              <div class="feature-mock">
-                  <div style="display:grid; grid-template-columns:repeat(4, 60px); grid-template-rows:repeat(4, 60px); gap:0; border:2px solid #1f2937; background:#fff;">
-                      <!-- Row 1 -->
-                      <div style="background:#e5e7eb; border-right:1px solid #d1d5db; border-bottom:1px solid #d1d5db;"></div>
-                      <div style="background: linear-gradient(to top right, transparent 49%, #9ca3af 50%, transparent 51%), #e5e7eb; border-right:1px solid #d1d5db; border-bottom:1px solid #d1d5db; position:relative;">
-                          <div style="position:absolute; bottom:2px; left:4px; font-size:12px; font-weight:bold; color:#1f2937">16</div>
-                          <div style="position:absolute; top:4px; right:4px; font-size:12px; font-weight:bold; color:#1f2937"></div>
-                      </div>
-                      <div style="background: linear-gradient(to top right, transparent 49%, #9ca3af 50%, transparent 51%), #e5e7eb; border-right:1px solid #d1d5db; border-bottom:1px solid #d1d5db; position:relative;">
-                          <div style="position:absolute; bottom:2px; left:4px; font-size:12px; font-weight:bold; color:#1f2937">12</div>
-                      </div>
-                      <div style="background:#e5e7eb; border-bottom:1px solid #d1d5db;"></div>
-
-                      <!-- Row 2 -->
-                      <div style="background: linear-gradient(to top right, transparent 49%, #9ca3af 50%, transparent 51%), #e5e7eb; border-right:1px solid #d1d5db; border-bottom:1px solid #d1d5db; position:relative;">
-                          <div style="position:absolute; top:4px; right:4px; font-size:12px; font-weight:bold; color:#1f2937">17</div>
-                      </div>
-                      <div style="border-right:1px solid #d1d5db; border-bottom:1px solid #d1d5db; display:flex; align-items:center; justify-content:center; color:#1f2937; font-size:18px;">9</div>
-                      <div style="border-right:1px solid #d1d5db; border-bottom:1px solid #d1d5db; display:flex; align-items:center; justify-content:center; color:#1f2937; font-size:18px;">8</div>
-                      <div style="background: linear-gradient(to top right, transparent 49%, #9ca3af 50%, transparent 51%), #e5e7eb; border-bottom:1px solid #d1d5db; position:relative;">
-                          <div style="position:absolute; bottom:2px; left:4px; font-size:12px; font-weight:bold; color:#1f2937">7</div>
-                      </div>
-
-                      <!-- Row 3 -->
-                      <div style="background: linear-gradient(to top right, transparent 49%, #9ca3af 50%, transparent 51%), #e5e7eb; border-right:1px solid #d1d5db; border-bottom:1px solid #d1d5db; position:relative;">
-                          <div style="position:absolute; top:4px; right:4px; font-size:12px; font-weight:bold; color:#1f2937">10</div>
-                      </div>
-                      <div style="border-right:1px solid #d1d5db; border-bottom:1px solid #d1d5db; display:flex; align-items:center; justify-content:center; color:#1f2937; font-size:18px;">7</div>
-                      <div style="border-right:1px solid #d1d5db; border-bottom:1px solid #d1d5db; display:flex; align-items:center; justify-content:center; color:#1f2937; font-size:18px;">1</div>
-                      <div style="border-bottom:1px solid #d1d5db; display:flex; align-items:center; justify-content:center; color:#1f2937; font-size:18px;">2</div>
-
-                      <!-- Row 4 -->
-                      <div style="background:#e5e7eb; border-right:1px solid #d1d5db;"></div>
-                      <div style="background: linear-gradient(to top right, transparent 49%, #9ca3af 50%, transparent 51%), #e5e7eb; border-right:1px solid #d1d5db; position:relative;">
-                           <div style="position:absolute; top:4px; right:4px; font-size:12px; font-weight:bold; color:#1f2937">8</div>
-                      </div>
-                      <div style="border-right:1px solid #d1d5db; display:flex; align-items:center; justify-content:center; color:#0057FF; font-weight:bold; font-size:24px;">3</div>
-                      <div style="display:flex; align-items:center; justify-content:center; color:#1f2937; font-size:18px;">5</div>
-                  </div>
-              </div>
+            <div class="feature-visual" style="background: transparent; padding: 0; box-shadow: none;">
+              <img src="/assets/kakuro-preview.png" alt="Kakuro Preview" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
             </div>
           </div>
 
@@ -248,39 +143,10 @@
             <div class="feature-info">
               <h3>Futoshiki</h3>
               <p>The "Inequality Puzzle." Place numbers so they don't repeat in rows or columns, respecting the greater-than (>) and less-than (<) signs. A test of pure logic.</p>
+              <a href="/futoshiki/" class="btn btn-yellow btn-new" style="margin-top: 24px;">Play Now</a>
             </div>
-            <div class="feature-visual">
-              <div class="feature-mock">
-                 <div style="display:grid; grid-template-columns:repeat(4, 60px); grid-template-rows:repeat(4, 60px); gap:2px; background:#fff; padding:2px;">
-                    <!-- Row 1 -->
-                    <div style="border:1px solid #9ca3af; display:flex; align-items:center; justify-content:center; color:#1f2937; position:relative; font-size:20px;">
-                        <span style="position:absolute; right:-10px; z-index:10; color:#6b7280; font-weight:bold; background:#fff; font-size:14px; padding:0 2px;">&lt;</span>
-                    </div>
-                    <div style="border:1px solid #9ca3af; display:flex; align-items:center; justify-content:center; color:#1f2937; font-size:20px;">4</div>
-                    <div style="border:1px solid #9ca3af; display:flex; align-items:center; justify-content:center; color:#1f2937; font-size:20px;"></div>
-                    <div style="border:1px solid #9ca3af; display:flex; align-items:center; justify-content:center; color:#1f2937; font-size:20px;"></div>
-
-                    <!-- Row 2 -->
-                    <div style="border:1px solid #9ca3af; display:flex; align-items:center; justify-content:center; color:#1f2937; font-size:20px;">3</div>
-                    <div style="border:1px solid #9ca3af; display:flex; align-items:center; justify-content:center; color:#1f2937; font-size:20px;"></div>
-                    <div style="border:1px solid #9ca3af; display:flex; align-items:center; justify-content:center; color:#1f2937; font-size:20px; position:relative;">
-                         <span style="position:absolute; bottom:-12px; z-index:10; color:#6b7280; font-weight:bold; background:#fff; font-size:14px; padding:2px 0; transform:rotate(90deg)">&gt;</span>
-                    </div>
-                    <div style="border:1px solid #9ca3af; display:flex; align-items:center; justify-content:center; color:#1f2937; font-size:20px;"></div>
-
-                    <!-- Row 3 -->
-                    <div style="border:1px solid #9ca3af; display:flex; align-items:center; justify-content:center; color:#1f2937; font-size:20px;"></div>
-                    <div style="border:1px solid #9ca3af; display:flex; align-items:center; justify-content:center; color:#1f2937; font-size:20px;">2</div>
-                    <div style="border:1px solid #9ca3af; display:flex; align-items:center; justify-content:center; color:#1f2937; font-size:20px;"></div>
-                    <div style="border:1px solid #9ca3af; display:flex; align-items:center; justify-content:center; color:#1f2937; font-size:20px;"></div>
-
-                    <!-- Row 4 -->
-                    <div style="border:1px solid #9ca3af; display:flex; align-items:center; justify-content:center; color:#1f2937; font-size:20px;"></div>
-                    <div style="border:1px solid #9ca3af; display:flex; align-items:center; justify-content:center; color:#1f2937; font-size:20px;"></div>
-                    <div style="border:1px solid #9ca3af; display:flex; align-items:center; justify-content:center; color:#0057FF; font-weight:bold; font-size:24px;">1</div>
-                    <div style="border:1px solid #9ca3af; display:flex; align-items:center; justify-content:center; color:#1f2937; font-size:20px;">2</div>
-                 </div>
-              </div>
+            <div class="feature-visual" style="background: transparent; padding: 0; box-shadow: none;">
+              <img src="/assets/futoshiki-preview.png" alt="Futoshiki Preview" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
             </div>
           </div>
         </div>
@@ -289,44 +155,7 @@
 
     </main>
   <div id="site-footer"></div>
-  <script>
-    (function(){
-      Promise.all([
-        fetch('/partials/header.html?v=' + Date.now()).then(r=>r.text()),
-        fetch('/partials/footer.html?v=' + Date.now()).then(r=>r.text())
-      ]).then(([h,f])=>{
-        var sh = document.getElementById('site-header'); if (sh) sh.innerHTML = h
-        var sf = document.getElementById('site-footer'); if (sf) sf.innerHTML = f
-        
-        var favBtn = document.getElementById('saveFavBtn')
-        if (favBtn) {
-          favBtn.addEventListener('click', function(e){
-            e.preventDefault();
-            var url = window.location.href;
-            var title = document.title;
-            
-            try {
-              // Try IE method
-              if (window.external && ('AddFavorite' in window.external)) {
-                window.external.AddFavorite(url, title);
-              } 
-              // Try Firefox < 23 method
-              else if (window.sidebar && window.sidebar.addPanel) {
-                window.sidebar.addPanel(title, url, "");
-              } 
-              // Fallback for modern browsers (Chrome, Safari, Firefox 23+, Edge)
-              else {
-                alert('Press ' + (navigator.userAgent.match(/Mac/) ? 'Cmd' : 'Ctrl') + '+D to bookmark this page.');
-              }
-            } catch (err) {
-              // If anything fails, fallback to alert
-              alert('Press ' + (navigator.userAgent.match(/Mac/) ? 'Cmd' : 'Ctrl') + '+D to bookmark this page.');
-            }
-          })
-        }
-      })
-    })()
-    </script>
+  <script src="/src/layout.js"></script>
     <script src="/src/records.js"></script>
     
     <script>

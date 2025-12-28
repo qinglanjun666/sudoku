@@ -1,0 +1,206 @@
+
+/* Inherit base styles from src/index.css */
+
+/* --- Container & Layout (Match Calcudoku) --- */
+.board-container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    margin: 0 auto;
+    width: 100%;
+    max-width: 540px; /* Limit width */
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+}
+
+.futoshiki-grid {
+    display: grid;
+    gap: 12px; /* Gap for inequality signs */
+    /* Remove padding/bg/shadow as container handles it */
+    position: relative;
+    /* Let JS set grid-template-columns */
+}
+
+/* Specific Futoshiki overrides */
+
+.cell {
+    aspect-ratio: 1;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-weight: bold;
+    color: #333;
+    user-select: none;
+    position: relative;
+    font-size: 1.5rem; /* Default size */
+}
+
+.cell.initial {
+    background-color: #f8f9fa;
+    color: #000;
+}
+
+.cell:hover {
+    border-color: #bbb;
+}
+
+.cell.active {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.cell.num-highlight {
+    background-color: #e3f2fd;
+}
+
+.cell.error {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+/* Inequality Markers */
+.inequality-marker {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color: #666;
+    pointer-events: none;
+    z-index: 10;
+    width: 20px;
+    height: 20px;
+}
+
+.inequality-marker.horizontal {
+    right: -16px; /* Position in the gap */
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.inequality-marker.vertical {
+    bottom: -16px; /* Position in the gap */
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Keypad overrides if needed */
+.virtual-keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.keypad-btn {
+    padding: 12px;
+    font-size: 1.2rem;
+    border: 1px solid #ddd;
+    background: white;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.1s;
+}
+
+.keypad-btn:hover {
+    background: #f5f5f5;
+}
+
+.keypad-btn:active {
+    background: #e0e0e0;
+}
+
+.keypad-btn.action {
+    background: #fce4ec;
+    color: #c2185b;
+    border-color: #f8bbd0;
+}
+
+/* --- Menu Screen Styles (Copied from Calcudoku) --- */
+#menu-screen {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 24px 20px;
+    box-sizing: border-box;
+}
+
+.menu-title {
+    color: #333;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 24px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 800px;
+    width: 100%;
+}
+
+.menu-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    border: 1px solid #eee;
+}
+
+.menu-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+}
+
+.menu-item-label {
+    color: #333;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.menu-item-sublabel {
+    color: #666;
+    font-size: 0.9rem;
+    margin-top: -8px;
+}
+
+.menu-icon {
+    background: white;
+    border-radius: 4px;
+    padding: 2px;
+    display: grid;
+    gap: 1px;
+    width: 80px;
+    height: 80px;
+    box-sizing: border-box;
+    border: 2px solid #333;
+    background-color: #333;
+}
+
+.menu-icon div {
+    background: white;
+    border: none;
+}
+
+@media (max-width: 700px) {
+    .menu-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
