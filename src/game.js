@@ -45,6 +45,7 @@
     timerEnabled: true,
     timerInterval: null,
     wrongSet: new Set(),
+    hintMode: false,
   }
 
   function setSize(size) {
@@ -287,8 +288,8 @@
             }
         }
 
-        // Identify Conflicts for Selected Cell
-        if (selectedVal != null) {
+        // Identify Conflicts for Selected Cell (Only if Hint Mode is active)
+        if (state.hintMode && selectedVal != null) {
             // Check row
             for (let c = 0; c < size; c++) {
                 if (c !== sc && state.grid[sr][c].value === selectedVal) {
@@ -372,10 +373,17 @@
         const isSelected = state.selected && state.selected[0] === r && state.selected[1] === c
         
         // Error Source (Pink background)
+        const isWrong = state.hintMode && cellVal != null && state.solution && state.solution[r][c] !== cellVal
+
         if (conflictSet.has(key) || (state.wrongSet && state.wrongSet.has(key))) {
             cell.classList.add('cell-error-source')
             if (state.wrongSet && state.wrongSet.has(key)) cell.classList.add('text-error')
         }
+        
+        if (isWrong) {
+            cell.classList.add('text-error')
+        }
+        
         // Selected Cell
         else if (isSelected) {
             cell.classList.add('cell-selected')
@@ -383,10 +391,10 @@
                 cell.classList.add('text-error')
             }
         }
-        // Same Value (Darker Blue)
-        else if (selectedVal != null && cellVal === selectedVal) {
+        // Same Value (Darker Blue) - Disabled per user request
+        /* else if (selectedVal != null && cellVal === selectedVal) {
             cell.classList.add('cell-same-value')
-        }
+        } */
         // Related Cells (Light Blue)
         else if (relatedSet.has(key)) {
             cell.classList.add('cell-related')
@@ -589,47 +597,128 @@
 
   function showModal() {
     let modal = qs('#winModal')
-    if (!modal) {
-      modal = document.createElement('div')
-      modal.id = 'winModal'
-      modal.style.position = 'fixed'
-      modal.style.inset = '0'
-      modal.style.background = 'rgba(0,0,0,0.35)'
-      modal.style.display = 'flex'
-      modal.style.alignItems = 'center'
-      modal.style.justifyContent = 'center'
-      const card = document.createElement('div')
-      card.style.background = '#fff'
-      card.style.border = '1px solid var(--color-border)'
-      card.style.borderRadius = '12px'
-      card.style.boxShadow = '0 1px 4px rgba(0,0,0,0.06)'
-      card.style.padding = '20px'
-      card.style.width = '320px'
-      card.style.animation = 'modalIn .25s ease'
-    const h = document.createElement('div')
-    h.textContent = 'Congratulations! Puzzle solved.'
-      h.style.fontWeight = '600'
-      h.style.marginBottom = '12px'
-      const row = document.createElement('div')
-      row.style.display = 'flex'; row.style.gap = '8px'; row.style.justifyContent = 'flex-end'
-      const replayBtn = document.createElement('button')
-      replayBtn.className = 'btn'
-      replayBtn.textContent = 'Replay Puzzle'
-      replayBtn.addEventListener('click', () => { modal.remove(); clearEntries() })
-      const newBtn = document.createElement('button')
-      newBtn.className = 'btn btn-primary'
-      newBtn.textContent = 'New Puzzle'
-      newBtn.addEventListener('click', () => { newPuzzle(state.difficulty) })
-      row.appendChild(replayBtn); row.appendChild(newBtn)
-      card.appendChild(h); card.appendChild(row)
-      modal.appendChild(card)
-      document.body.appendChild(modal)
-      modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove() })
+    if (modal) modal.remove() // Ensure fresh render
 
-      // update stats
-      const elapsed = Date.now() - (state.timerStart || Date.now())
-      updateStatsOnWin(elapsed)
+    modal = document.createElement('div')
+    modal.id = 'winModal'
+    modal.style.position = 'fixed'
+    modal.style.inset = '0'
+    modal.style.zIndex = '1000'
+    modal.style.background = 'rgba(0,0,0,0.5)'
+    modal.style.backdropFilter = 'blur(4px)'
+    modal.style.display = 'flex'
+    modal.style.alignItems = 'center'
+    modal.style.justifyContent = 'center'
+    modal.style.animation = 'fadeIn .2s ease-out'
+
+    const card = document.createElement('div')
+    card.style.background = '#fff'
+    card.style.borderRadius = '24px'
+    card.style.boxShadow = '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
+    card.style.padding = '32px'
+    card.style.width = '380px'
+    card.style.maxWidth = '90vw'
+    card.style.textAlign = 'center'
+    card.style.animation = 'scaleIn .3s cubic-bezier(0.16, 1, 0.3, 1)'
+    card.style.display = 'flex'
+    card.style.flexDirection = 'column'
+    card.style.alignItems = 'center'
+
+    // Crown Icon
+    const iconContainer = document.createElement('div')
+    iconContainer.style.marginBottom = '20px'
+    iconContainer.innerHTML = `
+      <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" fill="#FFD700" stroke="#b45309" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/>
+      </svg>
+    `
+    card.appendChild(iconContainer)
+
+    // Main Title
+    const h = document.createElement('h2')
+    h.innerHTML = 'Congratulations!<br>Sudoku Master!'
+    h.style.fontSize = '22px'
+    h.style.fontWeight = '800'
+    h.style.color = '#1f2937'
+    h.style.margin = '0 0 8px 0'
+    h.style.lineHeight = '1.2'
+    card.appendChild(h)
+
+    // Subtitle
+    const p = document.createElement('p')
+    p.textContent = "Nothing gets past you! You cracked the code and conquered the grid. Absolutely brilliant performance."
+    p.style.fontSize = '14px'
+    p.style.color = '#4b5563'
+    p.style.margin = '0 0 24px 0'
+    p.style.lineHeight = '1.5'
+    card.appendChild(p)
+
+    // Buttons Row
+    const btnRow = document.createElement('div')
+    btnRow.style.display = 'flex'
+    btnRow.style.gap = '12px'
+    btnRow.style.width = '100%'
+    btnRow.style.justifyContent = 'center'
+
+    // Give Me Another One (Primary) - Wider
+    const newBtn = document.createElement('button')
+    newBtn.textContent = 'Give Me Another One'
+    newBtn.className = 'btn'
+    newBtn.style.background = '#0057FF'
+    newBtn.style.color = '#fff'
+    newBtn.style.border = 'none'
+    newBtn.style.padding = '10px 16px'
+    newBtn.style.fontSize = '14px'
+    newBtn.style.fontWeight = '600'
+    newBtn.style.borderRadius = '10px'
+    newBtn.style.cursor = 'pointer'
+    newBtn.style.flex = '2' // Takes more space
+    newBtn.style.whiteSpace = 'nowrap'
+    newBtn.style.transition = 'transform 0.1s'
+    newBtn.onmouseover = () => newBtn.style.background = '#004ad9'
+    newBtn.onmouseout = () => newBtn.style.background = '#0057FF'
+    newBtn.onclick = () => { modal.remove(); newPuzzle(state.difficulty) }
+    
+    // Replay Puzzle (Secondary) - Narrower
+    const replayBtn = document.createElement('button')
+    replayBtn.textContent = 'Replay Puzzle'
+    replayBtn.className = 'btn'
+    replayBtn.style.background = '#f3f4f6'
+    replayBtn.style.color = '#374151'
+    replayBtn.style.border = '1px solid #d1d5db'
+    replayBtn.style.padding = '10px 12px'
+    replayBtn.style.fontSize = '14px'
+    replayBtn.style.fontWeight = '600'
+    replayBtn.style.borderRadius = '10px'
+    replayBtn.style.cursor = 'pointer'
+    replayBtn.style.flex = '1' // Takes less space
+    replayBtn.style.whiteSpace = 'nowrap'
+    replayBtn.onclick = () => { modal.remove(); clearEntries() }
+    replayBtn.onmouseover = () => replayBtn.style.background = '#e5e7eb'
+    replayBtn.onmouseout = () => replayBtn.style.background = '#f3f4f6'
+
+    btnRow.appendChild(newBtn)
+    btnRow.appendChild(replayBtn)
+    card.appendChild(btnRow)
+
+    modal.appendChild(card)
+    document.body.appendChild(modal)
+    modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove() })
+
+    // Add keyframes if not present (simple check)
+    if (!document.getElementById('modal-styles')) {
+        const style = document.createElement('style')
+        style.id = 'modal-styles'
+        style.textContent = `
+            @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+            @keyframes scaleIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        `
+        document.head.appendChild(style)
     }
+
+    // update stats
+    const elapsed = Date.now() - (state.timerStart || Date.now())
+    updateStatsOnWin(elapsed)
   }
 
   function showIncorrect(unfilled, wrong, correct, wrongSet) {
@@ -824,21 +913,23 @@
     } catch {}
   }
 
-  function giveHint() {
-    const empty = []
-    for (let r=0;r<state.size;r++) for (let c=0;c<state.size;c++) {
-        if (state.grid[r][c].value == null) empty.push({r,c})
-    }
-    if (empty.length === 0) return
-    const cell = empty[Math.floor(Math.random() * empty.length)]
-    const {r,c} = cell
-    const prev = { value: state.grid[r][c].value, notes: new Set(state.grid[r][c].notes) }
-    state.grid[r][c].value = state.solution[r][c]
-    state.grid[r][c].notes = new Set()
-    pushUndo({ type: 'value', r, c, prev })
-    state.selected = [r,c]
+  function toggleHintMode() {
+    state.hintMode = !state.hintMode
     renderGrid()
-    autoCheckCompletion()
+    const btn = qs('#hintBtn')
+    if (btn) {
+        if (state.hintMode) {
+            btn.classList.add('btn-toggle-active')
+            btn.style.backgroundColor = '#dbeafe' // Light blue to indicate active
+            btn.style.borderColor = '#0057FF'
+            btn.style.color = '#0057FF'
+        } else {
+            btn.classList.remove('btn-toggle-active')
+            btn.style.backgroundColor = ''
+            btn.style.borderColor = ''
+            btn.style.color = ''
+        }
+    }
   }
 
   function showSolution() {
@@ -875,25 +966,13 @@
     }
 
     const undoBtn = qs('#undoBtn'); if (undoBtn) undoBtn.addEventListener('click', undo)
-    // redoBtn in HTML is now "Reset"
-    const redoBtn = qs('#redoBtn'); if (redoBtn) redoBtn.addEventListener('click', clearEntries)
     
-    const checkBtn = qs('#checkBtn'); if (checkBtn) checkBtn.addEventListener('click', checkCorrect)
-    
-    // New Bindings
-    const hintBtn = qs('#hintBtn'); if (hintBtn) hintBtn.addEventListener('click', giveHint)
-    const solveBtn = qs('#solverBtn'); if (solveBtn) solveBtn.addEventListener('click', showSolution)
+    // Updated Bindings for new button layout
+    const hintBtn = qs('#hintBtn'); if (hintBtn) hintBtn.addEventListener('click', toggleHintMode)
     const showSolBtn = qs('#showSolutionBtn'); if (showSolBtn) showSolBtn.addEventListener('click', showSolution)
-    const showPossBtn = qs('#showPossibilitiesBtn'); if (showPossBtn) showPossBtn.addEventListener('click', () => { initAutoPencil(); renderGrid(); saveToStorage() })
+    const resetActionBtn = qs('#resetActionBtn'); if (resetActionBtn) resetActionBtn.addEventListener('click', clearEntries)
     
-    const noteCheck = qs('#noteModeCheckbox')
-    if (noteCheck) {
-        noteCheck.checked = state.notesMode
-        noteCheck.addEventListener('change', (e) => { state.notesMode = e.target.checked })
-    }
-    const clearNotesLink = qs('#clearNotesLink')
-    if (clearNotesLink) clearNotesLink.addEventListener('click', (e) => { e.preventDefault(); clearNotes() })
-
+    // Header Reset Button
     const resetTop = qs('#resetBtn'); if (resetTop) resetTop.addEventListener('click', clearEntries)
 
 
