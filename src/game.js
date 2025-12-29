@@ -932,6 +932,24 @@
     }
   }
 
+  function toggleNotesMode() {
+    state.notesMode = !state.notesMode
+    const btn = qs('#notesBtn')
+    if (btn) {
+        if (state.notesMode) {
+            btn.classList.add('btn-toggle-active')
+            btn.style.backgroundColor = '#dbeafe'
+            btn.style.borderColor = '#0057FF'
+            btn.style.color = '#0057FF'
+        } else {
+            btn.classList.remove('btn-toggle-active')
+            btn.style.backgroundColor = ''
+            btn.style.borderColor = ''
+            btn.style.color = ''
+        }
+    }
+  }
+
   function showSolution() {
     for (let r=0;r<state.size;r++) for (let c=0;c<state.size;c++) {
         state.grid[r][c].value = state.solution[r][c]
@@ -968,6 +986,7 @@
     const undoBtn = qs('#undoBtn'); if (undoBtn) undoBtn.addEventListener('click', undo)
     
     // Updated Bindings for new button layout
+    const notesBtn = qs('#notesBtn'); if (notesBtn) notesBtn.addEventListener('click', toggleNotesMode)
     const hintBtn = qs('#hintBtn'); if (hintBtn) hintBtn.addEventListener('click', toggleHintMode)
     const showSolBtn = qs('#showSolutionBtn'); if (showSolBtn) showSolBtn.addEventListener('click', showSolution)
     const resetActionBtn = qs('#resetActionBtn'); if (resetActionBtn) resetActionBtn.addEventListener('click', clearEntries)
@@ -1006,8 +1025,13 @@
       // The toggleTimerBtn in my HTML is the "||" button.
       // Let's implement pause/resume.
       const updateTimerBtn = () => {
-        timerBtn.textContent = state.timerEnabled ? '||' : '▶'
-        timerBtn.title = state.timerEnabled ? 'Pause' : 'Resume'
+        if (state.timerEnabled) {
+            timerBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/></svg>'
+            timerBtn.title = 'Pause'
+        } else {
+            timerBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>'
+            timerBtn.title = 'Resume'
+        }
       }
       // Enable timer by default if not set? 
       // Existing logic: state.timerEnabled defaults false.
@@ -1053,7 +1077,7 @@
     el.style.display = 'block'
     const start = state.timerStart || Date.now()
     const elapsed = Date.now() - start
-    el.textContent = 'Timer: ' + formatMs(elapsed)
+    el.textContent = formatMs(elapsed)
   }
 
   function clearEntries() {
@@ -1236,6 +1260,10 @@
     const p = new URLSearchParams(location.search)
     let diff = p.get('difficulty') || 'medium'
     
+    // Fetch status
+    const dailyRaw = localStorage.getItem('sudoku_daily_history')
+    const completedSet = new Set(dailyRaw ? JSON.parse(dailyRaw) : [])
+
     for (let d = 1; d <= daysInMonth; d++) {
         if (year > today.getFullYear() || (year === today.getFullYear() && month > today.getMonth())) break;
         if (isCurrentMonth && d > currentDay) break;
@@ -1245,14 +1273,36 @@
         
         const mStr = String(month + 1).padStart(2, '0')
         const dStr = String(d).padStart(2, '0')
-        const dateStr = `${dStr}-${mStr}-${year}`
+        const dateStr = `${year}-${mStr}-${dStr}`
         
-        a.href = `/${dateStr}-sudoku?difficulty=${diff}`
-        a.textContent = `${monthNames[month]} ${d}, ${year}`
+        a.href = `?date=${dateStr}&difficulty=${diff}`
+        
+        const textSpan = document.createElement('span')
+        textSpan.textContent = `${monthNames[month]} ${d}, ${year}`
         
         if (isCurrentMonth && d === currentDay) {
             a.classList.add('today')
-            a.textContent += " (Today)"
+            textSpan.textContent += " (Today)"
+        }
+        a.appendChild(textSpan)
+
+        // Check status
+        if (completedSet.has(dateStr)) {
+            a.classList.add('status-completed')
+            const badge = document.createElement('span')
+            badge.className = 'status-badge completed'
+            badge.textContent = 'Completed'
+            a.appendChild(badge)
+        } else {
+             const saveKey = `sudoku_save_daily_${dateStr}_${diff}`
+             const legacyKey = `sudoku_save_daily_${dateStr}`
+             if (localStorage.getItem(saveKey) || localStorage.getItem(legacyKey)) {
+                 a.classList.add('status-inprogress')
+                 const badge = document.createElement('span')
+                 badge.className = 'status-badge inprogress'
+                 badge.textContent = 'Paused'
+                 a.appendChild(badge)
+             }
         }
         
         gridEl.appendChild(a)
@@ -1297,6 +1347,7 @@
     }
     
     setSize(desiredSize)
+    state.difficulty = desiredDiff
     
     if (isDaily) {
         state.isDaily = true
@@ -1322,7 +1373,7 @@
             if (archiveEl) archiveEl.style.display = 'none'
             if (gameEl) gameEl.style.display = 'block'
             
-            // Only render calendar widget if needed (maybe removed?)
+            // Render calendar widget
             renderCalendar(dailyDate)
             
             const title = qs('.game-title')
@@ -1386,10 +1437,8 @@
     
     const hasSave = restoreFromStorage()
     let loadSave = hasSave
-    if (isDaily && hasSave) {
-        const savedDate = localStorage.getItem('sudoku_daily_date')
-        if (savedDate !== dailyDate) loadSave = false
-    } else if (state.size !== desiredSize || state.difficulty !== desiredDiff) {
+    // Manual check removed as keys are now specific
+    if (state.size !== desiredSize || state.difficulty !== desiredDiff) {
         loadSave = false
     }
     
@@ -1397,7 +1446,6 @@
       setSize(desiredSize)
       if (isDaily) state.rng = mulberry32(stringToSeed(dailyDate))
       newPuzzle(desiredDiff)
-      if (isDaily) localStorage.setItem('sudoku_daily_date', dailyDate)
     } else {
       renderGrid()
       const diffEl = qs('#difficulty')
@@ -1422,14 +1470,32 @@
         puzzle: state.puzzle,
         undo: state.undoStack,
         redo: state.redoStack,
+        timerStart: state.timerStart,
+        mistakes: state.mistakes
       }
-      localStorage.setItem('sudoku_save', JSON.stringify(data))
+      let key = 'sudoku_save'
+      if (state.isDaily && state.dailyDate) {
+          key = `sudoku_save_daily_${state.dailyDate}_${state.difficulty}`
+      }
+      localStorage.setItem(key, JSON.stringify(data))
     } catch {}
   }
 
   function restoreFromStorage() {
     try {
-      const raw = localStorage.getItem('sudoku_save')
+      let key = 'sudoku_save'
+      let fallbackKey = null
+
+      if (state.isDaily && state.dailyDate) {
+          key = `sudoku_save_daily_${state.dailyDate}_${state.difficulty}`
+          // Try legacy key for compatibility
+          fallbackKey = `sudoku_save_daily_${state.dailyDate}`
+      }
+      let raw = localStorage.getItem(key)
+      if (!raw && fallbackKey) {
+          raw = localStorage.getItem(fallbackKey)
+      }
+
       if (!raw) return false
       const data = JSON.parse(raw)
       state.size = data.size || 9
@@ -1444,6 +1510,8 @@
       state.puzzle = Array.isArray(data.puzzle) ? data.puzzle : state.grid.map(row => row.map(cell => cell.value))
       state.undoStack = Array.isArray(data.undo) ? data.undo : []
       state.redoStack = Array.isArray(data.redo) ? data.redo : []
+      state.timerStart = data.timerStart || Date.now()
+      state.mistakes = data.mistakes || 0
       return true
     } catch { return false }
   }

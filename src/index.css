@@ -236,6 +236,52 @@ html, body {
 .btn-toggle-active { background: var(--color-accent); border-color: var(--color-accent); color: #fff; }
 .btn-toggle-active:hover { background: var(--color-accent); filter: brightness(1.08); }
 
+/* Unified Header Buttons */
+.dropdown-btn,
+.btn-daily-challenge {
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  background-color: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 9999px !important;
+  color: #4b5563 !important;
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+  text-decoration: none;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+  cursor: pointer;
+  white-space: nowrap;
+  gap: 6px;
+  box-sizing: border-box;
+  margin-left: 0;
+}
+
+.dropdown-btn:hover,
+.btn-daily-challenge:hover {
+  background-color: #f8fafc !important;
+  border-color: #94a3b8 !important;
+  color: #0f172a !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+  transform: translateY(-1px);
+}
+
+.dropdown-btn:active,
+.btn-daily-challenge:active {
+  background-color: #f1f5f9 !important;
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+}
+
+.dropdown-btn .arrow {
+  font-size: 0.75em;
+  opacity: 0.6;
+  margin-left: 2px;
+}
+
 
 .game-wrap { display: grid; grid-template-columns: 1fr 320px; gap: 24px; align-items: start; }
 .game-main { background: var(--color-grid-bg); border-radius: 12px; padding: 24px; display: flex; align-items: center; justify-content: center; }
@@ -272,8 +318,145 @@ html, body {
 @keyframes placePop { 0% { transform: scale(0.9); opacity: 0.6 } 100% { transform: scale(1); opacity: 1 } }
 @keyframes modalIn { 0% { opacity: 0; transform: scale(0.98) } 100% { opacity: 1; transform: scale(1) } }
 
+/* Timer Refined Styles */
+.timer-container {
+  display: flex;
+  align-items: center;
+  background-color: #f8fafc;
+  padding: 4px 6px 4px 16px;
+  border-radius: 999px;
+  gap: 12px;
+  border: 1px solid #e2e8f0;
+  height: 42px;
+  box-sizing: border-box;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.timer-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.timer-icon-svg {
+  width: 18px;
+  height: 18px;
+  color: #64748b;
+}
+
+.timer-val {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 1.1rem;
+  color: #334155;
+  font-weight: 500;
+  min-width: 74px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}
+
+.timer-divider {
+  width: 1px;
+  height: 20px;
+  background-color: #cbd5e1;
+}
+
+.timer-controls {
+  display: flex;
+  gap: 2px;
+}
+
+.timer-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  transition: all 0.2s;
+  width: 32px;
+  height: 32px;
+}
+
+.timer-btn:hover {
+  background-color: #f1f5f9;
+  color: #0f172a;
+}
+
+.timer-btn svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
 .tooltip { position: fixed; background: #fff; color: var(--color-text); border: 1px solid var(--color-border); border-radius: 8px; padding: 6px 8px; font-size: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); z-index: 60; }
 .dark .tooltip { background: #2a2a2a; }
+
+/* Sudoku Tutorial Section */
+.sudoku-tutorial {
+  margin-top: 50px;
+  padding: 30px;
+  background-color: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  text-align: left;
+}
+
+.tutorial-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-top: 0;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tutorial-title::before {
+  content: '';
+  display: block;
+  width: 4px;
+  height: 24px;
+  background: var(--color-btn-primary);
+  border-radius: 2px;
+}
+
+.tutorial-intro, .tutorial-desc {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #475569;
+  margin-bottom: 20px;
+}
+
+.tutorial-card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  border-left: 4px solid var(--color-btn-primary);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  margin-bottom: 20px;
+}
+
+.tutorial-card:last-child {
+  margin-bottom: 0;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0 0 8px 0;
+}
+
+.card-text {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #334155;
+  margin: 0;
+}
 
 /* SEO content blocks */
 .seo-block {

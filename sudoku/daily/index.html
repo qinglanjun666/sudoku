@@ -27,13 +27,14 @@
     <meta name="robots" content="index, follow" />
     <meta property="og:title" content="Daily Sudoku Challenge — Logic for Sudoku" />
     <meta property="og:description" content="Play the Daily Sudoku Challenge. A new medium difficulty puzzle every day." />
-    <meta property="og:image" content="/favicon.svg" />
+    <meta property="og:image" content="/assets/favicon.png" />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Daily Sudoku Challenge — Logic for Sudoku" />
     <meta name="twitter:description" content="Play the Daily Sudoku Challenge. A new medium difficulty puzzle every day." />
-    <meta name="twitter:image" content="/favicon.svg" />
-    <link rel="stylesheet" href="/src/index.css?v=2" />
+    <meta name="twitter:image" content="/assets/favicon.png" />
+    <link rel="icon" href="/assets/favicon.png" type="image/png" />
+    <link rel="stylesheet" href="/src/index.css?v=7" />
     <style>
       /* Sudoku Styles */
       :root {
@@ -84,9 +85,9 @@
 
       /* Archive View Styles */
       #daily-archive {
-        max-width: 800px;
+        max-width: 100%;
         margin: 0 auto;
-        padding: 20px;
+        padding: 0;
         display: none; /* Hidden by default */
       }
       
@@ -125,7 +126,9 @@
       }
 
       .archive-link {
-        display: block;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         color: #0072e3;
         text-decoration: none;
         font-size: 16px;
@@ -135,12 +138,30 @@
       
       .archive-link:hover {
         color: #005bb7;
-        text-decoration: underline;
+        background-color: #f9f9f9;
+        text-decoration: none;
       }
       
       .archive-link.today {
         font-weight: bold;
         color: #e74c3c;
+      }
+
+      .status-badge {
+        font-size: 12px;
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-weight: 600;
+      }
+      
+      .status-badge.completed {
+        background: #dcfce7;
+        color: #166534;
+      }
+      
+      .status-badge.inprogress {
+        background: #dbeafe;
+        color: #1e40af;
       }
 
       /* Breadcrumbs removed - using global */
@@ -208,26 +229,7 @@
         gap: 10px;
       }
 
-      .dropdown-btn {
-        background: transparent;
-        color: #333;
-        padding: 6px 12px;
-        border: 1px solid #ccc;
-        border-radius: 20px; /* Pill shape */
-        font-weight: 500;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        font-size: 14px;
-        transition: all 0.2s;
-      }
-      
-      .dropdown-btn:hover {
-        border-color: var(--color-btn-primary);
-        color: var(--color-btn-primary);
-        background: #fff;
-      }
+      /* .dropdown-btn styles moved to index.css */
 
       .dropdown-container {
         position: relative;
@@ -486,6 +488,143 @@
       }
 
       /* Modal Styles */
+      /* Heatmap Styles */
+        .heatmap-container {
+            margin-top: 24px;
+            margin-bottom: 32px;
+            padding: 24px;
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+        .heatmap-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .heatmap-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #111;
+        }
+        .heatmap-count {
+            font-size: 14px;
+            color: #6b7280;
+        }
+        .heatmap-scroll {
+            overflow-x: auto;
+            padding-bottom: 8px;
+        }
+        .heatmap-wrapper {
+            display: flex;
+            align-items: flex-start;
+            gap: 4px;
+        }
+        .heatmap-days {
+            display: grid;
+            grid-template-rows: repeat(7, 12px);
+            gap: 3px;
+            margin-top: 20px; /* Align with grid below months */
+        }
+        .heatmap-day {
+            font-size: 10px;
+            line-height: 12px;
+            color: #6b7280;
+            text-align: right;
+            height: 12px;
+            padding-right: 4px;
+        }
+        .heatmap-content {
+            display: flex;
+            flex-direction: column;
+        }
+        .heatmap-months {
+            position: relative;
+            height: 20px;
+            margin-bottom: 0;
+        }
+        .heatmap-month {
+            position: absolute;
+            font-size: 10px;
+            color: #6b7280;
+            top: 0;
+            line-height: 12px;
+        }
+        .heatmap-grid {
+            display: grid;
+            grid-template-rows: repeat(7, 12px);
+            grid-auto-flow: column;
+            gap: 3px;
+            width: max-content;
+        }
+        .heatmap-cell {
+            width: 12px;
+            height: 12px;
+            background: #ebedf0;
+            border-radius: 2px;
+            position: relative;
+        }
+        .heatmap-cell.active {
+            background: #40c463;
+        }
+        .heatmap-cell.active-high {
+            background: #166534; /* Dark Green */
+        }
+        .heatmap-cell:hover::after {
+            content: attr(data-date);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #000;
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            pointer-events: none;
+            z-index: 10;
+            margin-bottom: 4px;
+        }
+        .heatmap-legend {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 4px;
+            margin-top: 8px;
+            font-size: 12px;
+            color: #6b7280;
+        }
+        .heatmap-legend-cell {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+        .heatmap-inner {
+            display: flex;
+            flex-direction: column;
+            width: max-content;
+        }
+        .year-select {
+            padding: 2px 8px;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #374151;
+            background-color: #fff;
+            cursor: pointer;
+        }
+        .year-select:focus {
+            outline: none;
+            border-color: #40c463;
+        }
+        .heatmap-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
       .modal-overlay {
         position: fixed;
         top: 0;
@@ -646,6 +785,48 @@
         
         <!-- Archive View -->
         <div id="daily-archive">
+           <div class="heatmap-container">
+            <div class="heatmap-scroll">
+                <div class="heatmap-inner">
+                    <div class="heatmap-header">
+                        <div class="heatmap-title">
+                            Daily Challenge Activity
+                        </div>
+                        <div class="heatmap-controls">
+                            <div class="heatmap-count" id="heatmapCount">Loading...</div>
+                            <select id="yearSelect" class="year-select" onchange="renderHeatmap(this.value)">
+                                <option value="2025" selected>2025</option>
+                                <option value="2026">2026</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="heatmap-wrapper">
+                        <div class="heatmap-days">
+                            <div class="heatmap-day"></div> <!-- Sun -->
+                            <div class="heatmap-day">Mon</div>
+                            <div class="heatmap-day">Tue</div>
+                            <div class="heatmap-day">Wed</div>
+                            <div class="heatmap-day">Thu</div>
+                            <div class="heatmap-day">Fri</div>
+                            <div class="heatmap-day"></div> <!-- Sat -->
+                        </div>
+                        <div class="heatmap-content">
+                            <div class="heatmap-months" id="heatmapMonths"></div>
+                            <div class="heatmap-grid" id="heatmapGrid"></div>
+                        </div>
+                    </div>
+                    <div class="heatmap-legend">
+                        <span>Incomplete</span>
+                        <div class="heatmap-legend-cell" style="background: #ebedf0"></div>
+                        <div class="heatmap-legend-cell" style="background: #40c463"></div>
+                        <span>Completed</span>
+                        <div class="heatmap-legend-cell" style="background: #166534"></div>
+                        <span>More</span>
+                    </div>
+                </div>
+            </div>
+           </div>
+
            <div class="archive-header">
              <span id="archiveMonthName">Month Year</span>
              <div>
@@ -684,10 +865,18 @@
               <button id="newPuzzle" class="dropdown-btn">New Game</button>
               <a href="?view=archive" class="dropdown-btn" style="text-decoration:none;">Calendar</a>
             </div>
-            <div class="header-right">
-              <div id="timerDisplay" class="timer">00:00:00</div>
-              <button class="icon-btn" id="toggleTimerBtn" title="Toggle Timer">||</button>
-              <button class="icon-btn" id="resetBtn" title="Restart">↻</button>
+            <div class="header-right timer-container">
+              <div class="timer-left">
+                <svg class="timer-icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                <div id="timerDisplay" class="timer-val">00:00:00</div>
+              </div>
+              <div class="timer-divider"></div>
+              <div class="timer-controls">
+                <button class="timer-btn" id="toggleTimerBtn" title="Toggle Timer"></button>
+                <button class="timer-btn" id="resetBtn" title="Restart">
+                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+                </button>
+              </div>
             </div>
           </div>
 
@@ -702,28 +891,14 @@
           <!-- Keypad -->
           <div id="numPad"></div>
 
-          <!-- Pencil Mode -->
-          <div class="controls-row">
-            <label class="pencil-check">
-              <input type="checkbox" id="noteModeCheckbox">
-              This number is a possibility
-            </label>
-            <a href="#" id="clearNotesLink">(Clear Possibilities)</a>
-          </div>
-
           <!-- Action Buttons -->
           <div class="action-buttons">
             <div class="btn-row">
               <button id="undoBtn" class="action-btn">Undo</button>
-              <button id="checkBtn" class="action-btn">Check Moves</button>
+              <button id="notesBtn" class="action-btn">Notes</button>
               <button id="hintBtn" class="action-btn">Hint</button>
-              <button id="showPossibilitiesBtn" class="action-btn">Show Possibilities</button>
-            </div>
-            <div class="btn-row">
-              <button id="solverBtn" class="action-btn">Solver</button>
-              <button id="loadGameBtn" class="action-btn">Load Game</button>
               <button id="showSolutionBtn" class="action-btn">Show Solution</button>
-              <button id="redoBtn" class="action-btn">Reset</button> <!-- Mapping Reset to Clear Entries (redoBtn in old logic was Clear) -->
+              <button id="resetActionBtn" class="action-btn">Reset</button>
             </div>
           </div>
         </div>
@@ -778,7 +953,7 @@
       const diff = 'daily'; // Hint to game.js
     </script>
     <script src="/src/layout.js"></script>
-    <script src="/src/game.js?v=6"></script>
+    <script src="/src/game.js?v=11"></script>
     <script src="/src/records.js"></script>
     <script>
       function toggleDropdown() {
@@ -845,6 +1020,81 @@
     <script>
       // Archive View Logic
       (function() {
+        // Expose renderHeatmap globally
+        window.renderHeatmap = function(year = 2025) {
+            year = parseInt(year);
+            const container = document.getElementById('heatmapGrid');
+            const monthsContainer = document.getElementById('heatmapMonths');
+            const countEl = document.getElementById('heatmapCount');
+            
+            if (!container || !monthsContainer) return;
+
+            if (year === 2026) {
+                container.innerHTML = '<div style="padding: 20px; font-size: 14px; color: #666;">Coming next year</div>';
+                monthsContainer.innerHTML = '';
+                countEl.textContent = `0 contributions in the 2026`;
+                container.style.display = 'block';
+                container.style.gridTemplateRows = 'none';
+                container.style.width = '100%';
+                return;
+            } else {
+                container.style.display = 'grid';
+                container.style.gridTemplateRows = 'repeat(7, 12px)';
+                container.style.width = 'max-content';
+            }
+            
+            const history = JSON.parse(localStorage.getItem('sudoku_daily_history') || '[]');
+            const historySet = new Set(history);
+            const dailyCounts = JSON.parse(localStorage.getItem('sudoku_daily_counts') || '{}');
+            
+            const startDate = new Date(year, 0, 1); // Jan 1
+            const gridStartDate = new Date(startDate);
+            while (gridStartDate.getDay() !== 0) {
+                gridStartDate.setDate(gridStartDate.getDate() - 1);
+            }
+            
+            let html = '';
+            let monthsHtml = '';
+            let currentDate = new Date(gridStartDate);
+            
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            let lastMonth = -1;
+
+            let totalContributions = 0;
+
+            for (let w = 0; w < 53; w++) {
+                const currentMonth = currentDate.getMonth();
+                const currentYear = currentDate.getFullYear();
+                
+                if (currentMonth !== lastMonth && currentYear === year) {
+                    monthsHtml += `<div class="heatmap-month" style="left: ${w * 15}px">${monthNames[currentMonth]}</div>`;
+                    lastMonth = currentMonth;
+                }
+
+                for (let d = 0; d < 7; d++) {
+                    const dateStr = currentDate.toISOString().split('T')[0];
+                    const count = dailyCounts[dateStr] || 0;
+                    const isActive = historySet.has(dateStr); 
+                    
+                    if (currentDate.getFullYear() === year) {
+                        if (count > 0 || isActive) totalContributions += (count || 1);
+                    }
+
+                    let colorClass = '';
+                    if (count > 3) colorClass = 'active-high';
+                    else if (count > 0 || isActive) colorClass = 'active';
+                    
+                    html += `<div class="heatmap-cell ${colorClass}" data-date="${dateStr}"></div>`;
+                    
+                    currentDate.setDate(currentDate.getDate() + 1);
+                }
+            }
+            
+            container.innerHTML = html;
+            monthsContainer.innerHTML = monthsHtml;
+            countEl.textContent = `${totalContributions} contributions in the ${year}`;
+        }
+
         const archiveContainer = document.getElementById('daily-archive');
         const gameContainer = document.getElementById('daily-game-container');
         const archiveGrid = document.getElementById('archiveGrid');
@@ -911,6 +1161,8 @@
             if(gameContainer) gameContainer.style.display = 'none';
             if(archiveContainer) archiveContainer.style.display = 'block';
             renderArchive(currentArchiveDate);
+            // Render Heatmap if in archive mode
+            if(window.renderHeatmap) window.renderHeatmap(2025);
         } else {
             // Game Mode (Default)
             if(gameContainer) gameContainer.style.display = 'block';

@@ -27,13 +27,14 @@
     <meta name="robots" content="index, follow" />
     <meta property="og:title" content="Easy Sudoku — Logic for Sudoku" />
     <meta property="og:description" content="Solve Easy Sudoku puzzles online. No instructions needed." />
-    <meta property="og:image" content="/favicon.svg" />
+    <meta property="og:image" content="/assets/favicon.png" />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Easy Sudoku — Logic for Sudoku" />
     <meta name="twitter:description" content="Solve Easy Sudoku puzzles online. No instructions needed." />
-    <meta name="twitter:image" content="/favicon.svg" />
-    <link rel="stylesheet" href="/src/index.css?v=2" />
+    <meta name="twitter:image" content="/assets/favicon.png" />
+    <link rel="icon" href="/assets/favicon.png" type="image/png" />
+    <link rel="stylesheet" href="/src/index.css?v=8" />
     <style>
       /* Sudoku Styles */
       :root {
@@ -147,26 +148,7 @@
         gap: 10px;
       }
 
-      .dropdown-btn {
-        background: transparent;
-        color: #333;
-        padding: 6px 12px;
-        border: 1px solid #ccc;
-        border-radius: 20px; /* Pill shape */
-        font-weight: 500;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        font-size: 14px;
-        transition: all 0.2s;
-      }
-      
-      .dropdown-btn:hover {
-        border-color: var(--color-btn-primary);
-        color: var(--color-btn-primary);
-        background: #fff;
-      }
+      /* .dropdown-btn styles moved to index.css */
 
       .dropdown-container {
         position: relative;
@@ -610,12 +592,20 @@
                 </div>
               </div>
               <button id="newPuzzle" class="dropdown-btn">New Game</button>
-              <a href="/sudoku/daily/" class="dropdown-btn" style="text-decoration:none; margin-left:10px;">Daily</a>
+              <a href="/sudoku/daily/" class="btn-daily-challenge">Daily Challenge</a>
             </div>
-            <div class="header-right">
-              <div id="timerDisplay" class="timer">00:00:00</div>
-              <button class="icon-btn" id="toggleTimerBtn" title="Toggle Timer">||</button>
-              <button class="icon-btn" id="resetBtn" title="Restart">↻</button>
+            <div class="header-right timer-container">
+              <div class="timer-left">
+                <svg class="timer-icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                <div id="timerDisplay" class="timer-val">00:00:00</div>
+              </div>
+              <div class="timer-divider"></div>
+              <div class="timer-controls">
+                <button class="timer-btn" id="toggleTimerBtn" title="Toggle Timer"></button>
+                <button class="timer-btn" id="resetBtn" title="Restart">
+                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+                </button>
+              </div>
             </div>
           </div>
 
@@ -634,11 +624,94 @@
           <div class="action-buttons">
             <div class="btn-row">
               <button id="undoBtn" class="action-btn">Undo</button>
+              <button id="notesBtn" class="action-btn">Notes</button>
               <button id="hintBtn" class="action-btn">Hint</button>
               <button id="showSolutionBtn" class="action-btn">Show Solution</button>
               <button id="resetActionBtn" class="action-btn">Reset</button>
             </div>
           </div>
+
+          <!-- Tutorial Section -->
+          <section class="sudoku-tutorial">
+            <h2 class="tutorial-title">What is Easy Sudoku?</h2>
+            <p class="tutorial-intro">
+              Easy Sudoku is the perfect entry point for newcomers. It’s more than just a number game; it’s a mental workout that sharpens focus and helps you decompress through simple logic.
+            </p>
+            <p class="tutorial-desc">
+              The game uses a standard <strong>9 × 9</strong> grid (81 squares total), which is divided into nine <strong>3 × 3</strong> subgrids (often called "blocks" or "boxes").
+            </p>
+            
+            <div class="tutorial-card">
+              <h3 class="card-title">The Core Rule</h3>
+              <p class="card-text">
+                Fill every row, column, and <strong>3 × 3</strong> block with the numbers 1 through 9. Each number must appear exactly once in each of these areas.
+              </p>
+            </div>
+          
+            <div class="tutorial-card">
+              <h3 class="card-title">Why it’s "Easy"</h3>
+              <p class="card-text">
+                Easy puzzles typically start with 30 to 40 pre-filled numbers. This means you can solve the entire grid using simple observation and basic elimination, without needing to make guesses or complex "if-then" hypotheses.
+              </p>
+            </div>
+
+            <h2 class="tutorial-title" style="margin-top: 40px;">Essential Solving Techniques</h2>
+            <p class="tutorial-intro">
+              Mastering these three methods will help you solve nearly any beginner-level puzzle:
+            </p>
+
+            <div class="tutorial-card">
+              <h3 class="card-title">1. The Sole Candidate</h3>
+              <p class="card-text">
+                This is the most direct approach. Focus on a single empty square. If the row, column, and block it belongs to already contain eight different numbers, that square can only be the one number remaining.
+              </p>
+              <p class="card-text" style="margin-top: 10px; font-style: italic; color: #64748b;">
+                <strong>Pro Tip:</strong> When a square has only one possible "survivor," that's your answer.
+              </p>
+            </div>
+
+            <div class="tutorial-card">
+              <h3 class="card-title">2. The Hidden Single (Scanning)</h3>
+              <p class="card-text">
+                Instead of looking at a square, look for a specific number (e.g., the number 5).
+                Scan the rows and columns surrounding a <strong>3 × 3</strong> block.
+                If Rows 1 and 2 already contain a 5, then within that block, the 5 must fit into the empty space in Row 3.
+              </p>
+              <p class="card-text" style="margin-top: 10px;">
+                By "cross-scanning" horizontally and vertically, you can pinpoint a number’s position like a radar.
+              </p>
+            </div>
+
+            <div class="tutorial-card">
+              <h3 class="card-title">3. Elimination by Row or Column</h3>
+              <p class="card-text">
+                If a specific block feels stuck, look at a full row or column instead. If a row has only two empty spots left and you see that one of the missing numbers already exists in a column crossing that spot, you've found your answer. The "no duplicates" rule handles the rest.
+              </p>
+            </div>
+
+            <h2 class="tutorial-title" style="margin-top: 40px;">Tips for Success</h2>
+
+            <div class="tutorial-card">
+              <h3 class="card-title">Start with the "Low-Hanging Fruit"</h3>
+              <p class="card-text">
+                Look for rows, columns, or blocks that are already mostly full. The fewer the gaps, the easier they are to fill.
+              </p>
+            </div>
+
+            <div class="tutorial-card">
+              <h3 class="card-title">The 1-to-9 Scan</h3>
+              <p class="card-text">
+                Cycle through the numbers in order. Try to place all the 1s possible, then move to 2s, and so on. As you fill the board, new clues will constantly reveal themselves.
+              </p>
+            </div>
+
+            <div class="tutorial-card">
+              <h3 class="card-title">Trust the Logic</h3>
+              <p class="card-text">
+                Sudoku is a game of certainty. If you feel the urge to guess, take a step back—you’ve likely just overlooked a simple clue elsewhere on the board.
+              </p>
+            </div>
+          </section>
         </div>
 
       </div>
@@ -689,7 +762,7 @@
       const diff = 'easy';
     </script>
     <script src="/src/layout.js"></script>
-    <script src="/src/game.js?v=5"></script>
+    <script src="/src/game.js?v=11"></script>
     <script src="/src/records.js"></script>
     <script>
       function toggleDropdown() {

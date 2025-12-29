@@ -411,5 +411,18 @@ levels.forEach(lvl => {
 
 // Bind initial events
 document.getElementById('newGameBtnTop').onclick = showMenu;
-document.getElementById('newGameBtnSide').onclick = showMenu;
+if(document.getElementById('newGameBtnSide')) document.getElementById('newGameBtnSide').onclick = showMenu;
 document.getElementById('newGameBtnMobile').onclick = showMenu;
+
+// Handle URL params for direct linking
+const urlParams = new URLSearchParams(window.location.search);
+const pSize = parseInt(urlParams.get('size'));
+const pDiff = urlParams.get('difficulty');
+if(pSize && pDiff) {
+    // Validate
+    const validSizes = [4,5,6];
+    const validDiffs = ['Easy', 'Hard'];
+    if(validSizes.includes(pSize) && validDiffs.includes(pDiff)) {
+        showGame(pSize, pDiff);
+    }
+}

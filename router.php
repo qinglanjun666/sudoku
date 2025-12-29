@@ -7,7 +7,21 @@ $uri = urldecode(
 
 // Verify if the file exists
 if ($uri !== '/' && file_exists(__DIR__ . $uri)) {
-    return false; // Serve the requested resource as-is
+    // Check if it is a directory and has an index.html
+    if (is_dir(__DIR__ . $uri)) {
+        if (file_exists(__DIR__ . $uri . '/index.html')) {
+            include __DIR__ . $uri . '/index.html';
+            return;
+        }
+    } else {
+        return false; // Serve the requested resource as-is
+    }
+}
+
+// Handle root requests
+if ($uri === '/') {
+    include __DIR__ . '/index.html';
+    return;
 }
 
 // Handle /sudoku/daily/ requests or root
