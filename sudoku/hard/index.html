@@ -555,37 +555,6 @@
         background: #553d68;
       }
 
-      @media print {
-        header, #site-header, .breadcrumb, .sudoku-header, .instruction-text, #numPad, .action-buttons, .sudoku-tutorial, #site-footer, .size-btn, .dropdown-container, .btn-daily-challenge, .timer-container, .game-title-section button {
-          display: none !important;
-        }
-        body, .main-wrap, .sudoku-container {
-          background: #fff;
-          margin: 0;
-          padding: 0;
-          max-width: 100%;
-        }
-        .game-title-section {
-          margin-top: 0;
-          margin-bottom: 20px;
-        }
-        .game-title {
-          font-size: 24px;
-          justify-content: center;
-        }
-        .sudoku-grid {
-          margin: 0 auto;
-          border: 2px solid #000;
-          width: 500px !important;
-          box-shadow: none;
-        }
-        .sudoku-cell {
-          color: #000 !important;
-          print-color-adjust: exact;
-          -webkit-print-color-adjust: exact;
-        }
-      }
-
     </style>
   </head>
   <body>
@@ -657,7 +626,7 @@
             </div>
             <div class="btn-row">
               <button id="newPuzzle" class="action-btn">New Game</button>
-              <button id="printBtn" class="action-btn" onclick="window.print()">Print</button>
+              <button id="printBtn" class="action-btn" onclick="openBatchPrintModal()">Print</button>
             </div>
           </div>
 

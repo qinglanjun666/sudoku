@@ -780,81 +780,574 @@
     }
   }
 
-  function showPrintPreview() {
-    let modal = qs('#printPreview')
+  window.printSudoku = function() {
+    const size = state.size
+    const grid = state.grid
+    const brSize = size === 9 ? 3 : 2
+    const bcSize = size === 9 ? 3 : 3
+    
+    const printWindow = window.open('', '_blank')
+    if (!printWindow) return alert('Please allow popups to print')
+
+    const doc = printWindow.document
+    doc.open()
+    
+    // Generate QR Data (Solution String)
+    let qrHtml = ''
+    if (state.solution) {
+        // Create a readable solution string
+        const solStr = "Sudoku Solution:\n" + state.solution.map(row => row.join(' ')).join('\n')
+        const encoded = encodeURIComponent(solStr)
+        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encoded}`
+        qrHtml = `
+            <div class="print-footer">
+                <div class="qr-code">
+                    <img src="${qrUrl}" alt="Answer Key" />
+                    <p>Scan to compare answer</p>
+                </div>
+            </div>
+        `
+    }
+    
+    // Dynamic CSS based on grid size
+    const css = `
+    .print-container { 
+        width: 100%; 
+        display: flex; 
+        flex-direction: column; 
+        align-items: center; 
+        padding-top: 20px;
+    } 
+    table.sudoku-print-grid { 
+        border-collapse: collapse; 
+        border: 3px solid black; 
+        aspect-ratio: 1 / 1; 
+        width: 90vw; 
+        max-width: 500px; 
+    } 
+    .sudoku-print-grid td { 
+        border: 1px solid #ccc; 
+        text-align: center; 
+        font-size: 24px; 
+        font-family: Arial; 
+        width: ${100/size}%; 
+        aspect-ratio: 1 / 1; 
+        padding: 0;
+    } 
+    /* Block Borders */
+    .sudoku-print-grid td:nth-child(${bcSize}n) { border-right: 3px solid black; } 
+    .sudoku-print-grid tr:nth-child(${brSize}n) td { border-bottom: 3px solid black; }
+    
+    .print-footer {
+        margin-top: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        page-break-inside: avoid;
+    }
+    .qr-code {
+        text-align: center;
+    }
+    .qr-code img {
+        width: 120px;
+        height: 120px;
+    }
+    .qr-code p {
+        margin-top: 8px;
+        font-size: 14px;
+        color: #333;
+        font-family: Arial, sans-serif;
+    }
+    `
+
+    // Generate Table HTML
+    let tableHtml = '<table class="sudoku-print-grid"><tbody>'
+    for (let r=0; r<size; r++) {
+        tableHtml += '<tr>'
+        for (let c=0; c<size; c++) {
+            const val = grid[r][c].value
+            const content = val !== null ? val : ''
+            tableHtml += `<td>${content}</td>`
+        }
+        tableHtml += '</tr>'
+    }
+    tableHtml += '</tbody></table>'
+
+    doc.write(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Sudoku Print</title>
+        <style>${css}</style>
+      </head>
+      <body>
+        <div class="print-container">
+            <h1>Logic for Sudoku</h1>
+            ${tableHtml}
+            ${qrHtml}
+        </div>
+        <script>
+            setTimeout(() => {
+                window.print();
+            }, 1000);
+        </script>
+      </body>
+      </html>
+    `)
+    doc.close()
+  }
+
+  // --- Batch Print Feature ---
+  window.openBatchPrintModal = function() {
+    let modal = qs('#batchPrintModal')
     if (modal) modal.remove()
+
     modal = document.createElement('div')
-    modal.id = 'printPreview'
+    modal.id = 'batchPrintModal'
     modal.style.position = 'fixed'
     modal.style.inset = '0'
-    modal.style.background = 'rgba(0,0,0,0.35)'
+    modal.style.background = 'rgba(0,0,0,0.5)'
     modal.style.display = 'flex'
     modal.style.alignItems = 'center'
     modal.style.justifyContent = 'center'
+    modal.style.zIndex = '2000'
+
     const card = document.createElement('div')
     card.style.background = '#fff'
-    card.style.border = '1px solid var(--color-border)'
+    card.style.padding = '24px'
     card.style.borderRadius = '12px'
-    card.style.boxShadow = '0 1px 4px rgba(0,0,0,0.06)'
-    card.style.padding = '20px'
-    card.style.width = '720px'
-    card.style.animation = 'modalIn .25s ease'
-    const h = document.createElement('div')
-    h.textContent = 'Print Preview'
-    h.style.fontWeight = '600'
-    h.style.marginBottom = '12px'
-    const previewWrap = document.createElement('div')
-    previewWrap.style.display = 'flex'
-    previewWrap.style.alignItems = 'center'
-    previewWrap.style.justifyContent = 'center'
-    previewWrap.style.background = 'var(--color-grid-bg)'
-    previewWrap.style.borderRadius = '12px'
-    previewWrap.style.padding = '16px'
-    const size = state.size
-    const brSize = size === 9 ? 3 : 2
-    const bcSize = size === 9 ? 3 : 3
-    const grid = document.createElement('div')
-    grid.style.width = '540px'
-    grid.style.height = '540px'
-    grid.style.background = '#fff'
-    grid.style.borderRadius = '12px'
-    grid.style.display = 'grid'
-    grid.style.gridTemplateColumns = `repeat(${size}, 1fr)`
-    grid.style.gridTemplateRows = `repeat(${size}, 1fr)`
-    for (let r=0;r<size;r++) for (let c=0;c<size;c++) {
-      const cell = document.createElement('div')
-      cell.style.border = '1px solid #d1d5db'
-      const styles = []
-      if (r % brSize === 0) styles.push('border-top:2px solid #d1d5db')
-      if (c % bcSize === 0) styles.push('border-left:2px solid #d1d5db')
-      if (r === size-1) styles.push('border-bottom:2px solid #d1d5db')
-      if (c === size-1) styles.push('border-right:2px solid #d1d5db')
-      cell.style.cssText = cell.style.cssText + ';' + styles.join(';')
-      cell.style.display = 'flex'
-      cell.style.alignItems = 'center'
-      cell.style.justifyContent = 'center'
-      cell.style.fontSize = '18px'
-      cell.style.color = 'var(--color-text)'
-      const v = state.grid[r][c].value
-      cell.textContent = v != null ? String(v) : ''
-      grid.appendChild(cell)
+    card.style.width = '350px'
+    card.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)'
+    card.style.fontFamily = 'Arial, sans-serif'
+
+    const h = document.createElement('h2')
+    h.textContent = 'Batch Print Sudoku'
+    h.style.margin = '0 0 16px 0'
+    h.style.fontSize = '20px'
+    h.style.color = '#333'
+
+    const form = document.createElement('div')
+    
+    // Helper to create checkbox row
+    const createRow = (label, value, isChecked = false) => {
+        const row = document.createElement('div')
+        row.style.display = 'flex'
+        row.style.alignItems = 'center'
+        row.style.marginBottom = '12px'
+        
+        const chk = document.createElement('input')
+        chk.type = 'checkbox'
+        chk.id = 'batch_' + value
+        chk.checked = isChecked
+        chk.style.marginRight = '10px'
+        chk.style.width = '18px'
+        chk.style.height = '18px'
+
+        const lbl = document.createElement('label')
+        lbl.textContent = label
+        lbl.htmlFor = 'batch_' + value
+        lbl.style.flex = '1'
+        lbl.style.fontSize = '16px'
+
+        const qty = document.createElement('input')
+        qty.type = 'number'
+        qty.min = '1'
+        qty.max = '50'
+        qty.value = '1'
+        qty.style.width = '60px'
+        qty.style.padding = '4px'
+        qty.style.marginLeft = '10px'
+        
+        // Enable/Disable qty based on check
+        qty.disabled = !isChecked
+        chk.addEventListener('change', () => { qty.disabled = !chk.checked })
+
+        row.appendChild(chk)
+        row.appendChild(lbl)
+        row.appendChild(qty)
+        return { row, chk, qty, value }
     }
-    previewWrap.appendChild(grid)
-    const row = document.createElement('div')
-    row.style.display = 'flex'; row.style.gap = '8px'; row.style.justifyContent = 'flex-end'; row.style.marginTop = '12px'
+
+    const configs = [
+        createRow('Current Puzzle', 'current', true),
+        createRow('Easy (9x9)', 'easy', false),
+        createRow('Medium (9x9)', 'medium', false),
+        createRow('Hard (9x9)', 'hard', false),
+        createRow('6x6 Grid', 'six', false)
+    ]
+
+    configs.forEach(c => form.appendChild(c.row))
+
+    // Disable quantity for Current Puzzle as it is unique
+    const currentConfig = configs.find(c => c.value === 'current')
+    if (currentConfig) {
+        currentConfig.qty.disabled = true
+        currentConfig.qty.value = 1
+        // Hide quantity input for current puzzle to avoid confusion
+        currentConfig.qty.style.visibility = 'hidden'
+    }
+
+    // Options
+    const optRow = document.createElement('div')
+    optRow.style.marginTop = '16px'
+    optRow.style.borderTop = '1px solid #eee'
+    optRow.style.paddingTop = '16px'
+
+    const qrChk = document.createElement('input')
+    qrChk.type = 'checkbox'
+    qrChk.id = 'batch_qr'
+    qrChk.checked = true
+    qrChk.style.marginRight = '8px'
+    
+    const qrLbl = document.createElement('label')
+    qrLbl.textContent = 'Include Answer Key (QR Code)'
+    qrLbl.htmlFor = 'batch_qr'
+
+    optRow.appendChild(qrChk)
+    optRow.appendChild(qrLbl)
+    form.appendChild(optRow)
+
+    // Buttons
+    const btnRow = document.createElement('div')
+    btnRow.style.display = 'flex'
+    btnRow.style.justifyContent = 'flex-end'
+    btnRow.style.gap = '10px'
+    btnRow.style.marginTop = '24px'
+
     const cancelBtn = document.createElement('button')
-    cancelBtn.className = 'btn'
     cancelBtn.textContent = 'Cancel'
-    cancelBtn.addEventListener('click', () => { modal.remove() })
-    const doPrintBtn = document.createElement('button')
-    doPrintBtn.className = 'btn btn-primary'
-    doPrintBtn.textContent = 'Print'
-    doPrintBtn.addEventListener('click', () => { window.print() })
-    row.appendChild(cancelBtn); row.appendChild(doPrintBtn)
-    card.appendChild(h); card.appendChild(previewWrap); card.appendChild(row)
+    cancelBtn.style.padding = '8px 16px'
+    cancelBtn.style.border = '1px solid #ccc'
+    cancelBtn.style.background = '#fff'
+    cancelBtn.style.borderRadius = '4px'
+    cancelBtn.style.cursor = 'pointer'
+    cancelBtn.onclick = () => modal.remove()
+
+    const printBtn = document.createElement('button')
+    printBtn.textContent = 'Print Batch'
+    printBtn.style.padding = '8px 16px'
+    printBtn.style.border = 'none'
+    printBtn.style.background = '#0057FF'
+    printBtn.style.color = '#fff'
+    printBtn.style.borderRadius = '4px'
+    printBtn.style.cursor = 'pointer'
+    
+    printBtn.onclick = () => {
+        const queue = []
+        configs.forEach(c => {
+            if (c.chk.checked) {
+                const count = parseInt(c.qty.value) || 1
+                for(let i=0; i<count; i++) queue.push(c.value)
+            }
+        })
+        if (queue.length === 0) return alert('Please select at least one puzzle type.')
+        
+        batchPrint(queue, qrChk.checked)
+        modal.remove()
+    }
+
+    btnRow.appendChild(cancelBtn)
+    btnRow.appendChild(printBtn)
+
+    card.appendChild(h)
+    card.appendChild(form)
+    card.appendChild(btnRow)
     modal.appendChild(card)
     document.body.appendChild(modal)
+    
     modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove() })
+  }
+
+  function batchPrint(queue, includeQr) {
+     const printWindow = window.open('', '_blank')
+     if (!printWindow) return alert('Please allow popups to print')
+     
+     const doc = printWindow.document
+     doc.open()
+
+     let contentHtml = ''
+     
+     // Process queue in chunks of 3 for 3+1 layout
+     for (let i = 0; i < queue.length; i += 3) {
+         const batch = queue.slice(i, i + 3)
+         
+         let puzzlePageContent = ''
+         let answerPageContent = ''
+         
+         const puzzles = []
+
+         // First pass: Generate all puzzle data
+         batch.forEach((type) => {
+             // Determine size and difficulty
+             let size = 9
+             let diff = type
+             let gridObj = null
+             let solution = null
+
+             if (type === 'current') {
+                 size = state.size
+                 diff = state.difficulty
+                 // Use current state
+                 gridObj = state.grid.map(row => row.map(cell => ({ value: cell.value })))
+                 solution = state.solution
+             } else if (type === 'six') {
+                 size = 6
+                 diff = 'medium' // Default for 6x6 generator
+             }
+             
+             if (!gridObj) {
+                 const oldSize = state.size
+                 state.size = size
+                 const res = generatePuzzle(diff) // Uses state.size
+                 gridObj = res.puzzle.map(row => row.map(v => ({ value: v })))
+                 solution = res.solution
+                 state.size = oldSize // Restore immediately
+             }
+             
+             puzzles.push({ grid: gridObj, size, solution, diff })
+         })
+
+         // Generate Puzzle Page HTML
+         let puzzlesHtml = ''
+         puzzles.forEach(p => {
+             puzzlesHtml += generateSudokuHtml(p.grid, p.size, null, false, p.diff)
+         })
+         
+         // Add Branding Card as 4th element
+         const siteUrl = window.location.origin + window.location.pathname.replace(/\/sudoku\/(easy|medium|hard|six|daily)\/index\.html/, '/');
+         const brandingHtml = `
+            <div class="brand-wrapper">
+                <div class="brand-content">
+                    <h3>Keep Sharp!</h3>
+                    <p>Challenge yourself daily to keep your mind active.</p>
+                    <div class="brand-qr">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent('https://logicforsudoku.com')}" alt="Website QR" />
+                        <span>Visit logicforsudoku.com</span>
+                    </div>
+                    <p class="share-hint">Share your time with us!<br>#LogicForSudoku</p>
+                </div>
+            </div>
+         `
+         
+         puzzlePageContent = `
+            <div class="page-container grid-page">
+                <div class="page-header">
+                    <h1>Logic for Sudoku</h1>
+                    <p>Your Daily Mental Gym</p>
+                </div>
+                <div class="grid-2x2">
+                    ${puzzlesHtml}
+                    ${brandingHtml}
+                </div>
+                <div class="page-footer">
+                    <span>Generated by logicforsudoku.com</span>
+                    <span>Share with friends!</span>
+                </div>
+            </div>
+         `
+         contentHtml += puzzlePageContent
+
+         // Generate Answer Page HTML (if requested)
+         if (includeQr) {
+             let answersHtml = ''
+             puzzles.forEach((p, idx) => {
+                 answersHtml += generateQRHtml(p.solution, p.size, i + idx + 1)
+             })
+             
+             // Add branding to answer page too
+             answersHtml += brandingHtml
+             
+             answerPageContent = `
+                <div class="page-container answer-page">
+                    <div class="page-header" style="margin-bottom: 30px; padding-bottom: 15px;">
+                        <h1 style="font-size: 36px; margin-bottom: 10px;">Scan to Check Answers</h1>
+                        <p style="font-size: 18px; color: #2c3e50; font-weight: 500; font-style: normal;">Scan the QR codes below to view the solutions instantly</p>
+                    </div>
+                    <div class="grid-2x2">
+                        ${answersHtml}
+                    </div>
+                    <div class="page-footer">
+                        <span>Generated by logicforsudoku.com</span>
+                    </div>
+                </div>
+             `
+             contentHtml += answerPageContent
+         }
+     }
+
+     const css = `
+        body { margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; }
+        .page-container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            page-break-after: always;
+            box-sizing: border-box;
+            padding: 15px 25px; /* Reduced padding */
+            position: relative;
+            background: white;
+        }
+        .page-container:last-child {
+            page-break-after: auto;
+        }
+        
+        .page-header {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 10px; /* Reduced margin */
+            border-bottom: 2px solid #2c3e50;
+            padding-bottom: 5px; /* Reduced padding */
+        }
+        .page-header h1 { font-size: 24px; margin: 0; color: #2c3e50; letter-spacing: 1px; text-transform: uppercase; }
+        .page-header p { margin: 2px 0 0; font-size: 12px; color: #7f8c8d; font-style: italic; }
+        
+        .page-footer {
+            position: absolute;
+            bottom: 15px;
+            width: calc(100% - 50px);
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #eee;
+            padding-top: 5px;
+            font-size: 10px;
+            color: #999;
+        }
+
+        .grid-2x2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 20px; /* Reduced gap */
+            width: 100%;
+            flex: 1;
+            margin-bottom: 15px;
+        }
+        
+        .puzzle-wrapper, .answer-wrapper, .brand-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
+            border-radius: 8px;
+            height: 100%; /* Fill cell */
+        }
+        
+        .puzzle-wrapper { border: 1px solid #eee; }
+        .brand-wrapper { 
+            background: #f8f9fa; 
+            border: 2px dashed #bdc3c7;
+            text-align: center;
+        }
+        
+        .brand-content h3 { color: #2c3e50; margin: 0 0 8px 0; font-size: 22px; }
+        .brand-content p { color: #555; font-size: 14px; margin: 0 0 12px 0; line-height: 1.4; }
+        .brand-qr { margin: 10px 0; display: flex; flex-direction: column; align-items: center; }
+        .brand-qr img { width: 120px; height: 120px; border: 4px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .brand-qr span { font-size: 11px; color: #7f8c8d; margin-top: 5px; font-weight: bold; }
+        .share-hint { font-weight: bold; color: #e67e22 !important; font-size: 13px !important; margin-top: 8px !important; }
+
+        h2 { font-size: 16px; color: #7f8c8d; margin: 0 0 5px 0; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; }
+        
+        table.sudoku-print-grid { 
+            border-collapse: collapse; 
+            border: 2px solid #2c3e50; 
+            width: 300px; /* Maximize width */
+            max-width: 100%;
+            height: 300px; /* Force square */
+            aspect-ratio: 1 / 1; 
+            background: white;
+        } 
+        .sudoku-print-grid td { 
+            border: 1px solid #bdc3c7; 
+            text-align: center; 
+            font-size: 18px; /* Larger font */
+            width: 11.11%; 
+            height: 11.11%;
+            padding: 0;
+            color: #2c3e50;
+            font-weight: 600;
+        } 
+        /* 6x6 specific override */
+        .grid-6 .sudoku-print-grid td { width: 16.66%; height: 16.66%; font-size: 22px; }
+        
+        .qr-code { display: flex; flex-direction: column; align-items: center; }
+        .qr-code img { width: 140px; height: 140px; } /* Larger QR */
+        .qr-code p { margin: 5px 0 0; font-size: 14px; color: #555; font-weight: bold; }
+        .qr-label { font-size: 11px; color: #999; margin-top: 2px; }
+     `
+
+     doc.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Sudoku Batch Print</title>
+            <style>${css}</style>
+            <style>
+                /* Dynamic Borders */
+                .grid-9 .sudoku-print-grid td:nth-child(3n) { border-right: 2px solid #2c3e50; }
+                .grid-9 .sudoku-print-grid tr:nth-child(3n) td { border-bottom: 2px solid #2c3e50; }
+                .grid-9 .sudoku-print-grid td:last-child { border-right: 1px solid #bdc3c7; } 
+                .grid-9 .sudoku-print-grid tr:last-child td { border-bottom: 1px solid #bdc3c7; }
+
+                .grid-6 .sudoku-print-grid td:nth-child(3n) { border-right: 2px solid #2c3e50; }
+                .grid-6 .sudoku-print-grid tr:nth-child(2n) td { border-bottom: 2px solid #2c3e50; }
+            </style>
+        </head>
+        <body>
+            ${contentHtml}
+            <script>
+                setTimeout(() => { window.print() }, 1500);
+            </script>
+        </body>
+        </html>
+     `)
+     doc.close()
+  }
+
+  function generateQRHtml(solution, size, index) {
+     const solStr = "Sudoku Solution:\n" + solution.map(row => row.join(' ')).join('\n')
+     const encoded = encodeURIComponent(solStr)
+     const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encoded}`
+     
+     return `
+        <div class="answer-wrapper">
+            <div class="qr-code">
+                <img src="${qrUrl}" alt="Answer Key" />
+                <p>Puzzle #${index}</p>
+                <span class="qr-label">Scan for Solution</span>
+            </div>
+        </div>
+     `
+  }
+
+  function generateSudokuHtml(grid, size, solution, includeQr, difficulty) {
+      let tableHtml = `<table class="sudoku-print-grid"><tbody>`
+      for (let r=0; r<size; r++) {
+          tableHtml += '<tr>'
+          for (let c=0; c<size; c++) {
+              const val = grid[r][c].value
+              const content = val !== null ? val : ''
+              tableHtml += `<td>${content}</td>`
+          }
+          tableHtml += '</tr>'
+      }
+      tableHtml += '</tbody></table>'
+
+      let diffLabel = size === 6 ? '6x6 Challenge' : 'Standard 9x9'
+      if (difficulty) {
+          diffLabel = difficulty.charAt(0).toUpperCase() + difficulty.slice(1) + (size === 9 ? ' Sudoku' : ' Challenge')
+      }
+      const gridClass = size === 6 ? 'grid-6' : 'grid-9'
+
+      return `
+        <div class="puzzle-wrapper ${gridClass}">
+            <h2>${diffLabel}</h2>
+            ${tableHtml}
+        </div>
+      `
   }
 
   function updateStatsOnWin(elapsed) {
@@ -1004,10 +1497,7 @@
       update()
       toggleBtn.addEventListener('click', () => { state.labelsVisible = !state.labelsVisible; renderLabels(); update() })
     }
-    const printBtn = qs('#printBtn')
-    if (printBtn) {
-      printBtn.addEventListener('click', () => { showPrintPreview() })
-    }
+    // const printBtn = qs('#printBtn') // Removed JS binding in favor of onclick="printSudoku()"
     const conflictBtn = qs('#toggleConflictBtn')
     if (conflictBtn) {
       const updateConflict = () => {
