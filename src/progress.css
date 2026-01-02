@@ -1,0 +1,75 @@
+
+/* Progress Bar */
+.progress-wrapper {
+  width: 100%;
+  max-width: 500px; /* Wider to match grid approx */
+  margin: 0 auto 10px auto;
+  display: flex;
+  align-items: center;
+  position: relative; /* For toast positioning */
+}
+
+.progress-track {
+  flex-grow: 1;
+  height: 12px; /* Thicker bar like image */
+  background: #e0e6ed;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-right: 10px; /* Space between bar and text */
+}
+
+.progress-fill {
+  height: 100%;
+  background: #0072e3; /* Match theme blue */
+  width: 0%;
+  border-radius: 20px;
+  transition: width 0.4s ease;
+}
+
+.progress-text {
+  font-size: 14px;
+  color: #0072e3;
+  font-weight: 600;
+  white-space: nowrap;
+  min-width: 80px; /* Prevent jitter */
+  text-align: right;
+}
+
+.progress-toast {
+  position: absolute;
+  top: -40px; /* Show above the bar */
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.progress-toast.show {
+  opacity: 1;
+}
+
+.progress-toast::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -4px;
+  border-width: 4px;
+  border-style: solid;
+  border-color: #333 transparent transparent transparent;
+}
+
+@media (max-width: 480px) {
+    .progress-wrapper {
+        max-width: 95%;
+    }
+}

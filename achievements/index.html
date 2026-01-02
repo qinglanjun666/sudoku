@@ -263,8 +263,8 @@
                         <div class="heatmap-controls">
                             <div class="heatmap-count" id="heatmapCount">Loading...</div>
                             <select id="yearSelect" class="year-select" onchange="renderHeatmap(this.value)">
-                                <option value="2025" selected>2025</option>
-                                <option value="2026">2026</option>
+                                <option value="2025">2025</option>
+                                <option value="2026" selected>2026</option>
                             </select>
                         </div>
                     </div>
@@ -315,7 +315,7 @@
             game24: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>'
         }
 
-        function renderHeatmap(year = 2025) {
+        function renderHeatmap(year = 2026) {
             year = parseInt(year);
             const container = document.getElementById('heatmapGrid');
             const monthsContainer = document.getElementById('heatmapMonths');
@@ -323,19 +323,9 @@
             
             if (!container || !monthsContainer) return;
 
-            if (year === 2026) {
-                container.innerHTML = '<div style="padding: 20px; font-size: 14px; color: #666;">Coming next year</div>';
-                monthsContainer.innerHTML = '';
-                countEl.textContent = `0 contributions in the 2026`;
-                container.style.display = 'block';
-                container.style.gridTemplateRows = 'none';
-                container.style.width = '100%';
-                return;
-            } else {
-                container.style.display = 'grid';
-                container.style.gridTemplateRows = 'repeat(7, 12px)';
-                container.style.width = 'max-content';
-            }
+            container.style.display = 'grid';
+            container.style.gridTemplateRows = 'repeat(7, 12px)';
+            container.style.width = 'max-content';
             
             const history = JSON.parse(localStorage.getItem('sudoku_daily_history') || '[]');
             const historySet = new Set(history);
@@ -516,6 +506,7 @@
             grid.innerHTML = html;
         }
 
+        window.renderHeatmap = renderHeatmap;
         renderHeatmap();
         renderAchievements();
       })()

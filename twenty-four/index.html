@@ -3,10 +3,27 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>24 Game — Four Numbers to 24</title>
+    <title>24 Game Online - Free Math Logic Puzzles | Logic for Sudoku</title>
     <meta name="description" content="24 Game: Use four numbers and + - × ÷ to make 24." />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://logicforsudoku.com/index.html"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "24 Game",
+        "item": "https://logicforsudoku.com/twenty-four/"
+      }]
+    }
+    </script>
     <link rel="icon" href="/assets/favicon.png" type="image/png" />
-    <link rel="stylesheet" href="/src/index.css?v=2" />
+    <link rel="stylesheet" href="/src/index.css?v=9" />
     <script>
       (function(){
          var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
@@ -40,14 +57,18 @@
         transform: scale(0.96);
       }
       .op-btn {
-        background-color: #f0f0f0;
+        background-color: #f8f9fa;
+        font-weight: 800; /* Bold font */
       }
       .op-btn:hover {
-        background-color: #e0e0e0;
+        background-color: #e2e6ea;
       }
       .number-btn {
         background-color: #fff;
         border: 2px solid var(--color-border);
+      }
+      .number-btn:active {
+        transform: scale(0.92); /* Active scaling effect */
       }
       .number-btn:hover {
         border-color: #999;
@@ -108,6 +129,7 @@
         <section class="grid-section" style="padding-top:24px; padding-bottom: 24px;">
           <div class="grid-bg">
             <div style="display:flex;flex-direction:column;align-items:center;gap:24px">
+              <h1 style="font-size: 28px; font-weight: 800; color: #333; margin: 0; text-align: center; padding: 0 10px;">24 Game - Free Online Math Puzzle & Brain Trainer</h1>
               
               <div class="display-screen" style="border:none;background:transparent;padding:0;min-height:auto;margin-bottom:10px">
                 <!-- <span class="display-label">OPERATION RECORD</span> -->
@@ -126,8 +148,8 @@
 
               <div style="width:100%;max-width:540px;display:flex;gap:12px;margin-top:20px">
                 <button id="undoBtn" class="btn" style="flex:1;font-size:18px;height:56px">Undo</button>
-                <button id="showAnswerBtn" class="btn" style="flex:1;font-size:18px;height:56px;background-color:#6c757d;color:white;border-color:#6c757d">Show Answer</button>
-                <button id="replayBtn" class="btn" style="flex:1;height:56px;font-size:18px">Replay</button>
+                <button id="hintBtn" class="btn" style="flex:1;font-size:18px;height:56px;background-color:#ffc107;color:#333;border-color:#ffc107;font-weight:700">Hint</button>
+                <button id="clearBtn" class="btn" style="flex:1;height:56px;font-size:18px">Clear</button>
               </div>
               
               <div id="resultRow" class="secondary" style="font-size:24px;font-weight:700;min-height:36px;margin-top:12px;text-align:center;width:100%;color:#333"></div>
@@ -135,6 +157,54 @@
               <div id="actionsRow" style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:12px;width:100%;max-width:540px">
                 <button id="newSetBtn" class="btn btn-primary" style="width:100%;height:56px;font-size:18px;background-color:#007aff;border-color:#007aff;color:white">New Puzzle</button>
               </div>
+
+              <div style="margin-top: 32px; text-align: center; color: #666; max-width: 480px; line-height: 1.5;">
+                 <strong>Challenge Mode:</strong> <br/>
+                 Can you solve 5 puzzles in a row? Time is ticking! <br/>
+                 Master the art of 24 and climb the leaderboard.
+              </div>
+
+              <!-- SEO Content Section using Sudoku Tutorial Styles -->
+              <section class="sudoku-tutorial" style="max-width: 640px; margin-left: auto; margin-right: auto;">
+                <h2 class="tutorial-title">How to Play 24 Game Online?</h2>
+                <p class="tutorial-intro">
+                  Welcome to the <strong>24 Game</strong>, a classic math puzzle that challenges your arithmetic skills and mental agility. The goal is simple yet stimulating: use four given numbers to arrive at the number <strong>24</strong>. You can use addition (+), subtraction (-), multiplication (×), and division (÷). Each number must be used exactly once.
+                </p>
+                <p class="tutorial-desc">
+                  This online math game is perfect for students, teachers, and puzzle enthusiasts looking to sharpen their critical thinking. Whether you are practicing for a math competition or just want a quick brain trainer, our 24 Game offers endless combinations.
+                </p>
+                
+                <div class="tutorial-card">
+                  <h3 class="card-title">The Core Rules</h3>
+                  <p class="card-text">
+                    Combine the numbers in any order, use parentheses to change operations, and find the solution. It's a great way to practice mental math and improve your problem-solving abilities.
+                  </p>
+                </div>
+
+                <h2 class="tutorial-title" style="margin-top: 40px;">Frequently Asked Questions</h2>
+                
+                <div class="tutorial-card">
+                  <h3 class="card-title">Are all 24 game puzzles solvable?</h3>
+                  <p class="card-text">
+                    In our version, yes! We use a smart algorithm to generate only solvable puzzles. However, in the traditional card game version, about 20% of random deals are impossible to solve.
+                  </p>
+                </div>
+
+                <div class="tutorial-card">
+                  <h3 class="card-title">Can I combine digits to make new numbers?</h3>
+                  <p class="card-text">
+                    No, you must treat each number as a separate entity. For example, if you have 1 and 5, you cannot combine them to make 15. You must use math operations like 1 + 5 or 5 - 1.
+                  </p>
+                </div>
+
+                <div class="tutorial-card">
+                  <h3 class="card-title">Is this game good for kids?</h3>
+                  <p class="card-text">
+                    Absolutely! It is widely used in schools to help students master mental arithmetic and order of operations in a fun, interactive way.
+                  </p>
+                </div>
+
+              </section>
             </div>
           </div>
         </section>
@@ -153,7 +223,18 @@
         let selectedIdx = null
         let selectedOp = null
         
-        // ... (canMake24 and genSolvable remain same)
+        // Timer and Streak
+        let startTime = 0
+        let currentStreak = parseInt(localStorage.getItem('24game_streak') || '0')
+        let isSolved = true // Start true so first load doesn't reset streak
+
+        function formatTime(ms) {
+           const s = Math.floor(ms / 1000)
+           const m = Math.floor(s / 60)
+           const rs = s % 60
+           return `${m}:${rs.toString().padStart(2, '0')}`
+        }
+        
         function randInt(n){ return Math.floor(Math.random()*n) }
         function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]] } return a }
 
@@ -308,11 +389,202 @@
                   stats.completed = (stats.completed || 0) + 1
                   localStorage.setItem('24game_stats', JSON.stringify(stats))
               } catch(e){}
+              
+              currentStreak++
+              localStorage.setItem('24game_streak', currentStreak)
+              isSolved = true
+              const timeUsed = Date.now() - startTime
+              const timeStr = formatTime(timeUsed)
+
+              // Trigger Win Modal immediately
+              setTimeout(() => showWinModal(history.length + 1, timeStr, currentStreak), 100)
             } else {
               qs('#resultRow').textContent = 'Keep trying! Think again.'
               qs('#resultRow').style.color = '#dc3545'
             }
           }
+        }
+
+        function showWinModal(steps, timeStr, streak) {
+            // Remove existing if any
+            const existing = document.getElementById('winModal');
+            if (existing) existing.remove();
+
+            const modal = document.createElement('div');
+            modal.id = 'winModal';
+            modal.style.position = 'fixed';
+            modal.style.inset = '0';
+            modal.style.zIndex = '1000';
+            modal.style.background = 'rgba(0,0,0,0.5)';
+            modal.style.backdropFilter = 'blur(4px)';
+            modal.style.display = 'flex';
+            modal.style.alignItems = 'center';
+            modal.style.justifyContent = 'center';
+            modal.style.animation = 'fadeIn .2s ease-out';
+            
+            const card = document.createElement('div');
+            card.style.background = '#fff';
+            card.style.borderRadius = '24px';
+            card.style.boxShadow = '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)';
+            card.style.padding = '32px';
+            card.style.width = '380px';
+            card.style.maxWidth = '90vw';
+            card.style.textAlign = 'center';
+            card.style.animation = 'scaleIn .3s cubic-bezier(0.16, 1, 0.3, 1)';
+            card.style.display = 'flex';
+            card.style.flexDirection = 'column';
+            card.style.alignItems = 'center';
+            
+            // Crown Icon
+            const iconContainer = document.createElement('div');
+            iconContainer.style.marginBottom = '20px';
+            iconContainer.innerHTML = `
+              <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" fill="#FFD700" stroke="#b45309" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/>
+              </svg>
+            `;
+            card.appendChild(iconContainer);
+            
+            // Main Title
+            const h = document.createElement('h2');
+            h.innerHTML = 'Congratulations!<br>24 Point Master!';
+            h.style.fontSize = '22px';
+            h.style.fontWeight = '800';
+            h.style.color = '#1f2937';
+            h.style.margin = '0 0 8px 0';
+            h.style.lineHeight = '1.2';
+            card.appendChild(h);
+            
+            // Stats Container
+            const statsContainer = document.createElement('div');
+            statsContainer.style.width = '100%';
+            statsContainer.style.marginBottom = '24px';
+            
+            const statsRow = document.createElement('div');
+            statsRow.style.display = 'grid';
+            statsRow.style.gridTemplateColumns = '1fr 1fr';
+            statsRow.style.gap = '12px';
+            statsRow.style.marginBottom = '16px';
+            
+            const createStatBox = (label, value, color = '#f3f4f6', textColor = '#1f2937') => {
+                const box = document.createElement('div');
+                box.style.background = color;
+                box.style.padding = '10px';
+                box.style.borderRadius = '12px';
+                box.style.display = 'flex';
+                box.style.flexDirection = 'column';
+                box.style.alignItems = 'center';
+                box.innerHTML = `
+                    <span style="font-size:12px; color:#6b7280; margin-bottom:4px">${label}</span>
+                    <span style="font-size:16px; font-weight:700; color:${textColor}">${value}</span>
+                `;
+                return box;
+            };
+            
+            // Random percentile
+            const percentile = Math.floor(80 + Math.random() * 20);
+            
+            statsRow.appendChild(createStatBox('Time Used', timeStr));
+            statsRow.appendChild(createStatBox('Streak', streak));
+            
+            const rankBox = createStatBox('Performance', `Better than ${percentile}%`, '#ecfdf5', '#059669');
+            rankBox.style.gridColumn = '1 / -1';
+            statsRow.appendChild(rankBox);
+            
+            statsContainer.appendChild(statsRow);
+            
+            // QR Code
+            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=120x120&color=000000&bgcolor=ffffff&data=${encodeURIComponent(window.location.href)}`;
+            const qrWrapper = document.createElement('div');
+            qrWrapper.style.display = 'flex';
+            qrWrapper.style.flexDirection = 'column';
+            qrWrapper.style.alignItems = 'center';
+            qrWrapper.innerHTML = `
+                <img src="${qrUrl}" style="width:100px; height:100px; border-radius:8px; margin-bottom:8px; border:1px solid #e5e7eb">
+                <span style="font-size:12px; color:#9ca3af">Scan to Challenge</span>
+            `;
+            statsContainer.appendChild(qrWrapper);
+            
+            card.appendChild(statsContainer);
+            
+            // Share Text
+            const shareText = `I solved 24 Point ${JSON.stringify(lastNums)} in ${timeStr}! My streak: ${streak}. Can you beat me?`;
+
+            // Buttons Row
+            const btnRow = document.createElement('div');
+            btnRow.style.display = 'flex';
+            btnRow.style.gap = '12px';
+            btnRow.style.width = '100%';
+            btnRow.style.justifyContent = 'center';
+            
+            // Next Puzzle (Primary)
+            const nextBtn = document.createElement('button');
+            nextBtn.textContent = 'Next Puzzle';
+            nextBtn.className = 'btn';
+            nextBtn.style.background = '#0057FF';
+            nextBtn.style.color = '#fff';
+            nextBtn.style.border = 'none';
+            nextBtn.style.padding = '10px 16px';
+            nextBtn.style.fontSize = '14px';
+            nextBtn.style.fontWeight = '600';
+            nextBtn.style.borderRadius = '10px';
+            nextBtn.style.cursor = 'pointer';
+            nextBtn.style.flex = '2';
+            nextBtn.style.whiteSpace = 'nowrap';
+            nextBtn.onclick = () => {
+                modal.remove();
+                newSet();
+            };
+            
+            // Copy Share (Secondary)
+            const shareBtn = document.createElement('button');
+            shareBtn.textContent = 'Copy Share Text';
+            shareBtn.className = 'btn';
+            shareBtn.style.background = '#f3f4f6';
+            shareBtn.style.color = '#374151';
+            shareBtn.style.border = '1px solid #d1d5db';
+            shareBtn.style.padding = '10px 12px';
+            shareBtn.style.fontSize = '14px';
+            shareBtn.style.fontWeight = '600';
+            shareBtn.style.borderRadius = '10px';
+            shareBtn.style.cursor = 'pointer';
+            shareBtn.style.flex = '1';
+            shareBtn.style.whiteSpace = 'nowrap';
+            shareBtn.onclick = () => {
+                navigator.clipboard.writeText(shareText).then(() => {
+                    const oldText = shareBtn.textContent;
+                    shareBtn.textContent = 'Copied!';
+                    shareBtn.style.background = '#10b981';
+                    shareBtn.style.color = '#fff';
+                    shareBtn.style.border = '1px solid #10b981';
+                    setTimeout(() => {
+                        shareBtn.textContent = oldText;
+                        shareBtn.style.background = '#f3f4f6';
+                        shareBtn.style.color = '#374151';
+                        shareBtn.style.border = '1px solid #d1d5db';
+                    }, 2000);
+                });
+            };
+            
+            btnRow.appendChild(nextBtn);
+            btnRow.appendChild(shareBtn);
+            
+            card.appendChild(btnRow);
+            modal.appendChild(card);
+            
+            document.body.appendChild(modal);
+            modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove() });
+
+            // Add keyframes if not present
+            if (!document.getElementById('modal-styles')) {
+                const style = document.createElement('style');
+                style.id = 'modal-styles';
+                style.textContent = `
+                    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+                    @keyframes scaleIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+                `;
+                document.head.appendChild(style);
+            }
         }
 
         function undo() {
@@ -331,9 +603,17 @@
         }
 
         function newSet() {
+          if (!isSolved) {
+             currentStreak = 0
+             localStorage.setItem('24game_streak', 0)
+          }
+          isSolved = false
+          startTime = Date.now()
+
           nums = genSolvable()
           lastNums = nums.slice() // Keep for replay
           history = []
+          hintLevel = 0
           selectedIdx = null
           selectedOp = null
           qs('#exprInput').value = ''
@@ -345,6 +625,7 @@
         function replay() {
           nums = lastNums.slice()
           history = []
+          hintLevel = 0
           selectedIdx = null
           selectedOp = null
           qs('#exprInput').value = ''
@@ -368,52 +649,76 @@
                 const nextList = list.filter((_, idx) => idx !== i && idx !== j)
                 
                 // Operations
-                // a + b
-                let res = dfs([...nextList, {val: a.val + b.val, expr: `(${a.expr}+${b.expr})`}])
-                if (res) return res
-                
-                // a * b
-                res = dfs([...nextList, {val: a.val * b.val, expr: `(${a.expr}×${b.expr})`}])
-                if (res) return res
-                
-                // a - b
-                res = dfs([...nextList, {val: a.val - b.val, expr: `(${a.expr}-${b.expr})`}])
-                if (res) return res
-                
-                // b - a
-                res = dfs([...nextList, {val: b.val - a.val, expr: `(${b.expr}-${a.expr})`}])
-                if (res) return res
-                
-                // a / b
-                if (Math.abs(b.val) > EPS) {
-                   res = dfs([...nextList, {val: a.val / b.val, expr: `(${a.expr}÷${b.expr})`}])
-                   if (res) return res
-                }
-                
-                // b / a
-                if (Math.abs(a.val) > EPS) {
-                   res = dfs([...nextList, {val: b.val / a.val, expr: `(${b.expr}÷${a.expr})`}])
-                   if (res) return res
+                const ops = [
+                    { val: a.val + b.val, op: '+', expr: `(${a.expr}+${b.expr})` },
+                    { val: a.val - b.val, op: '-', expr: `(${a.expr}-${b.expr})` },
+                    { val: b.val - a.val, op: '-', expr: `(${b.expr}-${a.expr})` },
+                    { val: a.val * b.val, op: '×', expr: `(${a.expr}×${b.expr})` }
+                ]
+                if (Math.abs(b.val) > EPS) ops.push({ val: a.val / b.val, op: '÷', expr: `(${a.expr}÷${b.expr})` })
+                if (Math.abs(a.val) > EPS) ops.push({ val: b.val / a.val, op: '÷', expr: `(${b.expr}÷${a.expr})` })
+
+                for (const item of ops) {
+                    const res = dfs([...nextList, {val: item.val, expr: item.expr}])
+                    if (res) return res
                 }
               }
             }
             return null
           }
           
-          const initialList = initialNums.map(n => ({val: n, expr: n.toString()}))
-          let ans = dfs(initialList)
-          // Remove outer parentheses if present
-          if (ans && ans.startsWith('(') && ans.endsWith(')')) {
-             return ans.slice(1, -1)
+          // Outer loop to capture first step
+          const list = initialNums.map(n => ({val: n, expr: n.toString()}))
+          
+          for (let i = 0; i < list.length; i++) {
+              for (let j = 0; j < list.length; j++) {
+                if (i === j) continue
+                const a = list[i], b = list[j]
+                const nextList = list.filter((_, idx) => idx !== i && idx !== j)
+                
+                const ops = [
+                    { val: a.val + b.val, op: '+', expr: `(${a.expr}+${b.expr})` },
+                    { val: a.val - b.val, op: '-', expr: `(${a.expr}-${b.expr})` },
+                    { val: b.val - a.val, op: '-', expr: `(${b.expr}-${a.expr})` },
+                    { val: a.val * b.val, op: '×', expr: `(${a.expr}×${b.expr})` }
+                ]
+                if (Math.abs(b.val) > EPS) ops.push({ val: a.val / b.val, op: '÷', expr: `(${a.expr}÷${b.expr})` })
+                if (Math.abs(a.val) > EPS) ops.push({ val: b.val / a.val, op: '÷', expr: `(${b.expr}÷${a.expr})` })
+                
+                for (const item of ops) {
+                    const res = dfs([...nextList, {val: item.val, expr: item.expr}])
+                    if (res) {
+                        // Found it
+                        let valA = Number.isInteger(a.val) ? a.val : parseFloat(a.val.toFixed(2));
+                        let valB = Number.isInteger(b.val) ? b.val : parseFloat(b.val.toFixed(2));
+                        // Determine which was first in subtraction/division
+                        // item.expr tells us order: (a-b) or (b-a)
+                        // Actually easier: just return a nice string
+                        // "Try using 8 and 3" is simple and covers all ops
+                        return {
+                            full: res.startsWith('(') && res.endsWith(')') ? res.slice(1, -1) : res,
+                            firstStep: `First step uses ${valA} and ${valB}`
+                        }
+                    }
+                }
+              }
           }
-          return ans
+          return null
         }
 
-        function showAnswer() {
+        let hintLevel = 0
+        function showHint() {
            const solution = solve24(lastNums)
            if (solution) {
-             qs('#resultRow').textContent = solution + ' = 24'
-             qs('#resultRow').style.color = '#007aff'
+             if (hintLevel === 0) {
+               qs('#resultRow').textContent = `Hint: ${solution.firstStep}`
+               qs('#resultRow').style.color = '#d39e00' // Dark yellow
+               hintLevel = 1
+             } else {
+               qs('#resultRow').textContent = solution.full + ' = 24'
+               qs('#resultRow').style.color = '#007aff'
+               hintLevel = 2
+             }
            } else {
              qs('#resultRow').textContent = 'No solution found.'
              qs('#resultRow').style.color = '#dc3545'
@@ -477,8 +782,9 @@
           // const c = qs('#checkBtn'); if (c) c.addEventListener('click', checkExpr)
           
           const ub = qs('#undoBtn'); if (ub) ub.addEventListener('click', undo)
-          const rb = qs('#replayBtn'); if (rb) rb.addEventListener('click', replay)
-          const sab = qs('#showAnswerBtn'); if (sab) sab.addEventListener('click', showAnswer)
+          const hb = qs('#hintBtn'); if (hb) hb.addEventListener('click', showHint)
+          const cb = qs('#clearBtn'); if (cb) cb.addEventListener('click', replay)
+          // const sab = qs('#showAnswerBtn'); if (sab) sab.addEventListener('click', showAnswer)
           
           qsa('.op-btn').forEach(btn => {
             btn.addEventListener('click', () => handleOpClick(btn.textContent))

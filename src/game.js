@@ -250,6 +250,82 @@
     }
   }
 
+  function updateProgress() {
+    const bar = qs('#progress-wrapper')
+    if (!bar) return
+    bar.style.display = 'flex'
+    
+    let currentCorrect = 0
+    const size = state.size
+    const solution = state.solution
+    
+    if (!solution) return
+
+    for (let r=0;r<size;r++) {
+      for (let c=0;c<size;c++) {
+        if (state.grid[r][c].value === solution[r][c]) {
+           currentCorrect++
+        }
+      }
+    }
+    
+    const total = size * size
+    const initial = state.initialFilledCount || 0
+    
+    // Formula: (Current - Initial) / (Total - Initial)
+    // If current < initial (impossible if only correct counted?), clamp to 0
+    // Actually currentCorrect includes initial clues if they are in grid.
+    // Yes, state.grid has initial clues.
+    
+    let pct = 0
+    if (total > initial) {
+       pct = ((currentCorrect - initial) / (total - initial)) * 100
+    }
+    
+    if (pct < 0) pct = 0
+    if (pct > 100) pct = 100
+    
+    const fill = qs('#progress-fill')
+    const text = qs('#progress-text')
+    
+    if (fill) fill.style.width = pct + '%'
+    if (text) text.textContent = 'Completed ' + Math.floor(pct) + '%'
+    
+    handleSocialTriggers(pct)
+  }
+
+  let lastTrigger = 0
+  function handleSocialTriggers(pct) {
+    const toast = qs('#progress-toast')
+    if (!toast) return
+    
+    // Reset trigger if new game (pct very low)
+    if (pct < 10) {
+        if (lastTrigger > 10) lastTrigger = 0
+        return
+    }
+
+    let msg = ''
+    if (pct >= 50 && pct < 60 && lastTrigger < 50) {
+        msg = "解题过半，势如破竹！"
+        lastTrigger = 50
+    } else if (pct >= 90 && pct < 95 && lastTrigger < 90) {
+        msg = "最后冲刺！点击分享让好友见证你的大脑高光时刻。"
+        lastTrigger = 90
+    }
+    
+    if (msg) {
+        toast.textContent = msg
+        toast.classList.add('show')
+        setTimeout(() => toast.classList.remove('show'), 3000)
+    }
+    
+    if (pct >= 100 && lastTrigger < 100) {
+        lastTrigger = 100
+        // War report logic is effectively the Win Modal which triggers automatically via autoCheckCompletion -> checkWin
+    }
+  }
+
   function renderGrid() {
     const gridEl = qs('#grid')
     gridEl.innerHTML = ''
@@ -264,6 +340,9 @@
     gridEl.style.gap = '0'
     gridEl.style.border = 'var(--grid-line-thick)'
     // gridEl.style.backgroundColor = '#34495e' // Removed to prevent bleed-through
+    
+    // Update Progress
+    updateProgress()
 
     // Calculate Highlighting Context
     let selectedVal = null
@@ -644,14 +723,62 @@
     h.style.lineHeight = '1.2'
     card.appendChild(h)
 
-    // Subtitle
-    const p = document.createElement('p')
-    p.textContent = "Nothing gets past you! You cracked the code and conquered the grid. Absolutely brilliant performance."
-    p.style.fontSize = '14px'
-    p.style.color = '#4b5563'
-    p.style.margin = '0 0 24px 0'
-    p.style.lineHeight = '1.5'
-    card.appendChild(p)
+    // Stats & QR Code Container
+    const statsContainer = document.createElement('div')
+    statsContainer.style.width = '100%'
+    statsContainer.style.marginBottom = '24px'
+    
+    // Stats Row
+    const statsRow = document.createElement('div')
+    statsRow.style.display = 'grid'
+    statsRow.style.gridTemplateColumns = '1fr 1fr'
+    statsRow.style.gap = '12px'
+    statsRow.style.marginBottom = '16px'
+
+    const createStatBox = (label, value, color = '#f3f4f6', textColor = '#1f2937') => {
+        const box = document.createElement('div')
+        box.style.background = color
+        box.style.padding = '10px'
+        box.style.borderRadius = '12px'
+        box.style.display = 'flex'
+        box.style.flexDirection = 'column'
+        box.style.alignItems = 'center'
+        box.innerHTML = `
+            <span style="font-size:12px; color:#6b7280; margin-bottom:4px">${label}</span>
+            <span style="font-size:16px; font-weight:700; color:${textColor}">${value}</span>
+        `
+        return box
+    }
+
+    const elapsedMs = Date.now() - (state.timerStart || Date.now())
+    const timeStr = formatMs(elapsedMs)
+    const diffStr = state.difficulty.charAt(0).toUpperCase() + state.difficulty.slice(1)
+    
+    // Random percentile for MVP (80-99%)
+    const percentile = Math.floor(80 + Math.random() * 20) 
+
+    statsRow.appendChild(createStatBox('Time', timeStr))
+    statsRow.appendChild(createStatBox('Difficulty', diffStr))
+    
+    const rankBox = createStatBox('Performance', `Better than ${percentile}%`, '#ecfdf5', '#059669')
+    rankBox.style.gridColumn = '1 / -1'
+    statsRow.appendChild(rankBox)
+
+    statsContainer.appendChild(statsRow)
+
+    // QR Code
+    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=120x120&color=000000&bgcolor=ffffff&data=${encodeURIComponent(window.location.href)}`
+    const qrWrapper = document.createElement('div')
+    qrWrapper.style.display = 'flex'
+    qrWrapper.style.flexDirection = 'column'
+    qrWrapper.style.alignItems = 'center'
+    qrWrapper.innerHTML = `
+        <img src="${qrUrl}" style="width:100px; height:100px; border-radius:8px; margin-bottom:8px; border:1px solid #e5e7eb">
+        <span style="font-size:12px; color:#9ca3af">Scan to Challenge</span>
+    `
+    statsContainer.appendChild(qrWrapper)
+    
+    card.appendChild(statsContainer)
 
     // Buttons Row
     const btnRow = document.createElement('div')
@@ -886,6 +1013,9 @@
             ${tableHtml}
             ${qrHtml}
         </div>
+        <div style="position: fixed; bottom: 10px; left: 10px; font-size: 12px; color: #999; font-family: Arial, sans-serif;">
+            Printed: ${new Date().toLocaleString()} | logicforsudoku.com
+        </div>
         <script>
             setTimeout(() => {
                 window.print();
@@ -895,6 +1025,282 @@
       </html>
     `)
     doc.close()
+  }
+
+  window.openShareModal = function() {
+    let modal = qs('#shareModal')
+    if (modal) {
+        modal.classList.add('show')
+        return
+    }
+
+    modal = document.createElement('div')
+    modal.id = 'shareModal'
+    modal.style.position = 'fixed'
+    modal.style.inset = '0'
+    modal.style.background = 'rgba(0,0,0,0.5)'
+    modal.style.display = 'flex'
+    modal.style.alignItems = 'center'
+    modal.style.justifyContent = 'center'
+    modal.style.zIndex = '2000'
+    modal.style.opacity = '0'
+    modal.style.transition = 'opacity 0.2s'
+    
+    // Trigger fade in
+    requestAnimationFrame(() => { modal.style.opacity = '1' })
+
+    const card = document.createElement('div')
+    card.style.background = '#fff'
+    card.style.borderRadius = '12px'
+    card.style.width = '400px'
+    card.style.maxWidth = '90vw'
+    card.style.padding = '24px'
+    card.style.boxShadow = '0 4px 24px rgba(0,0,0,0.2)'
+    card.style.fontFamily = 'Inter, system-ui, sans-serif'
+    card.style.display = 'flex'
+    card.style.flexDirection = 'column'
+    card.style.gap = '16px'
+    card.style.position = 'relative'
+
+    // Close button
+    const closeBtn = document.createElement('button')
+    closeBtn.innerHTML = '&times;'
+    closeBtn.style.position = 'absolute'
+    closeBtn.style.top = '12px'
+    closeBtn.style.right = '12px'
+    closeBtn.style.background = 'none'
+    closeBtn.style.border = 'none'
+    closeBtn.style.fontSize = '24px'
+    closeBtn.style.lineHeight = '1'
+    closeBtn.style.cursor = 'pointer'
+    closeBtn.style.color = '#64748b'
+    closeBtn.onclick = () => {
+        modal.style.opacity = '0'
+        setTimeout(() => modal.remove(), 200)
+    }
+    card.appendChild(closeBtn)
+
+    // Title
+    const title = document.createElement('h3')
+    title.textContent = 'Challenge a Friend'
+    title.style.margin = '0'
+    title.style.fontSize = '20px'
+    title.style.color = '#1e293b'
+    title.style.textAlign = 'center'
+    card.appendChild(title)
+
+    // Description
+    const desc = document.createElement('p')
+    desc.textContent = 'Copy the link below to share this daily challenge:'
+    desc.style.margin = '0'
+    desc.style.color = '#64748b'
+    desc.style.fontSize = '14px'
+    desc.style.textAlign = 'center'
+    card.appendChild(desc)
+
+    // Link Input
+    const linkContainer = document.createElement('div')
+    linkContainer.style.display = 'flex'
+    linkContainer.style.gap = '8px'
+    
+    const input = document.createElement('input')
+    // Construct URL: use dailyDate if available, otherwise today
+    const dateToUse = state.dailyDate || new Date().toISOString().split('T')[0]
+    const url = `https://logicforsudoku.com/sudoku/daily/?d=${dateToUse}`
+    input.value = url
+    input.readOnly = true
+    input.style.flex = '1'
+    input.style.padding = '8px 12px'
+    input.style.border = '1px solid #e2e8f0'
+    input.style.borderRadius = '6px'
+    input.style.fontSize = '13px'
+    input.style.color = '#334155'
+    input.style.background = '#f8fafc'
+    
+    // Copy Button
+    const copyBtn = document.createElement('button')
+    copyBtn.textContent = 'Copy Link'
+    copyBtn.style.background = '#0057FF'
+    copyBtn.style.color = '#fff'
+    copyBtn.style.border = 'none'
+    copyBtn.style.borderRadius = '6px'
+    copyBtn.style.padding = '0 16px'
+    copyBtn.style.fontSize = '14px'
+    copyBtn.style.fontWeight = '500'
+    copyBtn.style.cursor = 'pointer'
+    copyBtn.style.whiteSpace = 'nowrap'
+    
+    copyBtn.onclick = () => {
+        input.select()
+        navigator.clipboard.writeText(url).then(() => {
+            const originalText = copyBtn.textContent
+            copyBtn.textContent = 'Copied!'
+            copyBtn.style.background = '#10b981'
+            setTimeout(() => {
+                copyBtn.textContent = originalText
+                copyBtn.style.background = '#0057FF'
+            }, 2000)
+        })
+    }
+
+    linkContainer.appendChild(input)
+    linkContainer.appendChild(copyBtn)
+    card.appendChild(linkContainer)
+
+    modal.appendChild(card)
+    document.body.appendChild(modal)
+    
+    modal.addEventListener('click', (e) => { 
+        if (e.target === modal) {
+            modal.style.opacity = '0'
+            setTimeout(() => modal.remove(), 200)
+        }
+    })
+  }
+
+  // --- Ask Friend Feature ---
+  function askFriend() {
+    // Serialize state
+    const size = state.size
+    let pStr = ''
+    let gStr = ''
+    for (let r=0; r<size; r++) {
+        for (let c=0; c<size; c++) {
+            pStr += (state.puzzle[r][c] || 0)
+            gStr += (state.grid[r][c].value || 0)
+        }
+    }
+    
+    const baseUrl = window.location.origin + window.location.pathname
+    const params = new URLSearchParams()
+    params.set('share', '1')
+    params.set('s', size)
+    params.set('p', pStr)
+    params.set('g', gStr)
+    // Add difficulty just in case, though p/g defines the board
+    params.set('d', state.difficulty)
+
+    const url = baseUrl + '?' + params.toString()
+    openAskFriendModal(url)
+  }
+
+  window.openAskFriendModal = function(url) {
+    let modal = qs('#askFriendModal')
+    if (modal) modal.remove()
+
+    modal = document.createElement('div')
+    modal.id = 'askFriendModal'
+    modal.style.position = 'fixed'
+    modal.style.inset = '0'
+    modal.style.background = 'rgba(0,0,0,0.5)'
+    modal.style.display = 'flex'
+    modal.style.alignItems = 'center'
+    modal.style.justifyContent = 'center'
+    modal.style.zIndex = '2000'
+    modal.style.opacity = '0'
+    modal.style.transition = 'opacity 0.2s'
+    
+    requestAnimationFrame(() => { modal.style.opacity = '1' })
+
+    const card = document.createElement('div')
+    card.style.background = '#fff'
+    card.style.borderRadius = '12px'
+    card.style.width = '400px'
+    card.style.maxWidth = '90vw'
+    card.style.padding = '24px'
+    card.style.boxShadow = '0 4px 24px rgba(0,0,0,0.2)'
+    card.style.fontFamily = 'Inter, system-ui, sans-serif'
+    card.style.display = 'flex'
+    card.style.flexDirection = 'column'
+    card.style.gap = '16px'
+    card.style.position = 'relative'
+
+    const closeBtn = document.createElement('button')
+    closeBtn.innerHTML = '&times;'
+    closeBtn.style.position = 'absolute'
+    closeBtn.style.top = '12px'
+    closeBtn.style.right = '12px'
+    closeBtn.style.background = 'none'
+    closeBtn.style.border = 'none'
+    closeBtn.style.fontSize = '24px'
+    closeBtn.style.lineHeight = '1'
+    closeBtn.style.cursor = 'pointer'
+    closeBtn.style.color = '#64748b'
+    closeBtn.onclick = () => {
+        modal.style.opacity = '0'
+        setTimeout(() => modal.remove(), 200)
+    }
+    card.appendChild(closeBtn)
+
+    const title = document.createElement('h3')
+    title.textContent = 'Ask a Friend'
+    title.style.margin = '0'
+    title.style.fontSize = '20px'
+    title.style.color = '#1e293b'
+    title.style.textAlign = 'center'
+    card.appendChild(title)
+
+    const desc = document.createElement('p')
+    desc.textContent = 'Share this link with a friend to show them your current board and ask for help:'
+    desc.style.margin = '0'
+    desc.style.color = '#64748b'
+    desc.style.fontSize = '14px'
+    desc.style.textAlign = 'center'
+    card.appendChild(desc)
+
+    const linkContainer = document.createElement('div')
+    linkContainer.style.display = 'flex'
+    linkContainer.style.gap = '8px'
+    
+    const input = document.createElement('input')
+    input.value = url
+    input.readOnly = true
+    input.style.flex = '1'
+    input.style.padding = '8px 12px'
+    input.style.border = '1px solid #e2e8f0'
+    input.style.borderRadius = '6px'
+    input.style.fontSize = '13px'
+    input.style.color = '#334155'
+    input.style.background = '#f8fafc'
+    
+    const copyBtn = document.createElement('button')
+    copyBtn.textContent = 'Copy Link'
+    copyBtn.style.background = '#9b59b6' // Matches the Ask Friend button color
+    copyBtn.style.color = '#fff'
+    copyBtn.style.border = 'none'
+    copyBtn.style.borderRadius = '6px'
+    copyBtn.style.padding = '0 16px'
+    copyBtn.style.fontSize = '14px'
+    copyBtn.style.fontWeight = '500'
+    copyBtn.style.cursor = 'pointer'
+    copyBtn.style.whiteSpace = 'nowrap'
+    
+    copyBtn.onclick = () => {
+        input.select()
+        navigator.clipboard.writeText(url).then(() => {
+            const originalText = copyBtn.textContent
+            copyBtn.textContent = 'Copied!'
+            copyBtn.style.background = '#10b981'
+            setTimeout(() => {
+                copyBtn.textContent = originalText
+                copyBtn.style.background = '#0057FF'
+            }, 2000)
+        })
+    }
+
+    linkContainer.appendChild(input)
+    linkContainer.appendChild(copyBtn)
+    card.appendChild(linkContainer)
+
+    modal.appendChild(card)
+    document.body.appendChild(modal)
+    
+    modal.addEventListener('click', (e) => { 
+        if (e.target === modal) {
+            modal.style.opacity = '0'
+            setTimeout(() => modal.remove(), 200)
+        }
+    })
   }
 
   // --- Batch Print Feature ---
@@ -1058,7 +1464,130 @@
     modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove() })
   }
 
+  function openRulesModal() {
+    let modal = qs('#rulesModal')
+    if (modal) {
+        modal.classList.add('show')
+        return
+    }
+
+    modal = document.createElement('div')
+    modal.id = 'rulesModal'
+    modal.style.position = 'fixed'
+    modal.style.inset = '0'
+    modal.style.background = 'rgba(0,0,0,0.5)'
+    modal.style.display = 'flex'
+    modal.style.alignItems = 'center'
+    modal.style.justifyContent = 'center'
+    modal.style.zIndex = '2000'
+    modal.style.opacity = '0'
+    modal.style.transition = 'opacity 0.2s'
+    
+    // Trigger fade in
+    requestAnimationFrame(() => { modal.style.opacity = '1' })
+
+    const card = document.createElement('div')
+    card.style.background = '#fff'
+    card.style.borderRadius = '12px'
+    card.style.width = '600px'
+    card.style.maxHeight = '80vh'
+    card.style.overflowY = 'auto'
+    card.style.boxShadow = '0 4px 24px rgba(0,0,0,0.2)'
+    card.style.fontFamily = 'Inter, system-ui, sans-serif'
+    card.style.position = 'relative'
+    card.style.display = 'flex'
+    card.style.flexDirection = 'column'
+
+    // Header
+    const header = document.createElement('div')
+    header.style.padding = '16px 24px'
+    header.style.borderBottom = '1px solid #e2e8f0'
+    header.style.display = 'flex'
+    header.style.justifyContent = 'space-between'
+    header.style.alignItems = 'center'
+    header.style.position = 'sticky'
+    header.style.top = '0'
+    header.style.background = '#fff'
+    header.style.zIndex = '10'
+
+    const title = document.createElement('h2')
+    title.textContent = 'How to Play Sudoku'
+    title.style.margin = '0'
+    title.style.fontSize = '20px'
+    title.style.color = '#1e293b'
+
+    const closeBtn = document.createElement('button')
+    closeBtn.innerHTML = '&times;'
+    closeBtn.style.background = 'none'
+    closeBtn.style.border = 'none'
+    closeBtn.style.fontSize = '28px'
+    closeBtn.style.lineHeight = '1'
+    closeBtn.style.cursor = 'pointer'
+    closeBtn.style.color = '#64748b'
+    closeBtn.style.padding = '0 4px'
+    closeBtn.onclick = () => {
+        modal.style.opacity = '0'
+        setTimeout(() => modal.remove(), 200)
+    }
+
+    header.appendChild(title)
+    header.appendChild(closeBtn)
+    card.appendChild(header)
+
+    // Content
+    const content = document.createElement('div')
+    content.style.padding = '24px'
+    
+    // Try to get tutorial content from page
+    const tutorial = qs('.sudoku-tutorial')
+    if (tutorial) {
+        // Clone and strip
+        const clone = tutorial.cloneNode(true)
+        clone.style.marginTop = '0'
+        clone.style.padding = '0'
+        clone.style.border = 'none'
+        clone.style.background = 'none'
+        
+        // Remove duplicate title if present in clone
+        const tTitle = clone.querySelector('.tutorial-title')
+        if (tTitle && tTitle.textContent.includes('What is')) tTitle.style.marginTop = '0'
+        
+        content.appendChild(clone)
+    } else {
+        // Fallback
+        content.innerHTML = `
+            <div style="color:#334155; line-height:1.6;">
+                <p><strong>Goal:</strong> Fill the grid so that every row, column, and 3x3 box contains the numbers 1 to 9.</p>
+                <ul style="margin-bottom:20px;">
+                    <li>Each row must contain numbers 1-9 exactly once.</li>
+                    <li>Each column must contain numbers 1-9 exactly once.</li>
+                    <li>Each 3x3 box must contain numbers 1-9 exactly once.</li>
+                </ul>
+                <p><strong>Controls:</strong></p>
+                <ul>
+                    <li>Select a cell and press a number key (1-9).</li>
+                    <li>Use 'Notes' mode to mark candidates.</li>
+                    <li>'Undo' to reverse mistakes.</li>
+                </ul>
+            </div>
+        `
+    }
+    
+    card.appendChild(content)
+    modal.appendChild(card)
+    document.body.appendChild(modal)
+    
+    modal.addEventListener('click', (e) => { 
+        if (e.target === modal) {
+            modal.style.opacity = '0'
+            setTimeout(() => modal.remove(), 200)
+        }
+    })
+  }
+  window.openRulesModal = openRulesModal // Expose globally
+
   function batchPrint(queue, includeQr) {
+     const printTime = new Date().toLocaleString()
      const printWindow = window.open('', '_blank')
      if (!printWindow) return alert('Please allow popups to print')
      
@@ -1140,7 +1669,7 @@
                     ${brandingHtml}
                 </div>
                 <div class="page-footer">
-                    <span>Generated by logicforsudoku.com</span>
+                    <span>Printed: ${printTime} | logicforsudoku.com</span>
                     <span>Share with friends!</span>
                 </div>
             </div>
@@ -1167,7 +1696,7 @@
                         ${answersHtml}
                     </div>
                     <div class="page-footer">
-                        <span>Generated by logicforsudoku.com</span>
+                        <span>Printed: ${printTime} | logicforsudoku.com</span>
                     </div>
                 </div>
              `
@@ -1362,7 +1891,7 @@
       stats.completed[d] = (stats.completed[d] || 0) + 1
       localStorage.setItem('sudoku_stats', JSON.stringify(stats))
       
-      // Update Daily History
+      // Update Daily History (If it's a daily puzzle)
       if (state.isDaily && state.dailyDate) {
           const dailyRaw = localStorage.getItem('sudoku_daily_history')
           const dailyHistory = dailyRaw ? JSON.parse(dailyRaw) : []
@@ -1370,17 +1899,15 @@
               dailyHistory.push(state.dailyDate)
               localStorage.setItem('sudoku_daily_history', JSON.stringify(dailyHistory))
           }
-          
-          // Update Daily Counts (for Heatmap intensity)
-          // We track how many times a daily puzzle date has been completed (e.g. diff difficulties)
-          // Using a composite key of "date-difficulty" to avoid double counting same puzzle?
-          // User said "More than 3 puzzles", implying count.
-          // Let's just increment count for the date.
-          const countsRaw = localStorage.getItem('sudoku_daily_counts')
-          const dailyCounts = countsRaw ? JSON.parse(countsRaw) : {}
-          dailyCounts[state.dailyDate] = (dailyCounts[state.dailyDate] || 0) + 1
-          localStorage.setItem('sudoku_daily_counts', JSON.stringify(dailyCounts))
       }
+      
+      // Update Daily Activity Counts (For Heatmap)
+      // This tracks *ANY* puzzle completion on the current real-world date
+      const today = new Date().toISOString().split('T')[0]
+      const countsRaw = localStorage.getItem('sudoku_daily_counts')
+      const dailyCounts = countsRaw ? JSON.parse(countsRaw) : {}
+      dailyCounts[today] = (dailyCounts[today] || 0) + 1
+      localStorage.setItem('sudoku_daily_counts', JSON.stringify(dailyCounts))
 
       updateStatsUI()
     } catch {}
@@ -1481,6 +2008,7 @@
     // Updated Bindings for new button layout
     const notesBtn = qs('#notesBtn'); if (notesBtn) notesBtn.addEventListener('click', toggleNotesMode)
     const hintBtn = qs('#hintBtn'); if (hintBtn) hintBtn.addEventListener('click', toggleHintMode)
+    const askFriendBtn = qs('#askFriendBtn'); if (askFriendBtn) askFriendBtn.addEventListener('click', askFriend)
     const showSolBtn = qs('#showSolutionBtn'); if (showSolBtn) showSolBtn.addEventListener('click', showSolution)
     const resetActionBtn = qs('#resetActionBtn'); if (resetActionBtn) resetActionBtn.addEventListener('click', clearEntries)
     
@@ -1571,6 +2099,7 @@
   }
 
   function clearEntries() {
+    state.timerStart = Date.now()
     const size = state.size
     for (let r=0;r<size;r++) for (let c=0;c<size;c++) {
       const target = state.puzzle?.[r]?.[c] ?? null
@@ -1585,6 +2114,7 @@
     }
     renderGrid()
     saveToStorage()
+    updateTimerUI()
   }
 
   function newPuzzle(diff) {
@@ -1595,11 +2125,14 @@
     state.solution = solution
     state.puzzle = puzzle
     // load puzzle into state.grid
+    let filled = 0
     for (let r=0;r<state.size;r++) for (let c=0;c<state.size;c++) {
       const v = puzzle[r][c]
       state.grid[r][c].value = v
       state.grid[r][c].notes = new Set()
+      if (v !== null) filled++
     }
+    state.initialFilledCount = filled
     // no auto-pencil
     renderGrid()
     const diffEl = qs('#difficulty')
@@ -1817,7 +2350,7 @@
       desiredDiff = diffParam ? diffParam.toLowerCase() : 'medium'
       if (desiredDiff === 'six' || desiredDiff === '6x6') desiredSize = 6
       isDaily = true
-      const dParam = p.get('date')
+      const dParam = p.get('date') || p.get('d')
       dailyDate = dParam || new Date().toISOString().split('T')[0]
     } else if (dailyMatch) {
        const [_, d, m, y] = dailyMatch
@@ -1879,7 +2412,24 @@
 
                 if (subtitle) {
                     title.textContent = 'Daily Challenge'
-                    subtitle.textContent = `${dateStr} (${diffStr})`
+                    
+                    // Generate pseudo-random stats based on date (consistent per day)
+                    const rate = (stringToSeed(dailyDate + 'stats') % 35) + 5 // 5% - 39%
+                    const pNum = dailyDate.replace(/-/g, '')
+
+                    subtitle.innerHTML = `${dateStr} <span style="margin:0 8px;opacity:0.3">|</span> No. ${pNum} <span style="margin:0 8px;opacity:0.3">|</span> ${diffStr}`
+                    
+                    let rateEl = qs('#daily-rate-text')
+                    if (!rateEl) {
+                        rateEl = document.createElement('div')
+                        rateEl.id = 'daily-rate-text'
+                        rateEl.style.color = '#e74c3c'
+                        rateEl.style.fontWeight = '700'
+                        rateEl.style.marginTop = '8px'
+                        rateEl.style.fontSize = '16px'
+                        subtitle.after(rateEl)
+                    }
+                    rateEl.textContent = `🔥 Only ${rate}% solved today`
                 } else {
                     title.textContent = `Daily Challenge: ${dateStr} (${diffStr})`
                 }
@@ -1932,6 +2482,54 @@
         loadSave = false
     }
     
+    // Check if share link
+    const shareMode = p.get('share')
+    if (shareMode) {
+        const sSize = parseInt(p.get('s')) || 9
+        const pStr = p.get('p')
+        const gStr = p.get('g')
+        const dStr = p.get('d')
+        
+        if (pStr && gStr && pStr.length === sSize*sSize && gStr.length === sSize*sSize) {
+            setSize(sSize)
+            state.difficulty = dStr || 'custom'
+            state.puzzle = []
+            // Reconstruct Grid
+            let filled = 0
+            for(let r=0; r<sSize; r++) {
+                const rowP = []
+                for(let c=0; c<sSize; c++) {
+                    const idx = r*sSize + c
+                    const pVal = parseInt(pStr[idx])
+                    const gVal = parseInt(gStr[idx])
+                    
+                    rowP.push(pVal === 0 ? null : pVal)
+                    
+                    state.grid[r][c].value = (gVal === 0 ? null : gVal)
+                    state.grid[r][c].notes = new Set()
+                    if (state.grid[r][c].value !== null) filled++
+                }
+                state.puzzle.push(rowP)
+            }
+            
+            // Solve for validation
+            state.solution = clone2D(state.puzzle)
+            const brSize = sSize === 9 ? 3 : 2
+            const bcSize = sSize === 9 ? 3 : 3
+            solveBacktrack(state.solution, sSize, brSize, bcSize)
+
+            let givens = 0
+            for(let r=0; r<sSize; r++) for(let c=0; c<sSize; c++) if(state.puzzle[r][c]!==null) givens++
+            state.initialFilledCount = givens
+            
+            renderGrid()
+            
+            const diffEl = qs('#difficulty')
+            if (diffEl) diffEl.textContent = 'Shared Puzzle'
+            return // Skip standard init
+        }
+    }
+
     if (!loadSave) {
       setSize(desiredSize)
       if (isDaily) state.rng = mulberry32(stringToSeed(dailyDate))
@@ -2002,6 +2600,10 @@
       state.redoStack = Array.isArray(data.redo) ? data.redo : []
       state.timerStart = data.timerStart || Date.now()
       state.mistakes = data.mistakes || 0
+      state.initialFilledCount = 0;
+      if (state.puzzle) {
+        state.initialFilledCount = state.puzzle.flat().filter(x => x !== null).length
+      }
       return true
     } catch { return false }
   }

@@ -19,8 +19,8 @@
     </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-    <title>Sudoku - Logic for Sudoku</title>
-    <meta name="description" content="Play Sudoku online. Clean, responsive interface." />
+    <title>Free Online Sudoku Puzzles - Choose Your Difficulty | Logic for Sudoku</title>
+    <meta name="description" content="Play free online Sudoku puzzles. Choose from Easy, Medium, Hard, or Mini 6x6 grids. Challenge your logic and improve your brain power with our interactive Sudoku game." />
     <link rel="icon" href="/assets/favicon.png" type="image/png" />
     <link rel="stylesheet" href="/src/index.css?v=5" />
     <link rel="stylesheet" href="style.css" />
@@ -37,6 +37,7 @@
         <!-- Menu Screen -->
         <div id="menu-screen">
           <div class="menu-title">Select Difficulty</div>
+          <p style="text-align: center; max-width: 600px; margin: 0 auto 30px; color: var(--color-text-light); line-height: 1.6;">Our Easy mode is perfect for kids and beginners, while the Hard mode will challenge even the most seasoned logic experts.</p>
           <div class="menu-grid">
             <a href="/sudoku/easy/" class="menu-item">
                 <div class="menu-icon icon-9x9">
@@ -50,7 +51,7 @@
                     <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
                     <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
                 </div>
-                <div class="menu-item-label">Easy</div>
+                <div class="menu-item-label">Easy Sudoku</div>
                 <div class="menu-item-sublabel">9x9 Grid</div>
             </a>
             <a href="/sudoku/medium/" class="menu-item">
@@ -65,10 +66,11 @@
                     <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
                     <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
                 </div>
-                <div class="menu-item-label">Medium</div>
+                <div class="menu-item-label">Medium Sudoku</div>
                 <div class="menu-item-sublabel">9x9 Grid</div>
             </a>
-            <a href="/sudoku/hard/" class="menu-item">
+            <a href="/sudoku/hard/" class="menu-item hard-item">
+                <div class="grandmaster-badge">Grandmaster Challenge</div>
                 <div class="menu-icon icon-9x9">
                     <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
                     <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
@@ -80,10 +82,11 @@
                     <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
                     <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
                 </div>
-                <div class="menu-item-label">Hard</div>
+                <div class="menu-item-label">Hard Sudoku</div>
                 <div class="menu-item-sublabel">9x9 Grid</div>
             </a>
-            <a href="/sudoku/six/" class="menu-item">
+            <a href="/sudoku/six/" class="menu-item six-item">
+                <div class="kids-badge">Recommended for Kids</div>
                 <div class="menu-icon icon-6x6">
                     <div></div><div></div><div></div><div></div><div></div><div></div>
                     <div></div><div></div><div></div><div></div><div></div><div></div>
@@ -92,7 +95,7 @@
                     <div></div><div></div><div></div><div></div><div></div><div></div>
                     <div></div><div></div><div></div><div></div><div></div><div></div>
                 </div>
-                <div class="menu-item-label">Mini 6x6</div>
+                <div class="menu-item-label">Mini 6x6 Sudoku</div>
                 <div class="menu-item-sublabel">Quick Game</div>
             </a>
           </div>

@@ -900,7 +900,6 @@
                   <a href="?difficulty=six" class="dropdown-item">6x6</a>
                 </div>
               </div>
-              <button id="newPuzzle" class="dropdown-btn">New Game</button>
               <a href="?view=archive" class="dropdown-btn" style="text-decoration:none;">Calendar</a>
             </div>
             <div class="header-right timer-container">
@@ -935,12 +934,13 @@
               <button id="undoBtn" class="action-btn">Undo</button>
               <button id="notesBtn" class="action-btn">Notes</button>
               <button id="hintBtn" class="action-btn">Hint</button>
-              <button id="showSolutionBtn" class="action-btn">Show Solution</button>
-              <button id="resetActionBtn" class="action-btn">Reset</button>
+              <button id="askFriendBtn" class="action-btn" style="background-color: #0057FF; color: white;">Ask Friend</button>
             </div>
             <div class="btn-row">
-              <button id="newPuzzle" class="action-btn">New Game</button>
+              <button id="showSolutionBtn" class="action-btn">Show Solution</button>
+              <button id="resetActionBtn" class="action-btn">Reset</button>
               <button id="printBtn" class="action-btn" onclick="openBatchPrintModal()">Print</button>
+              <button id="challengeBtn" class="action-btn" onclick="openShareModal()">Challenge a Friend</button>
             </div>
           </div>
 
@@ -1013,7 +1013,7 @@
       const diff = 'daily'; // Hint to game.js
     </script>
     <script src="/src/layout.js"></script>
-    <script src="/src/game.js?v=11"></script>
+    <script src="/src/game.js?v=12"></script>
     <script src="/src/records.js"></script>
     <script>
       function toggleDropdown() {
@@ -1141,7 +1141,7 @@
                     }
 
                     let colorClass = '';
-                    if (count > 3) colorClass = 'active-high';
+                    if (count >= 3) colorClass = 'active-high';
                     else if (count > 0 || isActive) colorClass = 'active';
                     
                     html += `<div class="heatmap-cell ${colorClass}" data-date="${dateStr}"></div>`;
